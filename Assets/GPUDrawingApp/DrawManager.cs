@@ -12,6 +12,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] float _brushSize= 0.5f;
     [SerializeField] float _brushResetIntervalSeconds = 2;
     [SerializeField] float _targetResetIntervalSeconds = 1;
+    [SerializeField] float _gameTimer = 500;
 
     [SerializeField] TargetSpawner _targetSpawner;
     [SerializeField] BrushSizeSlider _brushSizeSlider;
@@ -24,6 +25,12 @@ public class DrawManager : MonoBehaviour
     [SerializeField] GameObject DEBUG_BOX;
     [SerializeField] GameObject DEBUG_BOX2;
 
+    [SerializeField] GameObject _GameTimerLabel;
+    [SerializeField] GameObject _HitScoreLabel;
+    [SerializeField] GameObject _MissScoreLabel;
+
+    private int _missScore = 0;
+    private int _hitScore = 0;
     private float _brushResetTimer;
     private float _targetResetTimer;
     private float _penPressure;
@@ -36,6 +43,8 @@ public class DrawManager : MonoBehaviour
     private Vector2 _targetPos2;
     private Vector4 _penPosition;
     private float _brushSizePressure = 0;
+
+    public Texture2D cursorTexture;
 
     void Start()
     {
@@ -51,6 +60,8 @@ public class DrawManager : MonoBehaviour
         _prevPenPosition = Pen.current.position.ReadValue();
         _brushResetTimer = _brushResetIntervalSeconds;
         _targetResetTimer = _targetResetIntervalSeconds;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.SetCursor(cursorTexture, new Vector2 (cursorTexture.width/2, cursorTexture.height/2), CursorMode.Auto); // This centers a custom cursor on the mouse
     }
 
     private void ClearScreen()
@@ -80,7 +91,7 @@ public class DrawManager : MonoBehaviour
         _penPressure = Mathf.Lerp(_penPressure, cur_pen_pressure, 0.99f); // TODO Take out 
 
         bool _prevPenPressed = _penPressed;
-        _penPressed = pointer.press.ReadValue() != 0? true : false;
+        _penPressed = pointer.press.ReadValue() != 0 ? true : false;
         if (_penPressed && !_prevPenPressed)
         {
             _penJustPressed = true;
@@ -106,6 +117,9 @@ public class DrawManager : MonoBehaviour
         UpdatePen();
         _brushSizePressure = _brushSize * _penPressure;
 
+        _gameTimer -= Time.deltaTime;
+        _GameTimerLabel.GetComponent<Text>().text = _gameTimer.ToString();
+
         _brushResetTimer -= Time.deltaTime;
         if (_brushResetTimer < 0)
         {
@@ -118,9 +132,12 @@ public class DrawManager : MonoBehaviour
         {
             _targetResetTimer = _targetResetIntervalSeconds;
             _targetSpawner.ClearAll(false);
-            List<Target> targets = _targetSpawner.SpawnTwo( Screen.width / 2, Screen.height / 2, 200, 200, _targetSize); // TODO refactor this duplicate code
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2, Screen.height / 2, 200, 200, _targetSize); // TODO refactor this duplicate code
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
+
+            _missScore++;
+            _MissScoreLabel.GetComponent<Text>().text = _missScore.ToString();
         }
 
         // DEBUG
@@ -132,12 +149,10 @@ public class DrawManager : MonoBehaviour
 
         if (_penJustPressed)
         {
-            Debug.Log("JUSTPRESS");
             _strokeStartPos = _penPosition;
         }
         if (_penJustReleased)
         {
-            Debug.Log("RELEASE");
             _strokeEndPos = _penPosition;
         }
 
@@ -146,12 +161,16 @@ public class DrawManager : MonoBehaviour
         //Debug.Log($"_targetPos1: {_targetPos1}");
         //Debug.Log($"_targetPos2: {_targetPos2}");
 
-        if ((Vector3.Distance(_strokeStartPos, _targetPos1)  < _targetSize  && Vector3.Distance(_strokeEndPos ,_targetPos2)  < _targetSize )||
-            (Vector3.Distance(_strokeStartPos, _targetPos2)  < _targetSize  && Vector3.Distance(_strokeEndPos ,_targetPos1)  < _targetSize)) { 
+        if ((Vector3.Distance(_strokeStartPos, _targetPos1) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos2) < _targetSize) ||
+            (Vector3.Distance(_strokeStartPos, _targetPos2) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos1) < _targetSize))
+        {
             // Here we have successfully hit the points
+            _hitScore++;
+            _HitScoreLabel.GetComponent<Text>().text = _hitScore.ToString();
+
             _targetSpawner.ClearAll(true);
             ClearScreen();
-            List<Target> targets = _targetSpawner.SpawnTwo( Screen.width / 2, Screen.height / 2, 200, 200, _targetSize);
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2, Screen.height / 2, 200, 200, _targetSize);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
 
@@ -159,10 +178,10 @@ public class DrawManager : MonoBehaviour
             _brushResetTimer = _brushResetIntervalSeconds;
         }
 
-        if (!_brushSizeSlider.isInUse && _penPressed )
+        if (!_brushSizeSlider.isInUse && _penPressed)
         {
             DEBUG_BOX.GetComponent<Image>().color = Color.black;
-            MarkCurPenPos(); 
+            MarkCurPenPos();
         }
 
         _prevPenPosition = _penPosition;
