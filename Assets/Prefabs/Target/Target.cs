@@ -15,7 +15,13 @@ public class Target : MonoBehaviour
     {
         
     }
-    public void ClearAll()
+
+    // Sets size of target to a width x width bounding box
+    public void setSize(float width)
+    {
+        GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
+    }
+    public void Remove()
     {
         Destroy(gameObject);
     }

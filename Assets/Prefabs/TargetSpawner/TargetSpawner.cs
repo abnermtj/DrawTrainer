@@ -3,64 +3,57 @@ using System.Collections.Generic;
 
 public class TargetSpawner : MonoBehaviour
 {
-    public Target objectToSpawn;
-    public GameObject parent;
-    public int numberToSpawn;
-    public int limit = 20;
-    public int distance = 200;
-    public float rate;
+    [SerializeField] Target targetPrefab;
+    [SerializeField] GameObject parent;
+
     private static List<Target> objects = new List<Target>();
 
-    float spawnTimer;
-
-    // Start is called before the first frame update
-    void Start()
+    // Spawns a set of targets within a bounding box
+    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth)
     {
-        spawnTimer = rate;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (parent.transform.childCount < limit)
+        for (int i = 0; i < numberToSpawn; i++)
         {
-            spawnTimer -= Time.deltaTime;
-            if (spawnTimer <= 0f)
-            {
-                for (int i = 0; i < numberToSpawn; i++)
-                {
-                    Debug.Log("SPAWN");
-                    Target clone = (Instantiate(objectToSpawn, new
-                    Vector3(this.transform.position.x + distance *
-                    GetModifier(), this.transform.position.y + distance *
-                    GetModifier())
-                        , Quaternion.identity, parent.transform));
+            Target target = (Instantiate(targetPrefab, new
+            Vector3(originX + width * Random.Range(0, 1f),
+            originY + height * Random.Range(0,1f))
+                , Quaternion.identity, parent.transform));
 
-                    objects.Add(clone);
-                }
-                spawnTimer = rate;
-            }
+            target.setSize(targetWidth);
+            objects.Add(target);
         }
     }
 
+    // Spawns a set of targets within a bounding box
+    public  List<Target> SpawnTwo(float originX, float originY, float width, float height, float targetWidth)
+    {
+        List<Target> spawnedObjects = new List<Target>();
+        for (int i = 0; i < 2; i++)
+        {
+            Target target = (Instantiate(targetPrefab, new
+            Vector3(originX + width * Random.Range(0, 1f),
+            originY + height * Random.Range(0,1f))
+                , Quaternion.identity, parent.transform));
+
+            target.setSize(targetWidth);
+            objects.Add(target);
+            spawnedObjects.Add(target);
+        }
+
+        return spawnedObjects;
+    }
+
+
+    // Removes all spawned targets
     public void ClearAll()
     {
-        //Debug.Log("CLearing");
-
         foreach (Target obj in objects)
         {
-            //Debug.Log(objects.Count);
-            obj.ClearAll();
+            if (obj)
+            {
+                obj.Remove();
+            }
         }
 
         objects.Clear();
-    }
-    float GetModifier()
-    {
-        float modifier = Random.Range(0f, 1f);
-        if (Random.Range(0, 2) > 0)
-            return -modifier;
-        else
-            return modifier;
     }
 }
