@@ -68,7 +68,7 @@ public class DrawManager : MonoBehaviour
             1);
 
         // clear targets
-        _targetSpawner.ClearAll();
+        _targetSpawner.ClearAll(false);
     }
 
     // Pen pressure in [0, 1] where 1 is max pressure
@@ -76,7 +76,8 @@ public class DrawManager : MonoBehaviour
     {
         Pointer pointer = Pointer.current;
         Pen pen = Pen.current;
-        _penPressure = pen.pressure.ReadValue();
+        float cur_pen_pressure = pen.pressure.ReadValue();
+        _penPressure = Mathf.Lerp(_penPressure, cur_pen_pressure, 0.99f); // TODO Take out 
 
         bool _prevPenPressed = _penPressed;
         _penPressed = pointer.press.ReadValue() != 0? true : false;
@@ -116,7 +117,7 @@ public class DrawManager : MonoBehaviour
         if (_targetResetTimer < 0)
         {
             _targetResetTimer = _targetResetIntervalSeconds;
-            _targetSpawner.ClearAll();
+            _targetSpawner.ClearAll(false);
             List<Target> targets = _targetSpawner.SpawnTwo( Screen.width / 2, Screen.height / 2, 200, 200, _targetSize); // TODO refactor this duplicate code
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
@@ -147,8 +148,9 @@ public class DrawManager : MonoBehaviour
 
         if ((Vector3.Distance(_strokeStartPos, _targetPos1)  < _targetSize  && Vector3.Distance(_strokeEndPos ,_targetPos2)  < _targetSize )||
             (Vector3.Distance(_strokeStartPos, _targetPos2)  < _targetSize  && Vector3.Distance(_strokeEndPos ,_targetPos1)  < _targetSize)) { 
+            // Here we have successfully hit the points
+            _targetSpawner.ClearAll(true);
             ClearScreen();
-            _targetSpawner.ClearAll();
             List<Target> targets = _targetSpawner.SpawnTwo( Screen.width / 2, Screen.height / 2, 200, 200, _targetSize);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;

@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -748,9 +749,9 @@ MonoBehaviour:
   _drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
   _backgroundColour: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   _brushColour: {r: 0.4056604, g: 0.050311524, b: 0, a: 1}
-  _brushSize: 2
-  _brushResetIntervalSeconds: 5
-  _targetResetIntervalSeconds: 5
+  _brushSize: 1
+  _brushResetIntervalSeconds: 2
+  _targetResetIntervalSeconds: 2
   _targetSpawner: {fileID: 1644824425}
   _brushSizeSlider: {fileID: 113421892}
   _strokePressIntervalSeconds: 0.1
@@ -814,6 +815,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &963194229
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
 --- !u!1 &1369024948
 GameObject:
   m_ObjectHideFlags: 0

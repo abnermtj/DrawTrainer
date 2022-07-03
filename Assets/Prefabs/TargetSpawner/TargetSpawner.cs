@@ -44,13 +44,20 @@ public class TargetSpawner : MonoBehaviour
 
 
     // Removes all spawned targets
-    public void ClearAll()
+    public void ClearAll(bool playSound)
     {
         foreach (Target obj in objects)
         {
             if (obj)
             {
-                obj.Remove();
+                if (playSound)
+                {
+                    obj.Remove();
+                }
+                else
+                {
+                    obj.RemoveNoSound();
+                }
             }
         }
 
