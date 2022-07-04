@@ -37,8 +37,8 @@ public class DrawManager : MonoBehaviour
     private bool _penPressed;
     private bool _penJustPressed;
     private bool _penJustReleased;
-    private Vector2 _strokeStartPos;
-    private Vector2 _strokeEndPos;
+    private Vector2 _strokeStartPos = Vector2.positiveInfinity;  // Needs to be different from target pos so that it doesn't match immediately
+    private Vector2 _strokeEndPos = Vector2.positiveInfinity;
     private Vector2 _targetPos1;
     private Vector2 _targetPos2;
     private Vector4 _penPosition;
@@ -88,7 +88,8 @@ public class DrawManager : MonoBehaviour
         Pointer pointer = Pointer.current;
         Pen pen = Pen.current;
         float cur_pen_pressure = pen.pressure.ReadValue();
-        _penPressure = Mathf.Lerp(_penPressure, cur_pen_pressure, 0.99f); // TODO Take out 
+        _penPressure = Mathf.Lerp(_penPressure, cur_pen_pressure, 0.9f); // TODO Take out float into a constant
+
 
         bool _prevPenPressed = _penPressed;
         _penPressed = pointer.press.ReadValue() != 0 ? true : false;
@@ -132,7 +133,7 @@ public class DrawManager : MonoBehaviour
         {
             _targetResetTimer = _targetResetIntervalSeconds;
             _targetSpawner.ClearAll(false);
-            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2, Screen.height / 2, 200, 200, _targetSize); // TODO refactor this duplicate code
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize); // TODO refactor this duplicate code
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
 
@@ -156,11 +157,6 @@ public class DrawManager : MonoBehaviour
             _strokeEndPos = _penPosition;
         }
 
-        //Debug.Log($"_strokeStartPos: {_strokeStartPos}");
-        //Debug.Log($"_strokeEndPos: {_strokeEndPos}");
-        //Debug.Log($"_targetPos1: {_targetPos1}");
-        //Debug.Log($"_targetPos2: {_targetPos2}");
-
         if ((Vector3.Distance(_strokeStartPos, _targetPos1) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos2) < _targetSize) ||
             (Vector3.Distance(_strokeStartPos, _targetPos2) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos1) < _targetSize))
         {
@@ -170,7 +166,7 @@ public class DrawManager : MonoBehaviour
 
             _targetSpawner.ClearAll(true);
             ClearScreen();
-            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2, Screen.height / 2, 200, 200, _targetSize);
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
 
