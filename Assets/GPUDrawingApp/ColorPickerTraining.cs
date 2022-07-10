@@ -1,11 +1,14 @@
 using HSVPicker;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 using UnityEngine.UI;
 
 public class ColorPickerTraining : MonoBehaviour
 {
 
 	public GameObject GoalColor;
+	public GameObject CurColor;
 	public ColorPicker picker;
 
 	[SerializeField] GameObject _GameTimerLabel;
@@ -31,6 +34,7 @@ public class ColorPickerTraining : MonoBehaviour
         GoalColor.GetComponent<Image>().color = randomColor;
 		picker.onValueChanged.AddListener(color =>
 		{
+            CurColor.GetComponent<Image>().color = color;
 			curColor = color;
 		});
 	}
@@ -45,7 +49,8 @@ public class ColorPickerTraining : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-        _gameTimer -= Time.deltaTime;
+
+		_gameTimer -= Time.deltaTime;
         _GameTimerLabel.GetComponent<Text>().text = _gameTimer.ToString();
 
 		if (_gameTimer < 0f) {
@@ -60,7 +65,11 @@ public class ColorPickerTraining : MonoBehaviour
 			_gameTimer = _gameTimerResetTime;
 		}
 
-		if (AreColorsSimilar(curColor, GoalColor.GetComponent<Image>().color, 0.1f))
+
+		Pointer pointer = Pointer.current;
+		bool _penPressed = pointer.press.ReadValue() != 0 ? true : false;
+
+		if (!_penPressed && AreColorsSimilar(curColor, GoalColor.GetComponent<Image>().color, 0.1f))
         {
 			Color randomColor= new Color(
               Random.Range(0f, 1f),

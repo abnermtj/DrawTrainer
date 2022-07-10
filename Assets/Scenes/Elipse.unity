@@ -1001,9 +1001,9 @@ MonoBehaviour:
   _brushColour: {r: 0.3962264, g: 0.016820924, b: 0.016820924, a: 0}
   _brushSize: 1.11
   _brushResetIntervalSeconds: 2
-  _targetResetIntervalSeconds: 1
+  _targetResetIntervalSeconds: 2
   _gameTimer: 500
-  _targetSpawner: {fileID: 0}
+  _targetSpawner: {fileID: 1966088338}
   _brushSizeSlider: {fileID: 685035935}
   _strokePressIntervalSeconds: 0.1
   _targetSize: 2
