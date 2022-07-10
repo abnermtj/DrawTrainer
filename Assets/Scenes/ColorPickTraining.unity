@@ -1650,6 +1650,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalColor: {fileID: 1193817843}
   picker: {fileID: 718260673}
+  _GameTimerLabel: {fileID: 1378070503}
+  _HitScoreLabel: {fileID: 1839159572}
+  _MissScoreLabel: {fileID: 896043110}
+  _gameTimerResetTime: 5
 --- !u!1 &1839159572
 GameObject:
   m_ObjectHideFlags: 0

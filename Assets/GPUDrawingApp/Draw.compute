@@ -18,8 +18,10 @@ float4 HardBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float 
     for (float i = 0; i < 1.0; i += strokeSmoothingInterval)
     {
         const float2 mousePos = lerp(previousMousePosition, mousePosition, i);
-        if (length(pixelPos - mousePos) < brushSize)
+        if (length(pixelPos - mousePos) < brushSize) {
             return brushColor;
+        }
+
     }
 
     return currentColor;
@@ -43,6 +45,8 @@ void Update(uint3 id : SV_DispatchThreadID)
     if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
         return;
 
-    _Canvas[id.xy] = HardBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
+    float4 curBrush = HardBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
                                _PreviousMousePosition, _MousePosition, _StrokeSmoothingInterval);
+    curBrush.a = 0;
+    _Canvas[id.xy] = curBrush;
 }
