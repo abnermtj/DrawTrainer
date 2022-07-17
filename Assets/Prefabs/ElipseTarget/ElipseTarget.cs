@@ -29,7 +29,7 @@ public class ElipseTarget : MonoBehaviour
     // Sets size of target to a width x width bounding box
     public void setRandomSize()
     {
-        GetComponent<RectTransform>().sizeDelta = new Vector2(Random.Range(50, 250), Random.Range(50, 250));
+        GetComponent<RectTransform>().sizeDelta = new Vector2(Random.Range(50, 150), Random.Range(50, 150));
         GetComponent<RectTransform>().rotation = new Quaternion(0,0, Random.Range(0, 90), Random.Range(0, 90));
     }
 

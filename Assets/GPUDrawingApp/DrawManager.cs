@@ -44,6 +44,19 @@ public class DrawManager : MonoBehaviour
     private Vector4 _penPosition;
     private float _brushSizePressure = 0;
 
+    [SerializeField] private GameObject particles;
+
+
+    // Here reference the camera component of the particles camera
+    [SerializeField] private Camera particlesCamera;
+
+    // Adjust the resolution in pixels
+    [SerializeField] private Vector2Int imageResolution = new Vector2Int(256, 256);
+
+    // Reference the RawImage in your UI
+    [SerializeField] private RawImage targetImage;
+
+    private RenderTexture renderTexture;
     public Texture2D cursorTexture;
 
     void Start()
@@ -54,6 +67,7 @@ public class DrawManager : MonoBehaviour
         _canvasRenderTexture.filterMode = FilterMode.Bilinear;
         _canvasRenderTexture.enableRandomWrite = true;
         _canvasRenderTexture.Create();
+        //_canvasRenderTexture.pare
 
         ClearScreen();
 
@@ -62,6 +76,13 @@ public class DrawManager : MonoBehaviour
         _targetResetTimer = _targetResetIntervalSeconds;
         Cursor.lockState = CursorLockMode.None;
         Cursor.SetCursor(cursorTexture, new Vector2 (cursorTexture.width/2, cursorTexture.height/2), CursorMode.Auto); // This centers a custom cursor on the mouse
+
+        if (!particlesCamera) particlesCamera = GetComponent<Camera>();
+
+        //renderTexture = new RenderTexture(imageResolution.x, imageResolution.y, 32);
+        //particlesCamera.targetTexture = renderTexture;
+
+        //targetImage.texture = renderTexture;
     }
 
     private void ClearScreen()
@@ -157,9 +178,16 @@ public class DrawManager : MonoBehaviour
             _strokeEndPos = _penPosition;
         }
 
+        Debug.Log("_penPosition");
+        Debug.Log(_penPosition);
+        Debug.Log("Storkre");
+        Debug.Log(particles.GetComponent<RectTransform>().position);
         if ((Vector3.Distance(_strokeStartPos, _targetPos1) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos2) < _targetSize) ||
             (Vector3.Distance(_strokeStartPos, _targetPos2) < _targetSize && Vector3.Distance(_strokeEndPos, _targetPos1) < _targetSize))
         {
+            particles.GetComponent<RectTransform>().position = _strokeEndPos;
+            particles.GetComponent<ParticleSystem>().Play();
+
             // Here we have successfully hit the points
             _hitScore++;
             _HitScoreLabel.GetComponent<Text>().text = _hitScore.ToString();
@@ -169,6 +197,7 @@ public class DrawManager : MonoBehaviour
             List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
+
 
             _targetResetTimer = _targetResetIntervalSeconds;
             _brushResetTimer = _brushResetIntervalSeconds;
