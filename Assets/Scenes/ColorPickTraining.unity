@@ -1650,6 +1650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoalColor: {fileID: 1193817843}
+  CurColor: {fileID: 1596776623}
   picker: {fileID: 718260673}
   _GameTimerLabel: {fileID: 1378070503}
   _HitScoreLabel: {fileID: 1839159572}

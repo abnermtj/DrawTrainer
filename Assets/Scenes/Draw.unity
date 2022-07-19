@@ -5863,13 +5863,13 @@ MonoBehaviour:
   _backgroundColour: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   _brushColour: {r: 0.4056604, g: 0.050311524, b: 0, a: 1}
   _brushSize: 1
-  _brushResetIntervalSeconds: 2
-  _targetResetIntervalSeconds: 2
+  _brushResetIntervalSeconds: 1.1
+  _targetResetIntervalSeconds: 1.1
   _gameTimer: 500
   _targetSpawner: {fileID: 1644824425}
   _brushSizeSlider: {fileID: 113421892}
   _strokePressIntervalSeconds: 0.079
-  _targetSize: 8
+  _targetSize: 6
   DEBUG_BOX: {fileID: 756023961}
   DEBUG_BOX2: {fileID: 478433733}
   _GameTimerLabel: {fileID: 709506695}

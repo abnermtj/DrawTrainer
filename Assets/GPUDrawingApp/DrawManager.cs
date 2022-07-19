@@ -154,7 +154,8 @@ public class DrawManager : MonoBehaviour
         {
             _targetResetTimer = _targetResetIntervalSeconds;
             _targetSpawner.ClearAll(false);
-            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize); // TODO refactor this duplicate code
+            //List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize); // TODO refactor this duplicate code
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, _targetSize, 20, 140);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
 
@@ -194,7 +195,8 @@ public class DrawManager : MonoBehaviour
 
             _targetSpawner.ClearAll(true);
             ClearScreen();
-            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize);
+            //List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200, _targetSize);
+            List<Target> targets = _targetSpawner.SpawnTwo(Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, _targetSize,20,140);
             _targetPos1 = targets[0].GetComponent<RectTransform>().position;
             _targetPos2 = targets[1].GetComponent<RectTransform>().position;
 
