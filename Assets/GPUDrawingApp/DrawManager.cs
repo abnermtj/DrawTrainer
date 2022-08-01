@@ -123,6 +123,15 @@ public class DrawManager : MonoBehaviour
         // Pen position
         prevPenPosition = penPosition;
         penPosition = pointer.position.ReadValue();
+
+        if (penJustPressed)
+        {
+            strokeStartPos = penPosition;
+        }
+        if (penJustReleased)
+        {
+            strokeEndPos = penPosition;
+        }
     }
 
     private void Update()
@@ -149,17 +158,18 @@ public class DrawManager : MonoBehaviour
         DEBUG_BOX2.GetComponent<Image>().color = pressureColor;
         // DEBUG
 
-        if (penJustPressed)
-        {
-            strokeStartPos = penPosition;
-        }
         if (penJustReleased)
         {
-            strokeEndPos = penPosition;
+            //ClearBrushMarks();
+            targetSpawner.ResetTargets();
         }
 
-        if ((Vector3.Distance(strokeStartPos, targetPos1) < targetSize && Vector3.Distance(strokeEndPos, targetPos2) < targetSize) ||
-            (Vector3.Distance(strokeStartPos, targetPos2) < targetSize && Vector3.Distance(strokeEndPos, targetPos1) < targetSize))
+
+        if (targetSpawner.isAllTargetsActive && penJustReleased
+            //&& 
+            //    ((Vector3.Distance(strokeStartPos, targetPos1) < targetSize && Vector3.Distance(strokeEndPos, targetPos2) < targetSize) ||
+            //(Vector3.Distance(strokeStartPos, targetPos2) < targetSize && Vector3.Distance(strokeEndPos, targetPos1) < targetSize))
+            )
         {
             ResetBoard(isWin: true);
 
@@ -185,6 +195,7 @@ public class DrawManager : MonoBehaviour
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
+
         List<Target> targets = targetSpawner.SpawnTwo(Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetSize, 20, 140);
         targetPos1 = targets[0].GetComponent<RectTransform>().position;
         targetPos2 = targets[1].GetComponent<RectTransform>().position;

@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class test : MonoBehaviour
+public class test : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler
 {
-    void OnMouseOver()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         gameObject.GetComponent<Image>().color = Color.green;
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
         gameObject.GetComponent<Image>().color = Color.white;
         
