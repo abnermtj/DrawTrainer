@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 1477723172}
   - component: {fileID: 1477723171}
   - component: {fileID: 1477723170}
-  - component: {fileID: 1477723169}
+  - component: {fileID: 1477723174}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -984,35 +984,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1477723169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477723168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3634785f8961444a98b910040afc5d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
-  _backgroundColour: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
-  _brushColour: {r: 0.3962264, g: 0.016820924, b: 0.016820924, a: 0}
-  _brushSize: 1.11
-  _brushResetIntervalSeconds: 2.2
-  _targetResetIntervalSeconds: 2.2
-  _gameTimer: 500
-  _targetSpawner: {fileID: 1966088338}
-  _brushSizeSlider: {fileID: 685035935}
-  _strokePressIntervalSeconds: 0.1
-  _targetSize: 2
-  DEBUG_BOX: {fileID: 1736030528}
-  DEBUG_BOX2: {fileID: 1119313142}
-  _GameTimerLabel: {fileID: 416416164}
-  _HitScoreLabel: {fileID: 1353148120}
-  _MissScoreLabel: {fileID: 847955865}
-  cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
 --- !u!61 &1477723170
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1104,6 +1075,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1477723174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477723168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb58ee871d7b4040a42239d35835004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
+  backgroundColour: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 0}
+  brushColour: {r: 0.39607847, g: 0.015686275, b: 0.015686275, a: 0}
+  brushSize: 1.11
+  targetResetIntervalSeconds: 2.2
+  gameTimer: 500
+  numTargets: 1
+  targetSpawner: {fileID: 1966088338}
+  brushSizeSlider: {fileID: 685035935}
+  strokePressIntervalSeconds: 0.1
+  targetSize: 100
+  DEBUG_BOX: {fileID: 1736030528}
+  DEBUG_BOX2: {fileID: 1119313142}
+  GameTimerLabel: {fileID: 416416164}
+  HitScoreLabel: {fileID: 1353148120}
+  MissScoreLabel: {fileID: 847955865}
+  particles: {fileID: 0}
+  particlesCamera: {fileID: 0}
+  cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
 --- !u!1 &1653180407
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,11 +1350,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1966088337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f327a63cba183647a7b3f5e8c692b6f, type: 3}
+  m_Script: {fileID: 11500000, guid: d0fe13b691385c143a4ea7e5b3a4742d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 2213452012329876250, guid: e02c0cf96bd708541996d2b414411430, type: 3}
   parent: {fileID: 48981412}
+  targetSprite: {fileID: 21300000, guid: af4bfd8f8b1425e47a25ac2edbb0305a, type: 3}
+  randomRotation: 1
+  isAllTargetsActive: 0
+  isFirstOrLastTarget: 1
 --- !u!4 &1966088339
 Transform:
   m_ObjectHideFlags: 0

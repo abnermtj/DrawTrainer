@@ -5,9 +5,15 @@ public class TargetSpawner : MonoBehaviour
 {
     [SerializeField] Target targetPrefab;
     [SerializeField] GameObject parent;
+    [SerializeField] Sprite targetSprite;
+    [SerializeField] bool randomRotation = false;
+    [SerializeField] int randomLenMin = 50;
+    [SerializeField] int randomLenMax = 130;
 
+    [HideInInspector]
     public bool isAllTargetsActive;
-    public bool isfirstOrLastTarget = true;
+    [HideInInspector]
+    public bool isFirstOrLastTarget = true;
 
     private static List<Target> objects = new List<Target>();
     private int numTargets = 0;
@@ -18,21 +24,19 @@ public class TargetSpawner : MonoBehaviour
         numTargets = numberToSpawn;
 
         float xPos, yPos, xPos2, yPos2;
+        List<Vector2> positions = new List<Vector2>();
+
         if (numberToSpawn == 1)
         {
             xPos = originX + width * Random.Range(0, 1f);
             yPos = originY + height * Random.Range(0, 1f);
 
-            Target target = Instantiate(targetPrefab, new Vector3(xPos, yPos), Quaternion.identity, parent.transform);
-            target.SetSize(targetWidth);
-            objects.Add(target);
-
+            positions.Add(new Vector2(xPos, yPos));
         }
         else
         {
 
             // Get start and end points
-            List<Vector2> positions = new List<Vector2>();
             while (true)
             {
                 xPos = originX + width * Random.Range(0, 1f);
@@ -57,14 +61,19 @@ public class TargetSpawner : MonoBehaviour
             }
 
 
-            // Create all targets
-            Debug.Log(positions.Count);
-            foreach (Vector3 pos in positions)
+        }
+
+        // Create all targets
+        foreach (Vector3 pos in positions)
+        {
+            Target target = Instantiate(targetPrefab, pos, Quaternion.identity, parent.transform);
+            target.SetSize(targetWidth);
+
+            if (randomRotation)
             {
-                Target target = Instantiate(targetPrefab, pos, Quaternion.identity, parent.transform);
-                target.SetSize(targetWidth);
-                objects.Add(target);
+                target.SetRandomTransform(randomLenMin, randomLenMax);
             }
+            objects.Add(target);
         }
     }
 

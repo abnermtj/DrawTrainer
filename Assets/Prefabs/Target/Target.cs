@@ -68,6 +68,13 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     {
         GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
     }
+
+    public void SetRandomTransform(int minLen, int maxLen)
+    {
+        GetComponent<RectTransform>().sizeDelta = new Vector2(Random.Range(minLen, maxLen), Random.Range(minLen, maxLen));
+        GetComponent<RectTransform>().rotation = new Quaternion(0,0, Random.Range(0, 90), Random.Range(0, 90));
+    }
+
     public void Remove(bool playSound)
     {
         if (playSound)
