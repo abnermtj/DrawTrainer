@@ -11,6 +11,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private float brushSize = 0.5f;
     [SerializeField] private float targetResetIntervalSeconds = 1;
     [SerializeField] private float gameTimer = 500;
+    [SerializeField] private int numTargets = 2;
 
     [SerializeField] private TargetSpawner targetSpawner;
     [SerializeField] private BrushSizeSlider brushSizeSlider;
@@ -34,10 +35,7 @@ public class DrawManager : MonoBehaviour
     private bool penPressed;
     private bool penJustPressed;
     private bool penJustReleased;
-    private Vector2 strokeStartPos = Vector2.positiveInfinity;
     private Vector2 strokeEndPos = Vector2.positiveInfinity;
-    private Vector2 targetPos1;
-    private Vector2 targetPos2;
     private Vector4 penPosition;
     private float brushSizePressure = 0;
 
@@ -124,10 +122,6 @@ public class DrawManager : MonoBehaviour
         prevPenPosition = penPosition;
         penPosition = pointer.position.ReadValue();
 
-        if (penJustPressed)
-        {
-            strokeStartPos = penPosition;
-        }
         if (penJustReleased)
         {
             strokeEndPos = penPosition;
@@ -160,16 +154,11 @@ public class DrawManager : MonoBehaviour
 
         if (penJustReleased)
         {
-            //ClearBrushMarks();
             targetSpawner.ResetTargets();
         }
 
 
-        if (targetSpawner.isAllTargetsActive && penJustReleased
-            //&& 
-            //    ((Vector3.Distance(strokeStartPos, targetPos1) < targetSize && Vector3.Distance(strokeEndPos, targetPos2) < targetSize) ||
-            //(Vector3.Distance(strokeStartPos, targetPos2) < targetSize && Vector3.Distance(strokeEndPos, targetPos1) < targetSize))
-            )
+        if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
             ResetBoard(isWin: true);
 
@@ -195,10 +184,7 @@ public class DrawManager : MonoBehaviour
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
-
-        List<Target> targets = targetSpawner.SpawnTwo(Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetSize, 20, 140);
-        targetPos1 = targets[0].GetComponent<RectTransform>().position;
-        targetPos2 = targets[1].GetComponent<RectTransform>().position;
+        targetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetSize, 20, 140);
     }
 
     // Draws pixels into the current pen pos

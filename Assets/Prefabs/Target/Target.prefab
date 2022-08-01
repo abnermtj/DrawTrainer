@@ -93,6 +93,8 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: a4030689992d6f84d9052633601be509, type: 3}
   isActive: 0
+  isLastTarget: 0
+  isFirstTarget: 0
   volumeChangeMultiplier: 0.1
   pitchChangeMultiplier: 0.1
 --- !u!82 &4026450942075328115
@@ -206,4 +208,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.03765869, y: 0}
   serializedVersion: 2
-  m_Radius: 10.05677
+  m_Radius: 11.728601
