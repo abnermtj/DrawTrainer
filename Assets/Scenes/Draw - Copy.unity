@@ -293,7 +293,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194226}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DrawManager, Assembly-CSharp
         m_MethodName: OnBrushSizeChanged
         m_Mode: 0
@@ -5486,7 +5486,6 @@ RectTransform:
   - {fileID: 709506696}
   - {fileID: 1287404494}
   - {fileID: 671314533}
-  - {fileID: 952355769}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5828,121 +5827,6 @@ Transform:
   m_Father: {fileID: 668409475}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &952355768
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 952355769}
-  - component: {fileID: 952355771}
-  - component: {fileID: 952355770}
-  - component: {fileID: 952355773}
-  - component: {fileID: 952355772}
-  m_Layer: 8
-  m_Name: DEBUG_Press (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &952355769
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952355768}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 78}
-  m_LocalScale: {x: 0.5, y: 0.6767022, z: 1}
-  m_Children: []
-  m_Father: {fileID: 668409475}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5575761}
-  m_AnchoredPosition: {x: 350, y: 17}
-  m_SizeDelta: {x: 100, y: 72}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &952355770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952355768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 42cb43acf5055004da7de39157f7596b, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &952355771
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952355768}
-  m_CullTransparentMesh: 1
---- !u!61 &952355772
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952355768}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.28371048, y: 2.2933044}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 96.50414, y: 96.78726}
-  m_EdgeRadius: 0
---- !u!114 &952355773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952355768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08e01c552f65c3945b45d628a5d667e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -5953,9 +5837,9 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194226}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5972,27 +5856,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebb58ee871d7b4040a42239d35835004, type: 3}
+  m_Script: {fileID: 11500000, guid: 587d326d92499804c815ea2504175c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
-  backgroundColour: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 0}
-  brushColour: {r: 0.4433962, g: 0, b: 0, a: 0}
-  brushSize: 0.9
-  targetResetIntervalSeconds: 1
-  gameTimer: 500
-  targetSpawner: {fileID: 1644824425}
-  brushSizeSlider: {fileID: 113421892}
-  strokePressIntervalSeconds: 0.079
-  targetSize: 6
+  _drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
+  _backgroundColour: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 0}
+  _brushColour: {r: 0.4039216, g: 0.050980397, b: 0, a: 0}
+  _brushSize: 0.9
+  _brushResetIntervalSeconds: 0.9
+  _targetResetIntervalSeconds: 1
+  _gameTimer: 500
+  _targetSpawner: {fileID: 1644824425}
+  _brushSizeSlider: {fileID: 113421892}
+  _strokePressIntervalSeconds: 0.079
+  _targetSize: 6
   DEBUG_BOX: {fileID: 756023961}
   DEBUG_BOX2: {fileID: 478433733}
-  GameTimerLabel: {fileID: 709506695}
-  HitScoreLabel: {fileID: 2125215167}
-  MissScoreLabel: {fileID: 32197318}
+  _GameTimerLabel: {fileID: 709506695}
+  _HitScoreLabel: {fileID: 2125215167}
+  _MissScoreLabel: {fileID: 32197318}
   particles: {fileID: 360534968}
   particlesCamera: {fileID: 1287404495}
-  cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
+  imageResolution: {x: 256, y: 256}
+  targetImage: {fileID: 0}
+  cursorTexture: {fileID: 2800000, guid: b32924755a0a5624792d57fdbbc14604, type: 3}
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0

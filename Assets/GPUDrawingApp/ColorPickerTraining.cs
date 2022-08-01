@@ -69,7 +69,7 @@ public class ColorPickerTraining : MonoBehaviour
 		Pointer pointer = Pointer.current;
 		bool _penPressed = pointer.press.ReadValue() != 0 ? true : false;
 
-		if (!_penPressed && AreColorsSimilar(curColor, GoalColor.GetComponent<Image>().color, 0.1f))
+		if (!_penPressed && AreColorsSimilar(curColor, GoalColor.GetComponent<Image>().color, 0.05f))
         {
 			Color randomColor= new Color(
               Random.Range(0f, 1f),

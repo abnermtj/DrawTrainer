@@ -1655,7 +1655,7 @@ MonoBehaviour:
   _GameTimerLabel: {fileID: 1378070503}
   _HitScoreLabel: {fileID: 1839159572}
   _MissScoreLabel: {fileID: 896043110}
-  _gameTimerResetTime: 5
+  _gameTimerResetTime: 15
 --- !u!1 &1596776623
 GameObject:
   m_ObjectHideFlags: 0

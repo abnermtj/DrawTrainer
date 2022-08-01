@@ -5,13 +5,13 @@ using UnityEngine;
 public class ElipseTarget : MonoBehaviour
 {
 
-    public AudioClip[] sounds;
+    [SerializeField] AudioClip[] sounds;
     private AudioSource source;
 
     [Range(0.1f, 0.5f)]
-    public float volumeChangeMultiplier = 0.2f;
+    [SerializeField] float volumeChangeMultiplier = 0.2f;
     [Range(0.1f, 0.5f)]
-    public float pitchChangeMultiplier = 0.2f;
+    [SerializeField] float pitchChangeMultiplier = 0.2f;
 
     // Start is called before the first frame update
     void Start()
