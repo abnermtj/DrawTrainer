@@ -165,8 +165,11 @@ public class DrawManager : MonoBehaviour
             hitScore++;
             HitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
 
-            particles.GetComponent<RectTransform>().position = strokeEndPos;
-            particles.GetComponent<ParticleSystem>().Play();
+            if (particles)
+            {
+                particles.GetComponent<RectTransform>().position = strokeEndPos;
+                particles.GetComponent<ParticleSystem>().Play();
+            }
 
             targetResetTimer = targetResetIntervalSeconds;
         }
