@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -9,11 +8,10 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private Color backgroundColour;
     [SerializeField] private Color brushColour;
     [SerializeField] private float brushSize = 0.5f;
-    [SerializeField] private float targetResetIntervalSeconds = 1;
-    [SerializeField] private float gameTimer = 500;
+    [SerializeField] protected float targetResetIntervalSeconds = 1;
     [SerializeField] private int numTargets = 2;
 
-    [SerializeField] private TargetSpawner targetSpawner;
+    [SerializeField] protected TargetSpawner targetSpawner;
     [SerializeField] private BrushSizeSlider brushSizeSlider;
     [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
     [SerializeField] private float targetSize;
@@ -23,31 +21,24 @@ public class DrawManager : MonoBehaviour
 
     [SerializeField] private GameObject DEBUG_BOX;
     [SerializeField] private GameObject DEBUG_BOX2;
+    [SerializeField] protected GameObject GameTimerLabel;
+    [SerializeField] protected GameObject HitScoreLabel;
+    [SerializeField] protected GameObject MissScoreLabel;
 
-    [SerializeField] private GameObject GameTimerLabel;
-    [SerializeField] private GameObject HitScoreLabel;
-    [SerializeField] private GameObject MissScoreLabel;
+    protected float targetResetTimer;
+    protected float interpolatedPenPressure;
+    protected bool mousePressed;
+    protected bool penPressed;
+    protected bool penJustPressed;
+    protected bool penJustReleased;
+    protected Vector2 strokeEndPos = Vector2.positiveInfinity;
+    protected Vector4 penPosition;
+    protected float brushSizePressure = 0;
 
-    private int missScore = 0;
-    private int hitScore = 0;
-    private float targetResetTimer;
-    private float interpolatedPenPressure;
-    private bool mousePressed;
-    private bool penPressed;
-    private bool penJustPressed;
-    private bool penJustReleased;
-    private Vector2 strokeEndPos = Vector2.positiveInfinity;
-    private Vector4 penPosition;
-    private float brushSizePressure = 0;
-
-    [SerializeField] private GameObject particles;
-
-    // Here reference the camera component of the particles camera
-    [SerializeField] private Camera particlesCamera;
 
     [SerializeField] private Texture2D cursorTexture;
 
-    private void Start()
+    protected void Start()
     {
         brushSizeSlider.slider.SetValueWithoutNotify(brushSizePressure);
 
@@ -66,7 +57,6 @@ public class DrawManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
-        if (!particlesCamera) particlesCamera = GetComponent<Camera>();
     }
 
     // Removes all targets
@@ -90,12 +80,10 @@ public class DrawManager : MonoBehaviour
     {
         if (penPressed)
         {
-            Debug.Log("Print pen");
             brushSizePressure = brushSize * interpolatedPenPressure;
         }
         else
         {
-            Debug.Log("Print mouse");
             brushSizePressure = brushSize;
         }
 
@@ -140,22 +128,11 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         UpdatePen();
         UpdateBrush();
 
-        gameTimer -= Time.deltaTime;
-        GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
-
-        targetResetTimer -= Time.deltaTime;
-        if (targetResetTimer < 0)
-        {
-            ResetBoard(isWin: false);
-
-            missScore++;
-            MissScoreLabel.GetComponent<Text>().text = missScore.ToString();
-        }
 
         // DEBUG
         DEBUG_BOX.GetComponent<Image>().color = Color.white;
@@ -164,39 +141,14 @@ public class DrawManager : MonoBehaviour
         DEBUG_BOX2.GetComponent<Image>().color = pressureColor;
         // DEBUG
 
-        if (penJustReleased)
-        {
-            targetSpawner.ResetTargets();
-        }
-
-
-        if (targetSpawner.isAllTargetsActive && penJustReleased)
-        {
-            ResetBoard(isWin: true);
-
-            hitScore++;
-            HitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
-
-            if (particles)
-            {
-                particles.GetComponent<RectTransform>().position = strokeEndPos;
-                particles.GetComponent<ParticleSystem>().Play();
-            }
-
-            targetResetTimer = targetResetIntervalSeconds;
-        }
-
         if (!brushSizeSlider.isInUse && (penPressed || mousePressed))
         {
-            Debug.Log(penPosition);
-            Debug.Log("prevPenPosition");
-            Debug.Log(prevPenPosition);
             DEBUG_BOX.GetComponent<Image>().color = Color.black;
             MarkCurPenPos();
         }
     }
 
-    private void ResetBoard(bool isWin)
+    protected void ResetBoard(bool isWin)
     {
         ClearBrushMarks();
 
