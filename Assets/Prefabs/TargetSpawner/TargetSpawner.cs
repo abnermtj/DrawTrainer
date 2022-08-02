@@ -3,24 +3,25 @@ using System.Collections.Generic;
 
 public class TargetSpawner : MonoBehaviour
 {
-    [SerializeField] Target targetPrefab;
-    [SerializeField] GameObject parent;
-    [SerializeField] Sprite targetSprite;
-    [SerializeField] bool randomRotation = false;
-    [SerializeField] int randomLenMin = 50;
-    [SerializeField] int randomLenMax = 130;
+    [SerializeField] protected Target targetPrefab;
+    [SerializeField] protected GameObject parent;
+    [SerializeField] protected bool randomSize = false;
+    [SerializeField] protected bool randomRotation = false;
+    [SerializeField] protected int randomLenMin = 50;
+    [SerializeField] protected int randomLenMax = 130;
 
     [HideInInspector]
     public bool isAllTargetsActive;
     [HideInInspector]
     public bool isFirstOrLastTarget = true;
 
-    private static List<Target> objects = new List<Target>();
+    protected static List<Target> objects = new List<Target>();
     private int numTargets = 0;
 
     // Spawns a set of targets within a bounding box
-    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth, float minDist, float maxDist)
+    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth,float targetHeight, float minDist, float maxDist)
     {
+        Debug.Log(numberToSpawn);
         numTargets = numberToSpawn;
 
         float xPos, yPos, xPos2, yPos2;
@@ -66,15 +67,24 @@ public class TargetSpawner : MonoBehaviour
         // Create all targets
         foreach (Vector3 pos in positions)
         {
-            Target target = Instantiate(targetPrefab, pos, Quaternion.identity, parent.transform);
-            target.SetSize(targetWidth);
-
-            if (randomRotation)
-            {
-                target.SetRandomTransform(randomLenMin, randomLenMax);
-            }
-            objects.Add(target);
+            CreateTarget(targetWidth, targetHeight, pos);
         }
+    }
+
+    virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
+    {
+        Target target = Instantiate(targetPrefab, pos, Quaternion.identity, parent.transform);
+        target.SetSize(targetWidth, targetHeight);
+
+        if (randomSize)
+        {
+            target.SetRandomSize(randomLenMin, randomLenMax);
+        }
+        if (randomRotation)
+        {
+            target.SetRandomRotation();
+        }
+        objects.Add(target);
     }
 
     // Removes all spawned targets
@@ -117,6 +127,10 @@ public class TargetSpawner : MonoBehaviour
         int numActiveTargets = getNumActiveTargets();
 
         isAllTargetsActive = (numActiveTargets == numTargets);
+        Debug.Log("TargetSpawner");
+        Debug.Log(numActiveTargets);
+        Debug.Log(numTargets);
+        //Debug.Log(isAllTargetsActive);
 
         foreach (Target obj in objects)
         {

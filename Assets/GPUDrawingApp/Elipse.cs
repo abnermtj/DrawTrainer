@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LineDrawing : DrawManager
+public class Elipse : DrawManager
 {
     [SerializeField] private float gameTimer = 500;
-    [SerializeField] private GameObject particles;
-    [SerializeField] private Camera particlesCamera;
 
     private int missScore = 0;
     private int hitScore = 0;
@@ -14,7 +12,6 @@ public class LineDrawing : DrawManager
     void Start()
     {
         base.Start();
-        if (!particlesCamera) particlesCamera = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -46,16 +43,7 @@ public class LineDrawing : DrawManager
 
             hitScore++;
             HitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
-
-            if (particles)
-            {
-                particles.GetComponent<RectTransform>().position = strokeEndPos;
-                particles.GetComponent<ParticleSystem>().Play();
-            }
-
             targetResetTimer = targetResetIntervalSeconds;
         }
-
-
     }
 }

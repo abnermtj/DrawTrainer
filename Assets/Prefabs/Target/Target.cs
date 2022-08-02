@@ -18,7 +18,7 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     public float pitchChangeMultiplier = 0.2f;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         source = GetComponent<AudioSource>();
         
@@ -37,12 +37,14 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("HA2");
         isActive = true;
     }
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("HA");
         if (isFirstTarget)
         {
             return;
@@ -55,8 +57,9 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("HA3");
         if (isLastTarget)
         {
             isActive = false;
@@ -64,15 +67,18 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
 
     }
     // Sets size of target to a width x width bounding box
-    public void SetSize(float width)
+    public void SetSize(float width, float height)
     {
-        GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
+        GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     }
 
-    public void SetRandomTransform(int minLen, int maxLen)
+    public void SetRandomSize(int minLen, int maxLen)
     {
         GetComponent<RectTransform>().sizeDelta = new Vector2(Random.Range(minLen, maxLen), Random.Range(minLen, maxLen));
-        GetComponent<RectTransform>().rotation = new Quaternion(0,0, Random.Range(0, 90), Random.Range(0, 90));
+    }
+    public void SetRandomRotation()
+    {
+        GetComponent<RectTransform>().rotation = new Quaternion(0, 0, Random.Range(0, 90), Random.Range(0, 90));
     }
 
     public void Remove(bool playSound)
