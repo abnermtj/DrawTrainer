@@ -5863,9 +5863,9 @@ MonoBehaviour:
   backgroundColour: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 0}
   brushColour: {r: 0.4433962, g: 0, b: 0, a: 0}
   brushSize: 0.9
-  targetResetIntervalSeconds: 3
+  targetResetIntervalSeconds: 2.2
   gameTimer: 500
-  numTargets: 1
+  numTargets: 3
   targetSpawner: {fileID: 1644824425}
   brushSizeSlider: {fileID: 113421892}
   strokePressIntervalSeconds: 0.079
@@ -6169,8 +6169,11 @@ MonoBehaviour:
   targetPrefab: {fileID: 2152205920539887973, guid: 9796e4278eb080a48909ed1f456ef603, type: 3}
   parent: {fileID: 849414648}
   targetSprite: {fileID: 21300000, guid: 42cb43acf5055004da7de39157f7596b, type: 3}
+  randomRotation: 0
+  randomLenMin: 50
+  randomLenMax: 130
   isAllTargetsActive: 0
-  isfirstOrLastTarget: 1
+  isFirstOrLastTarget: 1
 --- !u!1 &1799827754
 GameObject:
   m_ObjectHideFlags: 0

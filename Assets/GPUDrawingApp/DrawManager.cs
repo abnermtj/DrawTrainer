@@ -32,6 +32,7 @@ public class DrawManager : MonoBehaviour
     private int hitScore = 0;
     private float targetResetTimer;
     private float interpolatedPenPressure;
+    private bool mousePressed;
     private bool penPressed;
     private bool penJustPressed;
     private bool penJustReleased;
@@ -87,7 +88,17 @@ public class DrawManager : MonoBehaviour
 
     private void UpdateBrush()
     {
-        brushSizePressure = brushSize * interpolatedPenPressure;
+        if (penPressed)
+        {
+            Debug.Log("Print pen");
+            brushSizePressure = brushSize * interpolatedPenPressure;
+        }
+        else
+        {
+            Debug.Log("Print mouse");
+            brushSizePressure = brushSize;
+        }
+
     }
 
     private void UpdatePen()
@@ -101,7 +112,8 @@ public class DrawManager : MonoBehaviour
 
         // Pen Pressed
         bool _prevPenPressed = penPressed;
-        penPressed = pointer.press.ReadValue() != 0;
+        penPressed = pen.press.ReadValue() != 0;
+        mousePressed = pointer.press.ReadValue() != 0 && !penPressed;
         if (penPressed && !_prevPenPressed)
         {
             penJustPressed = true;
@@ -174,8 +186,11 @@ public class DrawManager : MonoBehaviour
             targetResetTimer = targetResetIntervalSeconds;
         }
 
-        if (!brushSizeSlider.isInUse && penPressed)
+        if (!brushSizeSlider.isInUse && (penPressed || mousePressed))
         {
+            Debug.Log(penPosition);
+            Debug.Log("prevPenPosition");
+            Debug.Log(prevPenPosition);
             DEBUG_BOX.GetComponent<Image>().color = Color.black;
             MarkCurPenPos();
         }
