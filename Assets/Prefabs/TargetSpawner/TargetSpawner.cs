@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TargetSpawner : MonoBehaviour
 {
-    [SerializeField] protected Target targetPrefab;
+    [SerializeField] protected Targetz targetPrefab;
     [SerializeField] protected GameObject targetParent;
     [SerializeField] protected bool randomSize = false;
     [SerializeField] protected bool randomRotation = false;
@@ -15,7 +15,7 @@ public class TargetSpawner : MonoBehaviour
     [HideInInspector]
     public bool isFirstOrLastTarget = true;
 
-    protected static List<Target> objects = new List<Target>();
+    protected static List<Targetz> objects = new List<Targetz>();
     private int numTargets = 0;
 
     // Spawns a set of targets within a bounding box
@@ -74,7 +74,7 @@ public class TargetSpawner : MonoBehaviour
 
     virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
     {
-        Target target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
+        Targetz target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
         target.GetComponent<RectTransform>().anchoredPosition = pos;
         target.SetSize(targetWidth, targetHeight);
 
@@ -92,7 +92,7 @@ public class TargetSpawner : MonoBehaviour
     // Removes all spawned targets
     public void ClearAll(bool playSound)
     {
-        foreach (Target obj in objects)
+        foreach (Targetz obj in objects)
         {
             if (obj)
             {
@@ -104,7 +104,7 @@ public class TargetSpawner : MonoBehaviour
     }
     public void ResetTargets()
     {
-        foreach (Target obj in objects)
+        foreach (Targetz obj in objects)
         {
             if (obj)
             {
@@ -115,7 +115,7 @@ public class TargetSpawner : MonoBehaviour
     private int getNumActiveTargets()
     {
         int count = 0;
-        foreach (Target obj in objects)
+        foreach (Targetz obj in objects)
         {
             if (obj.isActive)
             {
@@ -130,7 +130,7 @@ public class TargetSpawner : MonoBehaviour
 
         isAllTargetsActive = (numActiveTargets == numTargets);
 
-        foreach (Target obj in objects)
+        foreach (Targetz obj in objects)
         {
             if (numActiveTargets == 0)
             {

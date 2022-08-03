@@ -14,6 +14,7 @@ public class DrawManager : MonoBehaviour
 
     [SerializeField] protected TargetSpawner targetSpawner;
     [SerializeField] private BrushSizeSlider brushSizeSlider;
+    [SerializeField] protected GameObject BG;
     [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
     [SerializeField] protected float targetWidth, targetHeight;
     private RenderTexture canvasRenderTexture;
@@ -37,6 +38,10 @@ public class DrawManager : MonoBehaviour
     protected Vector4 penPosition;
     protected float brushSizePressure = 0;
 
+    [SerializeField] private float _diameter = 1;
+    [SerializeField] private Material _blitMaterial;
+    [SerializeField] private RenderTexture _renderTexture;
+    private RenderTexture _bufferTexture;
 
     [SerializeField] private Texture2D cursorTexture;
 
@@ -46,11 +51,18 @@ public class DrawManager : MonoBehaviour
 
         canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 24)
         {
-            filterMode = FilterMode.Bilinear,
-            enableRandomWrite = true
+            filterMode = FilterMode.Point,
+            enableRandomWrite = true,
+            graphicsFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UNorm
         };
 
+        //Graphics.Blit(canvasRenderTexture, _renderTexture);
+        //_bufferTexture = RenderTexture.GetTemporary(canvasRenderTexture.width, canvasRenderTexture.height);
+        BG.GetComponent<RawImage>().texture = canvasRenderTexture;
+
+
         canvasRenderTexture.Create();
+
 
         ResetBoard(true);
 
@@ -91,6 +103,7 @@ public class DrawManager : MonoBehaviour
         }
 
     }
+
 
     private void UpdatePen()
     {
@@ -187,7 +200,29 @@ public class DrawManager : MonoBehaviour
             Mathf.CeilToInt(canvasRenderTexture.width / (float)xGroupSize),
             Mathf.CeilToInt(canvasRenderTexture.height / (float)yGroupSize),
             1);
+        //Stamp(new Vector2Int((int)penPosition.x, (int)penPosition.y));
     }
+
+
+
+    //private void UpdateTexture()
+    //{
+    //    Debug.Log("STAMPED)");
+    //    Graphics.Blit(_renderTexture, _bufferTexture, _blitMaterial);
+    //    Graphics.Blit(_bufferTexture, _renderTexture);
+    //}
+
+    //private void Stamp(Vector2Int pos)
+    //{
+    //    var radius = _diameter / 2f;
+    //    var size = new Vector2(_diameter, _diameter);
+    //    var offset = new Vector2(radius, radius);
+    //    _blitMaterial.SetVector("_size", size);
+    //    _blitMaterial.SetVector("_sPos", pos - offset);
+    //    _blitMaterial.SetColor("_color", brushColour);
+    //    UpdateTexture();
+    //}
+
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {

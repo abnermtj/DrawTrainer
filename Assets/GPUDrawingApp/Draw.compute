@@ -27,6 +27,23 @@ float4 HardBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float 
     return currentColor;
 }
 
+float4 SoftBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float2 previousMousePosition,
+                 float2 mousePosition, float strokeSmoothingInterval)
+{
+    for (float i = 0; i < 1.0; i += strokeSmoothingInterval)
+    {
+        const float2 mousePos = lerp(previousMousePosition, mousePosition, i);
+        if (length(pixelPos - mousePos) < brushSize) {
+            float4 opacity = length(pixelPos - mousePos) / brushSize;
+            brushColor.a = 0; // TODO why is opacity not working
+            return brushColor ;
+        }
+
+    }
+
+    return currentColor;
+}
+
 [numthreads(8,8,1)]
 void InitBackground(uint3 id : SV_DispatchThreadID)
 {
@@ -45,8 +62,10 @@ void Update(uint3 id : SV_DispatchThreadID)
     if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
         return;
 
-    float4 curBrush = HardBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
+    float4 curBrush = SoftBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
                                _PreviousMousePosition, _MousePosition, _StrokeSmoothingInterval);
     curBrush.a = 0;
     _Canvas[id.xy] = curBrush;
 }
+
+// TODO made soft brush
