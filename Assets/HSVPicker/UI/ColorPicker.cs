@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 namespace HSVPicker
 {
-    public class ColorPicker : MonoBehaviour
+    public class ColorPicker : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
 
         private float _hue = 0;
@@ -17,6 +19,44 @@ namespace HSVPicker
         [Header("Event")]
         public ColorChangedEvent onValueChanged = new ColorChangedEvent();
         public HSVChangedEvent onHSVChanged = new HSVChangedEvent();
+
+        private float dampingSpeed = 0.05f;
+        private RectTransform draggingObjectRectTransform;
+        private Vector3 velocity = Vector3.zero;
+
+        private Vector3 goalPosition;
+        private Vector3 dragOffset;
+        private bool isDragging = false;
+        private void Awake()
+        {
+            draggingObjectRectTransform = transform as RectTransform;
+            goalPosition = transform.position;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            isDragging = false;
+            Debug.Log("STOP DRAG");
+        }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            // Need this defined for OnPointerUp to work
+        }
+
+        public void OnDrag(PointerEventData data)
+        {
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingObjectRectTransform, data.position, data.pressEventCamera, out var globalMousePosition);
+
+            if (!isDragging)
+            {
+                isDragging = true;
+                dragOffset = globalMousePosition - transform.position;
+                Debug.Log("Dragoffset: " + dragOffset);
+            }
+
+            goalPosition = globalMousePosition - dragOffset;
+        }
+
 
         public Color CurrentColor
         {
@@ -278,6 +318,12 @@ namespace HSVPicker
             onHSVChanged.Invoke(_hue, _saturation, _brightness);
 
             UpdateColorToggleText();
+        }
+
+
+        void Update()
+        {
+            draggingObjectRectTransform.position = Vector3.SmoothDamp(draggingObjectRectTransform.position, goalPosition, ref velocity, dampingSpeed);
         }
 
         void UpdateColorToggleText()
