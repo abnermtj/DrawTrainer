@@ -10,16 +10,19 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private float brushSize = 0.5f;
     [SerializeField] protected float targetResetIntervalSeconds = 1;
     [SerializeField] protected int numTargets = 2;
+    [SerializeField] protected float gameTimer = 500;
 
     [SerializeField] protected TargetSpawner targetSpawner;
     [SerializeField] private BrushSizeSlider brushSizeSlider;
     [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
     [SerializeField] protected float targetWidth, targetHeight;
     private RenderTexture canvasRenderTexture;
+    protected Camera camera;
 
     private Vector4 prevPenPosition;
 
     [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2;
+    [SerializeField] private GameObject DEBUG_LABEL;
     [SerializeField] protected GameObject GameTimerLabel;
     [SerializeField] protected GameObject HitScoreLabel;
     [SerializeField] protected GameObject MissScoreLabel;
@@ -56,6 +59,7 @@ public class DrawManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
+        camera = GetComponent<Camera>();
     }
 
     // Removes all targets
@@ -120,6 +124,7 @@ public class DrawManager : MonoBehaviour
         // Pen position
         prevPenPosition = penPosition;
         penPosition = pointer.position.ReadValue();
+        DEBUG_LABEL.GetComponent<Text>().text = penPosition.ToString();
 
         if (penJustReleased)
         {
@@ -131,6 +136,7 @@ public class DrawManager : MonoBehaviour
     {
         UpdatePen();
         UpdateBrush();
+        UpdateTimers();
 
         // DEBUG
         DEBUG_BOX.GetComponent<Image>().color = Color.white;
@@ -146,13 +152,19 @@ public class DrawManager : MonoBehaviour
         }
     }
 
+    private void UpdateTimers()
+    {
+        gameTimer -= Time.deltaTime;
+        GameTimerLabel.GetComponent<Text>().text = ((int)gameTimer).ToString();
+    }
+
     virtual protected void ResetBoard(bool isWin)
     {
         ClearBrushMarks();
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
-        targetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140);
+        targetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Draws pixels into the current pen pos

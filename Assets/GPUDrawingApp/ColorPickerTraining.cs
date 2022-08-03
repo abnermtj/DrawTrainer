@@ -50,8 +50,9 @@ public class ColorPickerTraining : MonoBehaviour
 	void Update()
 	{
 
+		// TODO REFACTOR AND COMBINE IWTH DRAW MANAGER
 		_gameTimer -= Time.deltaTime;
-        _GameTimerLabel.GetComponent<Text>().text = _gameTimer.ToString();
+        _GameTimerLabel.GetComponent<Text>().text = ((int)_gameTimer).ToString();
 
 		if (_gameTimer < 0f) {
 			Color randomColor = new Color(

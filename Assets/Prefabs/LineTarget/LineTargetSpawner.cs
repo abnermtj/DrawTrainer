@@ -8,7 +8,7 @@ public class LineTargetSpawner : TargetSpawner
     public float percentageTarget;
     override protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
     {
-        LineTarget target = Instantiate(lineTargetPrefab, pos, Quaternion.identity, parent.transform);
+        LineTarget target = Instantiate(lineTargetPrefab, pos, Quaternion.identity, targetParent.transform);
         target.SetSize(targetWidth, targetHeight);
         target.percentageTarget = percentageTarget;
 

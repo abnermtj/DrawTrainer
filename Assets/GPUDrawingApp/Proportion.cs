@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Proportion : DrawManager
 {
-    [SerializeField] private float gameTimer = 500;
     [SerializeField] private GameObject particles;
     [SerializeField] private GameObject percentLabel;
     [SerializeField] private Camera particlesCamera;
@@ -19,7 +19,7 @@ public class Proportion : DrawManager
     void Start()
     {
         base.Start();
-        percentageTarget = Random.Range(0.0f, 0.5f);
+        percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
         lineTargetSpawner.percentageTarget = percentageTarget;
         if (!particlesCamera) particlesCamera = GetComponent<Camera>();
     }
@@ -29,7 +29,7 @@ public class Proportion : DrawManager
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
-        lineTargetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140);
+        lineTargetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Update is called once per frame
@@ -39,7 +39,8 @@ public class Proportion : DrawManager
         gameTimer -= Time.deltaTime;
         GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
 
-        percentLabel.GetComponent<Text>().text = percentageTarget.ToString();
+        
+        percentLabel.GetComponent<Text>().text = String.Format("{0:P2}", percentageTarget);
 
         targetResetTimer -= Time.deltaTime;
         if (targetResetTimer < 0)
@@ -60,7 +61,7 @@ public class Proportion : DrawManager
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
             ResetBoard(isWin: true);
-            percentageTarget = Random.Range(0.0f, 0.5f);
+            percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
             lineTargetSpawner.percentageTarget = percentageTarget;
 
             hitScore++;

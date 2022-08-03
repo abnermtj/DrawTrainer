@@ -39,12 +39,10 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("HA2");
         isActive = true;
     }
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("HA");
         if (isFirstTarget)
         {
             return;
@@ -59,7 +57,6 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("HA3");
         if (isLastTarget)
         {
             isActive = false;

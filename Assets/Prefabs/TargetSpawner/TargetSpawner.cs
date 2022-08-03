@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class TargetSpawner : MonoBehaviour
 {
     [SerializeField] protected Target targetPrefab;
-    [SerializeField] protected GameObject parent;
+    [SerializeField] protected GameObject targetParent;
     [SerializeField] protected bool randomSize = false;
     [SerializeField] protected bool randomRotation = false;
     [SerializeField] protected int randomLenMin = 50;
@@ -19,9 +19,9 @@ public class TargetSpawner : MonoBehaviour
     private int numTargets = 0;
 
     // Spawns a set of targets within a bounding box
-    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth,float targetHeight, float minDist, float maxDist)
+    // Positions are expects to be in SCREEN SPACE
+    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth,float targetHeight, float minDist, float maxDist, Camera camera)
     {
-        Debug.Log(numberToSpawn);
         numTargets = numberToSpawn;
 
         float xPos, yPos, xPos2, yPos2;
@@ -36,7 +36,6 @@ public class TargetSpawner : MonoBehaviour
         }
         else
         {
-
             // Get start and end points
             while (true)
             {
@@ -65,15 +64,18 @@ public class TargetSpawner : MonoBehaviour
         }
 
         // Create all targets
+        Debug.Log("Spawning " + numberToSpawn + " targets");
         foreach (Vector3 pos in positions)
         {
+            Debug.Log("Pos: " + pos); 
             CreateTarget(targetWidth, targetHeight, pos);
         }
     }
 
     virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
     {
-        Target target = Instantiate(targetPrefab, pos, Quaternion.identity, parent.transform);
+        Target target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
+        target.GetComponent<RectTransform>().anchoredPosition = pos;
         target.SetSize(targetWidth, targetHeight);
 
         if (randomSize)
@@ -127,10 +129,6 @@ public class TargetSpawner : MonoBehaviour
         int numActiveTargets = getNumActiveTargets();
 
         isAllTargetsActive = (numActiveTargets == numTargets);
-        Debug.Log("TargetSpawner");
-        Debug.Log(numActiveTargets);
-        Debug.Log(numTargets);
-        //Debug.Log(isAllTargetsActive);
 
         foreach (Target obj in objects)
         {

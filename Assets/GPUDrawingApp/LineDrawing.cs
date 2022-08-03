@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class LineDrawing : DrawManager
 {
-    [SerializeField] private float gameTimer = 500;
     [SerializeField] private GameObject particles;
     [SerializeField] private Camera particlesCamera;
 
@@ -40,6 +39,8 @@ public class LineDrawing : DrawManager
         }
 
 
+        //particles.GetComponent<RectTransform>().anchoredPosition = penPosition;
+        //particles.GetComponent<ParticleSystem>().Play();
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
             ResetBoard(isWin: true);
@@ -49,7 +50,7 @@ public class LineDrawing : DrawManager
 
             if (particles)
             {
-                particles.GetComponent<RectTransform>().position = strokeEndPos;
+                particles.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 particles.GetComponent<ParticleSystem>().Play();
             }
 
