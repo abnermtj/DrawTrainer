@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TargetSpawner : MonoBehaviour
 {
-    [SerializeField] protected Targetz targetPrefab;
+    [SerializeField] protected Target targetPrefab;
     [SerializeField] protected GameObject targetParent;
     [SerializeField] protected bool randomSize = false;
     [SerializeField] protected bool randomRotation = false;
@@ -15,7 +15,7 @@ public class TargetSpawner : MonoBehaviour
     [HideInInspector]
     public bool isFirstOrLastTarget = true;
 
-    protected static List<Targetz> objects = new List<Targetz>();
+    protected static List<Target> objects = new List<Target>();
     private int numTargets = 0;
 
     // Spawns a set of targets within a bounding box
@@ -29,8 +29,8 @@ public class TargetSpawner : MonoBehaviour
 
         if (numberToSpawn == 1)
         {
-            xPos = originX + width * Random.Range(0, 1f);
-            yPos = originY + height * Random.Range(0, 1f);
+            xPos = originX + width * Random.Range(-0.5f, 0.5f);
+            yPos = originY + height * Random.Range(-0.5f, 0.5f);
 
             positions.Add(new Vector2(xPos, yPos));
         }
@@ -74,7 +74,7 @@ public class TargetSpawner : MonoBehaviour
 
     virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
     {
-        Targetz target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
+        Target target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
         target.GetComponent<RectTransform>().anchoredPosition = pos;
         target.SetSize(targetWidth, targetHeight);
 
@@ -92,7 +92,7 @@ public class TargetSpawner : MonoBehaviour
     // Removes all spawned targets
     public void ClearAll(bool playSound)
     {
-        foreach (Targetz obj in objects)
+        foreach (Target obj in objects)
         {
             if (obj)
             {
@@ -104,7 +104,7 @@ public class TargetSpawner : MonoBehaviour
     }
     public void ResetTargets()
     {
-        foreach (Targetz obj in objects)
+        foreach (Target obj in objects)
         {
             if (obj)
             {
@@ -115,7 +115,7 @@ public class TargetSpawner : MonoBehaviour
     private int getNumActiveTargets()
     {
         int count = 0;
-        foreach (Targetz obj in objects)
+        foreach (Target obj in objects)
         {
             if (obj.isActive)
             {
@@ -130,7 +130,7 @@ public class TargetSpawner : MonoBehaviour
 
         isAllTargetsActive = (numActiveTargets == numTargets);
 
-        foreach (Targetz obj in objects)
+        foreach (Target obj in objects)
         {
             if (numActiveTargets == 0)
             {

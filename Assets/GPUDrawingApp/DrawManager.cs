@@ -14,7 +14,7 @@ public class DrawManager : MonoBehaviour
 
     [SerializeField] protected TargetSpawner targetSpawner;
     [SerializeField] private BrushSizeSlider brushSizeSlider;
-    [SerializeField] protected GameObject BG;
+    //[SerializeField] protected GameObject BG;
     [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
     [SerializeField] protected float targetWidth, targetHeight;
     private RenderTexture canvasRenderTexture;
@@ -58,7 +58,7 @@ public class DrawManager : MonoBehaviour
 
         //Graphics.Blit(canvasRenderTexture, _renderTexture);
         //_bufferTexture = RenderTexture.GetTemporary(canvasRenderTexture.width, canvasRenderTexture.height);
-        BG.GetComponent<RawImage>().texture = canvasRenderTexture;
+        //BG.GetComponent<RawImage>().texture = canvasRenderTexture;
 
 
         canvasRenderTexture.Create();
@@ -177,7 +177,7 @@ public class DrawManager : MonoBehaviour
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
-        targetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140, camera);
+        targetSpawner.Spawn(numTargets, Screen.width / 2.0f, Screen.height / 2.0f , 350, 250, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Draws pixels into the current pen pos

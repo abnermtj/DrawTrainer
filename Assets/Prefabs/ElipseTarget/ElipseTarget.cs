@@ -2,6 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElipseTarget : Targetz
+public class ElipseTarget : Target
 {
 }

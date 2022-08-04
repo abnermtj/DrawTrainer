@@ -5606,7 +5606,7 @@ MonoBehaviour:
   brushColour: {r: 0.8196079, g: 0.81568635, b: 0.7725491, a: 0}
   brushSize: 0.9
   targetResetIntervalSeconds: 2.2
-  numTargets: 2
+  numTargets: 3
   gameTimer: 500
   targetSpawner: {fileID: 1644824425}
   brushSizeSlider: {fileID: 113421892}

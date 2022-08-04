@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LineTarget : Targetz
+public class LineTarget : Target
 {
-    [SerializeField] private Targetz target;
-    [SerializeField] private Targetz target2;
+    [SerializeField] private Target target;
+    [SerializeField] private Target target2;
     [Range (0.0f, 0.5f)]
     public float percentageTarget = 0;
 

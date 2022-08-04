@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.17992157, g: 0.16078433, b: 0.8784314, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -95,6 +95,8 @@ MonoBehaviour:
   isActive: 0
   isLastTarget: 0
   isFirstTarget: 0
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inActiveColor: {r: 1, g: 1, b: 1, a: 1}
   volumeChangeMultiplier: 0.1
   pitchChangeMultiplier: 0.1
 --- !u!82 &4026450942075328115
@@ -208,4 +210,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.03765869, y: 0}
   serializedVersion: 2
-  m_Radius: 11.728601
+  m_Radius: 12.88334

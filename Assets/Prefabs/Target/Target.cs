@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Targetz : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, IPointerExitHandler
+public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, IPointerExitHandler
 {
 
     public AudioClip[] sounds;
@@ -11,6 +11,9 @@ public class Targetz : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler,
     public bool isLastTarget = false;
     public bool isFirstTarget = false;
     private AudioSource source;
+
+    [SerializeField] Color activeColor = Color.green;
+    [SerializeField] Color inActiveColor = Color.white;
 
     [Range(0.1f, 0.5f)]
     public float volumeChangeMultiplier = 0.2f;
@@ -29,11 +32,11 @@ public class Targetz : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler,
     {
         if (isActive)
         {
-            gameObject.GetComponent<Image>().color = Color.green;
+            gameObject.GetComponent<Image>().color = activeColor;
         }
         else
         {
-            gameObject.GetComponent<Image>().color = Color.white;
+            gameObject.GetComponent<Image>().color = inActiveColor;
         }
     }
 

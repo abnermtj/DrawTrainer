@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LineSubTarget : Targetz
+public class LineSubTarget : Target
 {
     // Start is called before the first frame update
     void Start()
