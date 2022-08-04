@@ -940,6 +940,7 @@ MonoBehaviour:
   brushSize: 0.9
   targetResetIntervalSeconds: 2
   numTargets: 1
+  gameTimer: 500
   targetSpawner: {fileID: 2083212344}
   brushSizeSlider: {fileID: 576007730}
   strokePressIntervalSeconds: 0.079
@@ -951,8 +952,10 @@ MonoBehaviour:
   GameTimerLabel: {fileID: 111232493}
   HitScoreLabel: {fileID: 111232492}
   MissScoreLabel: {fileID: 111232491}
+  _diameter: 1
+  _blitMaterial: {fileID: 0}
+  _renderTexture: {fileID: 0}
   cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
-  gameTimer: 500
   particles: {fileID: 1257343689}
   percentLabel: {fileID: 4082400465917102723}
   particlesCamera: {fileID: 2003588545}
@@ -1324,7 +1327,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0.036886215, a: 1}
+      maxColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

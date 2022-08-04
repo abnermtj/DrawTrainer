@@ -12,8 +12,8 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     public bool isFirstTarget = false;
     private AudioSource source;
 
-    [SerializeField] Color activeColor = Color.green;
-    [SerializeField] Color inActiveColor = Color.white;
+    [SerializeField] public Color activeColor = Color.green;
+    [SerializeField] public Color inActiveColor = Color.white;
 
     [Range(0.1f, 0.5f)]
     public float volumeChangeMultiplier = 0.2f;

@@ -18,10 +18,11 @@ public class Proportion : DrawManager
     // Start is called before the first frame update
     void Start()
     {
-        base.Start();
         percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
         lineTargetSpawner.percentageTarget = percentageTarget;
         if (!particlesCamera) particlesCamera = GetComponent<Camera>();
+
+        base.Start();
     }
     override protected void ResetBoard(bool isWin)
     {
@@ -40,6 +41,7 @@ public class Proportion : DrawManager
         GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
 
         
+        lineTargetSpawner.percentageTarget = percentageTarget;
         percentLabel.GetComponent<Text>().text = String.Format("{0:P2}", percentageTarget);
 
         targetResetTimer -= Time.deltaTime;
@@ -60,7 +62,6 @@ public class Proportion : DrawManager
 
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
-            ResetBoard(isWin: true);
             percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
             lineTargetSpawner.percentageTarget = percentageTarget;
 
@@ -74,6 +75,7 @@ public class Proportion : DrawManager
             }
 
             targetResetTimer = targetResetIntervalSeconds;
+            ResetBoard(isWin: true);
         }
 
 

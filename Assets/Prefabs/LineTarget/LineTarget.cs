@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 public class LineTarget : Target
 {
     [SerializeField] private Target target;
     [SerializeField] private Target target2;
+    [SerializeField] private Sprite visibleImage;
     [Range (0.0f, 0.5f)]
     public float percentageTarget = 0;
+
 
     void Start()
     {
@@ -25,6 +29,15 @@ public class LineTarget : Target
     public override void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("av");
+
+        if (!(Pen.current.press.ReadValue() != 0)) {
+            return;
+        }
+
+        target.GetComponent<Image>().sprite = visibleImage;
+        target.inActiveColor = Color.black;
+        target2.GetComponent<Image>().sprite = visibleImage;
+        target2.inActiveColor = Color.black;
     }
     public void Update()
     {
