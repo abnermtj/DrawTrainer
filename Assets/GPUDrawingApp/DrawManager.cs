@@ -27,6 +27,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] protected GameObject GameTimerLabel;
     [SerializeField] protected GameObject HitScoreLabel;
     [SerializeField] protected GameObject MissScoreLabel;
+    [SerializeField] protected GameObject Targets;
 
     protected float targetResetTimer;
     protected float interpolatedPenPressure;

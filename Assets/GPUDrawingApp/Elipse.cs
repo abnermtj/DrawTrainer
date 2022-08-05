@@ -27,6 +27,19 @@ public class Elipse : DrawManager
             MissScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
 
+        foreach (Transform target in Targets.transform)
+        {
+            if (penPressed || mousePressed)
+            {
+                target.gameObject.GetComponent<Target>().inActiveColor.a = 0.2f;
+
+            }
+            else
+            {
+
+                target.gameObject.GetComponent<Target>().inActiveColor.a = 1f;
+            }
+        }
 
         if (penJustReleased)
         {

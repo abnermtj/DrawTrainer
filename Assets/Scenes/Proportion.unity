@@ -938,7 +938,7 @@ MonoBehaviour:
   backgroundColour: {r: 0.19607845, g: 0.20392159, b: 0.21568629, a: 0}
   brushColour: {r: 0.8196079, g: 0.81568635, b: 0.7725491, a: 0}
   brushSize: 0.9
-  targetResetIntervalSeconds: 2
+  targetResetIntervalSeconds: 3
   numTargets: 1
   gameTimer: 500
   targetSpawner: {fileID: 2083212344}
@@ -960,6 +960,7 @@ MonoBehaviour:
   percentLabel: {fileID: 4082400465917102723}
   particlesCamera: {fileID: 2003588545}
   percentageTarget: 0
+  missResetTime: 0.5
   lineTargetSpawner: {fileID: 2083212344}
 --- !u!61 &1200993775
 BoxCollider2D:

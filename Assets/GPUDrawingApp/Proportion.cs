@@ -10,6 +10,7 @@ public class Proportion : DrawManager
 
     [Range (0.0f, 0.5f)]
     [SerializeField] private float percentageTarget = 0;
+    [SerializeField] private float missResetTime = 0.4f;
     [SerializeField] protected LineTargetSpawner lineTargetSpawner;
 
     private int missScore = 0;
@@ -30,7 +31,7 @@ public class Proportion : DrawManager
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
-        lineTargetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 280, targetWidth, targetHeight, 20, 140, camera);
+        lineTargetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 100, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Update is called once per frame
@@ -41,6 +42,12 @@ public class Proportion : DrawManager
         GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
 
         
+        if (penJustReleased)
+        {
+            targetResetTimer = missResetTime;
+            lineTargetSpawner.ResetTargets();
+        }
+
         lineTargetSpawner.percentageTarget = percentageTarget;
         percentLabel.GetComponent<Text>().text = String.Format("{0:P2}", percentageTarget);
 
@@ -54,10 +61,6 @@ public class Proportion : DrawManager
         }
 
 
-        if (penJustReleased)
-        {
-            lineTargetSpawner.ResetTargets();
-        }
 
 
         if (targetSpawner.isAllTargetsActive && penJustReleased)
