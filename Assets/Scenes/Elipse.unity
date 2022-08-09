@@ -1237,7 +1237,7 @@ MonoBehaviour:
   backgroundColour: {r: 0.19607845, g: 0.20392159, b: 0.21568629, a: 0}
   brushColour: {r: 0.8196079, g: 0.81568635, b: 0.7725491, a: 0}
   brushSize: 1.11
-  targetResetIntervalSeconds: 0.1
+  targetResetIntervalSeconds: 3
   numTargets: 1
   gameTimer: 500
   targetSpawner: {fileID: 1966088338}
@@ -1251,6 +1251,7 @@ MonoBehaviour:
   GameTimerLabel: {fileID: 1683141530}
   HitScoreLabel: {fileID: 1683141529}
   MissScoreLabel: {fileID: 1683141528}
+  Targets: {fileID: 48981412}
   _diameter: 1
   _blitMaterial: {fileID: 2100000, guid: 0d33d7713098af94c85e2ddb9ce7d069, type: 2}
   _renderTexture: {fileID: 8400000, guid: 7a9408ed7c5f4f049b6f8f016c3b4b72, type: 2}

@@ -37,10 +37,16 @@ public class LineDrawing : DrawManager
         {
             targetSpawner.ResetTargets();
         }
+        if (hitScore == goalTargets)
+        {
+            WinLabel.active = true;
+        }
+        else
+        {
+            WinLabel.active = false;
+        }
 
 
-        //particles.GetComponent<RectTransform>().anchoredPosition = penPosition;
-        //particles.GetComponent<ParticleSystem>().Play();
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
             ResetBoard(isWin: true);

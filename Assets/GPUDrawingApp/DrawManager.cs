@@ -10,6 +10,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private float brushSize = 0.5f;
     [SerializeField] protected float targetResetIntervalSeconds = 1;
     [SerializeField] protected int numTargets = 2;
+    [SerializeField] protected int goalTargets = 50;
     [SerializeField] protected float gameTimer = 500;
 
     [SerializeField] protected TargetSpawner targetSpawner;
@@ -27,6 +28,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] protected GameObject GameTimerLabel;
     [SerializeField] protected GameObject HitScoreLabel;
     [SerializeField] protected GameObject MissScoreLabel;
+    [SerializeField] protected GameObject WinLabel;
     [SerializeField] protected GameObject Targets;
 
     protected float targetResetTimer;
@@ -178,7 +180,7 @@ public class DrawManager : MonoBehaviour
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
-        targetSpawner.Spawn(numTargets, Screen.width / 2.0f, Screen.height / 2.0f , 350, 250, targetWidth, targetHeight, 20, 140, camera);
+        targetSpawner.Spawn(numTargets, Screen.width / 2.0f, Screen.height / 2.0f - 100, 350, 250, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Draws pixels into the current pen pos
