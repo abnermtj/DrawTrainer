@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class LineDrawing : DrawManager
 {
@@ -7,6 +9,7 @@ public class LineDrawing : DrawManager
     [SerializeField] private Camera particlesCamera;
 
     private int missScore = 0;
+    private int comboScore = 0;
     private int hitScore = 0;
 
     // Start is called before the first frame update
@@ -28,6 +31,7 @@ public class LineDrawing : DrawManager
         {
             ResetBoard(isWin: false);
 
+            comboScore = 0;
             missScore++;
             MissScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
@@ -60,9 +64,17 @@ public class LineDrawing : DrawManager
                 particles.GetComponent<ParticleSystem>().Play();
             }
 
+            if (ComboPrefab)
+            {
+                comboScore += 1;
+                GameObject DamageText = Instantiate(ComboPrefab,Canvas.transform);
+            DamageText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+            DamageText.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0);
+                DamageText.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
+                DamageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(comboScore.ToString());
+            }
+
             targetResetTimer = targetResetIntervalSeconds;
         }
-
-
     }
 }

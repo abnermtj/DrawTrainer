@@ -31,7 +31,7 @@ public class Proportion : DrawManager
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
-        lineTargetSpawner.Spawn(numTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 100, targetWidth, targetHeight, 20, 140, camera);
+        lineTargetSpawner.Spawn(maxTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 100, targetWidth, targetHeight, 20, 140, camera);
     }
 
     // Update is called once per frame
@@ -40,6 +40,16 @@ public class Proportion : DrawManager
         base.Update();
         gameTimer -= Time.deltaTime;
         GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
+
+
+        if (hitScore == goalTargets)
+        {
+            WinLabel.active = true;
+        }
+        else
+        {
+            WinLabel.active = false;
+        }
 
         
         if (penJustReleased)

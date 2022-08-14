@@ -940,8 +940,9 @@ MonoBehaviour:
   brushColour: {r: 0.8196079, g: 0.81568635, b: 0.7725491, a: 0}
   brushSize: 0.9
   targetResetIntervalSeconds: 3
-  numTargets: 1
-  goalTargets: 50
+  minTargets: 1
+  maxTargets: 1
+  goalTargets: 100
   gameTimer: 500
   targetSpawner: {fileID: 2083212344}
   brushSizeSlider: {fileID: 576007730}

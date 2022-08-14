@@ -41,6 +41,15 @@ public class Elipse : DrawManager
             }
         }
 
+        if (hitScore == goalTargets)
+        {
+            WinLabel.active = true;
+        }
+        else
+        {
+            WinLabel.active = false;
+        }
+
         if (penJustReleased)
         {
             targetSpawner.ResetTargets();
