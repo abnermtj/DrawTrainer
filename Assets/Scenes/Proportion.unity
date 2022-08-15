@@ -1374,6 +1374,30 @@ PrefabInstance:
       propertyPath: MaximumDimmensions.y
       value: 9999
       objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0.1000061
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420521650148, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -1.199997
+      objectReference: {fileID: 0}
     - target: {fileID: 1163601420658949982, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: cam
       value: 

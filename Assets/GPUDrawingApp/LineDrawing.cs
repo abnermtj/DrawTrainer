@@ -9,6 +9,8 @@ public class LineDrawing : DrawManager
     [SerializeField] private GameObject particles;
     [SerializeField] private Camera particlesCamera;
     [SerializeField] private GameObject straightnessLabel;
+    [SerializeField] protected bool isStrikeThrough;
+
     private List<Vector2> strokePoints = new List<Vector2>();
 
     new void Start()
@@ -99,8 +101,14 @@ public class LineDrawing : DrawManager
             strokePoints = new List<Vector2>();
         }
 
-        if (targetSpawner.isAllTargetsActive && penJustReleased)
+        if ((targetSpawner.isAllTargetsActive && penJustReleased) || (targetSpawner.isAllTargetsActive && isStrikeThrough))
         {
+            if (isStrikeThrough)
+            {
+
+                strokeEndPos = penPosition;
+            }
+                    
             ResetBoard(isWin: true);
 
             hitScore++;

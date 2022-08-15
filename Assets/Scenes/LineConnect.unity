@@ -899,8 +899,8 @@ MonoBehaviour:
   strokePressIntervalSeconds: 0.079
   targetSpawner: {fileID: 1644824425}
   targetResetIntervalSeconds: 2
-  minTargets: 1
-  maxTargets: 1
+  minTargets: 2
+  maxTargets: 2
   goalTargets: 50
   targetWidth: 6
   targetHeight: 6
@@ -924,6 +924,7 @@ MonoBehaviour:
   particles: {fileID: 360534968}
   particlesCamera: {fileID: 1287404495}
   straightnessLabel: {fileID: 2138868202}
+  isStrikeThrough: 1
 --- !u!1 &1180445647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}
@@ -1634,11 +1635,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 185.90002
+      value: 470.6
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 162.3
+      value: 212.4
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_LocalPosition.x
