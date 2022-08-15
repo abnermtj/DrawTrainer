@@ -8,55 +8,31 @@ public class LineDrawing : DrawManager
     [SerializeField] private GameObject particles;
     [SerializeField] private Camera particlesCamera;
 
-    private int missScore = 0;
-    private int comboScore = 0;
-    private int hitScore = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
         if (!particlesCamera) particlesCamera = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
+    new void Update()
     {
         base.Update();
-        gameTimer -= Time.deltaTime;
-        GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
 
-        targetResetTimer -= Time.deltaTime;
         if (targetResetTimer < 0)
         {
             ResetBoard(isWin: false);
 
             comboScore = 0;
             missScore++;
-            MissScoreLabel.GetComponent<Text>().text = missScore.ToString();
+            missScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
-
-
-        if (penJustReleased)
-        {
-            targetSpawner.ResetTargets();
-        }
-        if (hitScore == goalTargets)
-        {
-            WinLabel.active = true;
-        }
-        else
-        {
-            WinLabel.active = false;
-        }
-
 
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
             ResetBoard(isWin: true);
 
             hitScore++;
-            HitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
+            hitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
 
             if (particles)
             {
@@ -64,12 +40,12 @@ public class LineDrawing : DrawManager
                 particles.GetComponent<ParticleSystem>().Play();
             }
 
-            if (ComboPrefab)
+            if (comboPrefab)
             {
                 comboScore += 1;
-                GameObject DamageText = Instantiate(ComboPrefab,Canvas.transform);
-            DamageText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
-            DamageText.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0);
+                GameObject DamageText = Instantiate(comboPrefab,canvas.transform);
+                DamageText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+                DamageText.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0);
                 DamageText.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 DamageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(comboScore.ToString());
             }

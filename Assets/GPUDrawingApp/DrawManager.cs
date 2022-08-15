@@ -6,81 +6,75 @@ public class DrawManager : MonoBehaviour
 {
     [SerializeField] private ComputeShader drawComputeShader;
     [SerializeField] private Color backgroundColour;
+
+    // Brush 
+    [SerializeField] private BrushSizeSlider brushSizeSlider;
     [SerializeField] private Color brushColour;
     [SerializeField] private float brushSize = 0.5f;
+    [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
+
+    protected bool penPressed;
+    protected bool penJustPressed;
+    protected bool penJustReleased;
+    protected bool mousePressed;
+    protected float brushSizePressure = 0;
+    protected float interpolatedPenPressure;
+    protected Vector2 strokeEndPos = Vector2.positiveInfinity;
+    protected Vector4 penPosition;
+    private Vector4 prevPenPosition;
+
+    // Target 
+    [SerializeField] protected TargetSpawner targetSpawner;
     [SerializeField] protected float targetResetIntervalSeconds = 1;
     [SerializeField] protected int minTargets = 2;
     [SerializeField] protected int maxTargets = 2;
     [SerializeField] protected int goalTargets = 50;
-    [SerializeField] protected float gameTimer = 500;
-
-    [SerializeField] protected TargetSpawner targetSpawner;
-    [SerializeField] private BrushSizeSlider brushSizeSlider;
-    //[SerializeField] protected GameObject BG;
-    [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
     [SerializeField] protected float targetWidth, targetHeight;
-    private RenderTexture canvasRenderTexture;
-    protected Camera camera;
-
-    private Vector4 prevPenPosition;
-
-    [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2;
-    [SerializeField] private GameObject DEBUG_LABEL;
-    [SerializeField] protected GameObject ComboPrefab;
-    [SerializeField] protected GameObject Canvas;
-    [SerializeField] protected GameObject GameTimerLabel;
-    [SerializeField] protected GameObject HitScoreLabel;
-    [SerializeField] protected GameObject MissScoreLabel;
-    [SerializeField] protected GameObject WinLabel;
-    [SerializeField] protected GameObject Targets;
 
     protected float targetResetTimer;
-    protected float interpolatedPenPressure;
-    protected bool mousePressed;
-    protected bool penPressed;
-    protected bool penJustPressed;
-    protected bool penJustReleased;
-    protected Vector2 strokeEndPos = Vector2.positiveInfinity;
-    protected Vector4 penPosition;
-    protected float brushSizePressure = 0;
 
-    [SerializeField] private float _diameter = 1;
-    [SerializeField] private Material _blitMaterial;
-    [SerializeField] private RenderTexture _renderTexture;
-    private RenderTexture _bufferTexture;
-
+    // Game 
+    [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2;
+    [SerializeField] private GameObject DEBUG_LABEL;
+    [SerializeField] protected GameObject comboPrefab;
+    [SerializeField] protected GameObject canvas;
+    [SerializeField] protected GameObject winLabel;
+    [SerializeField] protected GameObject targets;
     [SerializeField] private Texture2D cursorTexture;
+    private RenderTexture canvasRenderTexture;
+    new protected Camera camera;
+
+    // Score 
+    [SerializeField] protected GameObject gameTimerLabel;
+    [SerializeField] protected GameObject hitScoreLabel;
+    [SerializeField] protected GameObject missScoreLabel;
+    [SerializeField] protected float gameTimer = 500;
+    protected int missScore = 0;
+    protected int comboScore = 0;
+    protected int hitScore = 0;
 
     protected void Start()
     {
-        brushSizeSlider.slider.SetValueWithoutNotify(brushSizePressure);
-
+        // Render texture is used for line drawing
         canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 24)
         {
             filterMode = FilterMode.Point,
             enableRandomWrite = true,
             graphicsFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UNorm
         };
-
-        //Graphics.Blit(canvasRenderTexture, _renderTexture);
-        //_bufferTexture = RenderTexture.GetTemporary(canvasRenderTexture.width, canvasRenderTexture.height);
-        //BG.GetComponent<RawImage>().texture = canvasRenderTexture;
-
-
         canvasRenderTexture.Create();
 
+        ResetBoard(isWin: true);
 
-        ResetBoard(true);
+        brushSizeSlider.slider.SetValueWithoutNotify(brushSizePressure);
 
         prevPenPosition = Pen.current.position.ReadValue();
         targetResetTimer = targetResetIntervalSeconds;
-        Cursor.lockState = CursorLockMode.None;
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
         camera = GetComponent<Camera>();
     }
 
-    // Removes all targets
     protected void ClearBrushMarks()
     {
         int initBackgroundKernel = drawComputeShader.FindKernel("InitBackground");
@@ -94,8 +88,19 @@ public class DrawManager : MonoBehaviour
             Mathf.CeilToInt(canvasRenderTexture.width / (float)xGroupSize),
             Mathf.CeilToInt(canvasRenderTexture.height / (float)yGroupSize),
             1);
-
     }
+
+    protected virtual void ResetBoard(bool isWin)
+    {
+        ClearBrushMarks();
+
+        targetResetTimer = targetResetIntervalSeconds;
+        targetSpawner.ClearAll(playSound: isWin);
+
+        int rInt = Random.Range(minTargets, maxTargets + 1);
+        targetSpawner.Spawn(rInt, Screen.width / 2.0f, Screen.height / 2.0f - 100, 350, 250, targetWidth, targetHeight, 20, 140, camera);
+    }
+
 
     private void UpdateBrush()
     {
@@ -107,9 +112,7 @@ public class DrawManager : MonoBehaviour
         {
             brushSizePressure = brushSize;
         }
-
     }
-
 
     private void UpdatePen()
     {
@@ -150,43 +153,48 @@ public class DrawManager : MonoBehaviour
             strokeEndPos = penPosition;
         }
     }
+    private void UpdateTimers()
+    {
+        gameTimer -= Time.deltaTime;
+        targetResetTimer -= Time.deltaTime;
+    }
+    private void UpdateCommonLabels()
+    {
+        gameTimerLabel.GetComponent<Text>().text = ((int)gameTimer).ToString();
+        winLabel.SetActive(hitScore == goalTargets);
+    }
 
     protected void Update()
     {
         UpdatePen();
         UpdateBrush();
         UpdateTimers();
+        UpdateCommonLabels();
 
         // DEBUG
-        DEBUG_BOX.GetComponent<Image>().color = Color.white;
-        Vector4 pressureColor = Color.white * interpolatedPenPressure;
-        pressureColor.w = 1;
-        DEBUG_BOX2.GetComponent<Image>().color = pressureColor;
+        if (DEBUG_BOX && DEBUG_BOX2)
+        {
+            DEBUG_BOX.GetComponent<Image>().color = Color.white;
+            Vector4 pressureColor = Color.white * interpolatedPenPressure;
+            pressureColor.w = 1;
+            DEBUG_BOX2.GetComponent<Image>().color = pressureColor;
+        }
         // DEBUG
 
         if (!brushSizeSlider.isInUse && (penPressed || mousePressed))
         {
-            DEBUG_BOX.GetComponent<Image>().color = Color.black;
+            if (DEBUG_BOX && DEBUG_BOX2)
+                DEBUG_BOX.GetComponent<Image>().color = Color.black;
             MarkCurPenPos();
+        }
+
+        if (penJustReleased)
+        {
+            targetSpawner.ResetTargets();
         }
     }
 
-    private void UpdateTimers()
-    {
-        gameTimer -= Time.deltaTime;
-        GameTimerLabel.GetComponent<Text>().text = ((int)gameTimer).ToString();
-    }
 
-    virtual protected void ResetBoard(bool isWin)
-    {
-        ClearBrushMarks();
-
-        targetResetTimer = targetResetIntervalSeconds;
-        targetSpawner.ClearAll(playSound: isWin);
-
-        int rInt = Random.Range(minTargets, maxTargets + 1);
-        targetSpawner.Spawn(rInt, Screen.width / 2.0f, Screen.height / 2.0f - 100, 350, 250, targetWidth, targetHeight, 20, 140, camera);
-    }
 
     // Draws pixels into the current pen pos
     private void MarkCurPenPos()
@@ -208,29 +216,7 @@ public class DrawManager : MonoBehaviour
             Mathf.CeilToInt(canvasRenderTexture.width / (float)xGroupSize),
             Mathf.CeilToInt(canvasRenderTexture.height / (float)yGroupSize),
             1);
-        //Stamp(new Vector2Int((int)penPosition.x, (int)penPosition.y));
     }
-
-
-
-    //private void UpdateTexture()
-    //{
-    //    Debug.Log("STAMPED)");
-    //    Graphics.Blit(_renderTexture, _bufferTexture, _blitMaterial);
-    //    Graphics.Blit(_bufferTexture, _renderTexture);
-    //}
-
-    //private void Stamp(Vector2Int pos)
-    //{
-    //    var radius = _diameter / 2f;
-    //    var size = new Vector2(_diameter, _diameter);
-    //    var offset = new Vector2(radius, radius);
-    //    _blitMaterial.SetVector("_size", size);
-    //    _blitMaterial.SetVector("_sPos", pos - offset);
-    //    _blitMaterial.SetColor("_color", brushColour);
-    //    UpdateTexture();
-    //}
-
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {

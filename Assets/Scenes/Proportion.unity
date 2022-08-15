@@ -937,30 +937,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
   backgroundColour: {r: 0.19607845, g: 0.20392159, b: 0.21568629, a: 0}
+  brushSizeSlider: {fileID: 576007730}
   brushColour: {r: 0.8196079, g: 0.81568635, b: 0.7725491, a: 0}
   brushSize: 0.9
+  strokePressIntervalSeconds: 0.079
+  targetSpawner: {fileID: 2083212344}
   targetResetIntervalSeconds: 3
   minTargets: 1
   maxTargets: 1
   goalTargets: 100
-  gameTimer: 500
-  targetSpawner: {fileID: 2083212344}
-  brushSizeSlider: {fileID: 576007730}
-  strokePressIntervalSeconds: 0.079
   targetWidth: 200
   targetHeight: 2
   DEBUG_BOX: {fileID: 203002598}
   DEBUG_BOX2: {fileID: 203002597}
   DEBUG_LABEL: {fileID: 203002599}
-  GameTimerLabel: {fileID: 111232493}
-  HitScoreLabel: {fileID: 111232492}
-  MissScoreLabel: {fileID: 111232491}
-  WinLabel: {fileID: 1375397323}
-  Targets: {fileID: 0}
-  _diameter: 1
-  _blitMaterial: {fileID: 0}
-  _renderTexture: {fileID: 0}
+  comboPrefab: {fileID: 1843040242307004451, guid: da82e9804a9737e4685fc8bafcb0dd22, type: 3}
+  canvas: {fileID: 811119575}
+  winLabel: {fileID: 1375397323}
+  targets: {fileID: 945892759}
   cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
+  gameTimerLabel: {fileID: 111232493}
+  hitScoreLabel: {fileID: 111232492}
+  missScoreLabel: {fileID: 111232491}
+  gameTimer: 500
   particles: {fileID: 1257343689}
   percentLabel: {fileID: 4082400465917102723}
   particlesCamera: {fileID: 2003588545}

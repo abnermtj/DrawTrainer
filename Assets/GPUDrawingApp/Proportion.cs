@@ -13,11 +13,7 @@ public class Proportion : DrawManager
     [SerializeField] private float missResetTime = 0.4f;
     [SerializeField] protected LineTargetSpawner lineTargetSpawner;
 
-    private int missScore = 0;
-    private int hitScore = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
         lineTargetSpawner.percentageTarget = percentageTarget;
@@ -34,24 +30,10 @@ public class Proportion : DrawManager
         lineTargetSpawner.Spawn(maxTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 100, targetWidth, targetHeight, 20, 140, camera);
     }
 
-    // Update is called once per frame
-    void Update()
+    new void Update()
     {
         base.Update();
-        gameTimer -= Time.deltaTime;
-        GameTimerLabel.GetComponent<Text>().text = gameTimer.ToString();
 
-
-        if (hitScore == goalTargets)
-        {
-            WinLabel.active = true;
-        }
-        else
-        {
-            WinLabel.active = false;
-        }
-
-        
         if (penJustReleased)
         {
             targetResetTimer = missResetTime;
@@ -61,17 +43,13 @@ public class Proportion : DrawManager
         lineTargetSpawner.percentageTarget = percentageTarget;
         percentLabel.GetComponent<Text>().text = String.Format("{0:P2}", percentageTarget);
 
-        targetResetTimer -= Time.deltaTime;
         if (targetResetTimer < 0)
         {
             ResetBoard(isWin: false);
 
             missScore++;
-            MissScoreLabel.GetComponent<Text>().text = missScore.ToString();
+            missScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
-
-
-
 
         if (targetSpawner.isAllTargetsActive && penJustReleased)
         {
@@ -79,7 +57,7 @@ public class Proportion : DrawManager
             lineTargetSpawner.percentageTarget = percentageTarget;
 
             hitScore++;
-            HitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
+            hitScoreLabel.GetComponent<Text>().text = hitScore.ToString();
 
             if (particles)
             {
@@ -90,7 +68,5 @@ public class Proportion : DrawManager
             targetResetTimer = targetResetIntervalSeconds;
             ResetBoard(isWin: true);
         }
-
-
     }
 }

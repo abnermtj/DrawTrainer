@@ -11,26 +11,23 @@ public class LineTarget : Target
     [Range (0.0f, 0.5f)]
     public float percentageTarget = 0;
 
-
-    void Start()
+    new void Start()
     {
         base.Start();
     }
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("as");
+        // Do nothing
     }
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("xs");
+        // Do nothing
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("av");
-
-        if (!(Pen.current.press.ReadValue() != 0)) {
+        if (Pen.current.press.ReadValue() == 0) {
             return;
         }
 
@@ -39,6 +36,7 @@ public class LineTarget : Target
         target2.GetComponent<Image>().sprite = visibleImage;
         target2.inActiveColor = Color.black;
     }
+
     public void Update()
     {
         float width = GetComponent<RectTransform>().rect.width;
