@@ -131,21 +131,12 @@ public class FlexibleResizeHandler :  MonoBehaviour, IDragHandler, IPointerUpHan
         }
 
 
-        //Debug.Log("vertical Inset");
-        //Debug.Log(verticalInset);
-        //Debug.Log("anchored  ");
-        //Debug.Log(Target.anchoredPosition);
-
-        //Debug.Log("pivot  ");
-        //Debug.Log(Target.pivot);
-        //Debug.Log("rect  ");
-        //Debug.Log(Target.rect);
         if (horizontalEdge != null)
         {
             if (horizontalEdge == RectTransform.Edge.Right)
                 Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)horizontalEdge, // Drag Left
                     horiztonalInset,
-                    Mathf.Clamp(Target.rect.width - data.delta.x, MinimumDimmensions.x, MaximumDimmensions.x));
+                    Mathf.Clamp(Target.rect.width - data.delta.x , MinimumDimmensions.x, MaximumDimmensions.x));
             else
                 Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)horizontalEdge, // Drag Right
                     horiztonalInset,

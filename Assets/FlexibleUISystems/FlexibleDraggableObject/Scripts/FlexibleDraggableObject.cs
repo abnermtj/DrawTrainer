@@ -6,6 +6,7 @@ public class FlexibleDraggableObject : MonoBehaviour
 {
     public GameObject Target;
     private EventTrigger _eventTrigger;
+
     void Start ()
     {
         _eventTrigger = GetComponent<EventTrigger>();
@@ -14,7 +15,9 @@ public class FlexibleDraggableObject : MonoBehaviour
 
     void OnDrag(BaseEventData data)
     {
+        PointerEventData pointerEventData = (PointerEventData) data;
+        float ratio = Mathf.Abs((pointerEventData.pressEventCamera.ScreenToWorldPoint(new Vector2(0, 0)) - pointerEventData.pressEventCamera.ScreenToWorldPoint(new Vector2(1, 0))).x);
         PointerEventData ped = (PointerEventData) data;
-        Target.transform.Translate(ped.delta);
+        Target.transform.Translate(ped.delta * ratio);
     }
 }
