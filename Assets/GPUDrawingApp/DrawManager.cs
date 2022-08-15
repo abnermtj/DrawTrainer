@@ -53,6 +53,10 @@ public class DrawManager : MonoBehaviour
     protected int comboScore = 0;
     protected int hitScore = 0;
 
+
+    protected AudioSource source;
+    public AudioClip[] comboSounds;
+
     protected void Start()
     {
         // Render texture is used for line drawing
@@ -73,6 +77,8 @@ public class DrawManager : MonoBehaviour
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
         camera = GetComponent<Camera>();
+
+        source = GetComponent<AudioSource>();
     }
 
     protected void ClearBrushMarks()
