@@ -19,63 +19,27 @@ public class TargetSpawner : MonoBehaviour
     private int numTargets = 0;
 
     // Spawns a set of targets within a bounding box
-    // Positions are expects to be in SCREEN SPACE
-    public void Spawn(int numberToSpawn, float originX, float originY, float width, float height, float targetWidth,float targetHeight, float minDist, float maxDist, Camera camera)
+    // Spawn Rect = [topleft pos, size] in local space when middle is 0,0
+    // 0,0 is top left, right and up is positive
+    // TODO remove camera if not used
+    public void Spawn(int numberToSpawn, RectTransform spawnRect, float targetWidth, float targetHeight, float minDist, float maxDist, Camera camera)
     {
         numTargets = numberToSpawn;
-
-        float xPos, yPos, xPos2, yPos2;
-        List<Vector2> positions = new List<Vector2>();
-
-        if (numberToSpawn == 1)
+        Debug.Log("Spawning " + numberToSpawn + " targets inside " + spawnRect.rect);
+        for (int i = 0; i < numberToSpawn; i++)
         {
-            xPos = originX + width * Random.Range(-0.5f, 0.5f);
-            yPos = originY + height * Random.Range(-0.5f, 0.5f);
-
-            positions.Add(new Vector2(xPos, yPos));
-        }
-        else
-        {
-            // Get start and end points
-            while (true)
-            {
-                xPos = originX + width * Random.Range(0, 1f);
-                yPos = originY + height * Random.Range(0, 1f);
-                xPos2 = originX + width * Random.Range(0, 1f);
-                yPos2 = originY + height * Random.Range(0, 1f);
-
-                float dist = Vector2.Distance(new Vector2(xPos, yPos), new Vector2(xPos2, yPos2));
-                if (dist > minDist && dist < maxDist)
-                {
-                    break;
-                }
-            }
-            positions.Add(new Vector2(xPos, yPos));
-            positions.Add(new Vector2(xPos2, yPos2));
-
-            // Generate intermediate points in a bounding box
-            int numIntermediatePoints = numberToSpawn - 2;
-            for (int i = 0; i < numIntermediatePoints; i++)
-            {
-                positions.Add(new Vector2(Random.Range(xPos, xPos2), Random.Range(yPos, yPos2)));
-            }
-
-
-        }
-
-        // Create all targets
-        Debug.Log("Spawning " + numberToSpawn + " targets");
-        foreach (Vector3 pos in positions)
-        {
-            Debug.Log("Pos: " + pos); 
-            CreateTarget(targetWidth, targetHeight, pos);
+            float ratio = Mathf.Abs((camera.ScreenToWorldPoint(new Vector2(0, 0)) - camera.ScreenToWorldPoint(new Vector2(1, 0))).x);
+            float randomXOffset = Random.Range(spawnRect.rect.xMin, spawnRect.rect.xMax) * ratio; // This is in screen space, need to convert to global space
+            float randomYOffset = Random.Range(spawnRect.rect.yMin, spawnRect.rect.yMax) * ratio;
+            Vector3 randomGlobalPos = new Vector3(randomXOffset, randomYOffset) + spawnRect.transform.position;
+            CreateTarget(targetWidth, targetHeight, randomGlobalPos);
         }
     }
 
-    virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 pos)
+    virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 localPos)
     {
-        Target target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity, targetParent.transform);
-        target.GetComponent<RectTransform>().anchoredPosition = pos;
+        Target target = Instantiate(targetPrefab, localPos, Quaternion.identity, targetParent.transform);
+        Debug.Log(localPos);
         target.SetSize(targetWidth, targetHeight);
 
         if (randomSize)

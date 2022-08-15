@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: a4030689992d6f84d9052633601be509, type: 3}
+  - {fileID: 8300000, guid: 2934b3c1b24bef949a9662429db6b2c0, type: 3}
   isActive: 0
   isLastTarget: 0
   isFirstTarget: 0

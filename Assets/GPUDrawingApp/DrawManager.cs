@@ -34,15 +34,16 @@ public class DrawManager : MonoBehaviour
     protected float targetResetTimer;
 
     // Game 
-    [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2;
+    [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2, DEBUG_BOX3;
     [SerializeField] private GameObject DEBUG_LABEL;
     [SerializeField] protected GameObject comboPrefab;
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected GameObject winLabel;
+    [SerializeField] protected GameObject spawnBox;
     [SerializeField] protected GameObject targets;
     [SerializeField] private Texture2D cursorTexture;
     private RenderTexture canvasRenderTexture;
-    new protected Camera camera;
+    [SerializeField] protected Camera camera;
 
     // Score 
     [SerializeField] protected GameObject gameTimerLabel;
@@ -59,6 +60,7 @@ public class DrawManager : MonoBehaviour
 
     protected void Start()
     {
+        //camera = GetComponent<Camera>();
         // Render texture is used for line drawing
         canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 24)
         {
@@ -76,7 +78,6 @@ public class DrawManager : MonoBehaviour
         targetResetTimer = targetResetIntervalSeconds;
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
-        camera = GetComponent<Camera>();
 
         source = GetComponent<AudioSource>();
     }
@@ -96,6 +97,35 @@ public class DrawManager : MonoBehaviour
             1);
     }
 
+    private static Rect GetScreenPositionFromRect(RectTransform rt, Camera camera)
+    {
+        // getting the world corners
+        var corners = new Vector3[4];
+        rt.GetWorldCorners(corners);
+
+        // getting the screen corners
+        for (var i = 0; i < corners.Length; i++) {
+            //Debug.Log(corners[i]);
+            corners[i] = camera.WorldToScreenPoint(corners[i]);
+            //Debug.Log(corners[i]);
+                }
+        // getting the top left position of the transform
+        var position = (Vector2)corners[1];
+        // inverting the y axis values, making the top left corner = 0.
+        position.y = Screen.height - position.y;
+        // calculate the size, width and height, in pixel format
+        var size = corners[2] - corners[0];
+
+        return new Rect(position, size);
+    }
+
+    void CopyRectTransformSize(RectTransform copyFrom, RectTransform copyTo)
+    {
+        copyTo.anchorMin = copyFrom.anchorMin;
+        copyTo.anchorMax = copyFrom.anchorMax;
+        copyTo.anchoredPosition = copyFrom.anchoredPosition;
+        copyTo.sizeDelta = copyFrom.sizeDelta;
+    }
     protected virtual void ResetBoard(bool isWin)
     {
         ClearBrushMarks();
@@ -104,7 +134,10 @@ public class DrawManager : MonoBehaviour
         targetSpawner.ClearAll(playSound: isWin);
 
         int rInt = Random.Range(minTargets, maxTargets + 1);
-        targetSpawner.Spawn(rInt, Screen.width / 2.0f, Screen.height / 2.0f - 100, 350, 250, targetWidth, targetHeight, 20, 140, camera);
+        //Rect spawnRect = GetScreenPositionFromRect(spawnBox.GetComponent<RectTransform>(), camera);
+
+        //CopyRectTransformSize(spawnBox.GetComponent<RectTransform>(), DEBUG_BOX3.GetComponent<RectTransform>());
+        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, 20, 140, camera);
     }
 
 

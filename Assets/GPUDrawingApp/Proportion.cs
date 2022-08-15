@@ -6,7 +6,6 @@ public class Proportion : DrawManager
 {
     [SerializeField] private GameObject particles;
     [SerializeField] private GameObject percentLabel;
-    [SerializeField] private Camera particlesCamera;
 
     [Range (0.0f, 0.5f)]
     [SerializeField] private float percentageTarget = 0;
@@ -17,8 +16,6 @@ public class Proportion : DrawManager
     {
         percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
         lineTargetSpawner.percentageTarget = percentageTarget;
-        if (!particlesCamera) particlesCamera = GetComponent<Camera>();
-
         base.Start();
     }
     override protected void ResetBoard(bool isWin)
@@ -27,7 +24,7 @@ public class Proportion : DrawManager
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
-        lineTargetSpawner.Spawn(maxTargets, Screen.width / 2 - 150, Screen.height / 2 - 100, 350, 100, targetWidth, targetHeight, 20, 140, camera);
+        targetSpawner.Spawn(1, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, 20, 140, camera);
     }
 
     new void Update()
@@ -61,7 +58,7 @@ public class Proportion : DrawManager
 
             if (particles)
             {
-                particles.GetComponent<RectTransform>().position = strokeEndPos;
+                particles.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 particles.GetComponent<ParticleSystem>().Play();
             }
 

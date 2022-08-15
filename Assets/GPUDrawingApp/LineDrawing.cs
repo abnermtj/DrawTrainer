@@ -108,6 +108,7 @@ public class LineDrawing : DrawManager
 
             if (particles)
             {
+                // TODO Remove GetCompeont Rect transofrms or transforms using get compoennt. The game object already has reference to it 
                 particles.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 particles.GetComponent<ParticleSystem>().Play();
             }
