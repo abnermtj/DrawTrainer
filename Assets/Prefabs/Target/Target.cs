@@ -3,20 +3,20 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, IPointerExitHandler
+public class Target : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
     public AudioClip[] sounds;
     public bool isActive = false;
     public bool isLastTarget = false;
     public bool isFirstTarget = false;
     private AudioSource source;
 
-    [SerializeField] public Color activeColor = Color.green;
-    [SerializeField] public Color inActiveColor = Color.white;
+    public Color activeColor = Color.green;
+    public Color inActiveColor = Color.white;
 
     [Range(0.1f, 0.5f)]
     public float volumeChangeMultiplier = 0.2f;
+
     [Range(0.1f, 0.5f)]
     public float pitchChangeMultiplier = 0.2f;
 
@@ -24,11 +24,10 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     protected void Start()
     {
         source = GetComponent<AudioSource>();
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isActive)
         {
@@ -44,6 +43,7 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     {
         isActive = true;
     }
+
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (isFirstTarget)
@@ -64,8 +64,8 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
         {
             isActive = false;
         }
-
     }
+
     // Sets size of target to a width x width bounding box
     public void SetSize(float width, float height)
     {
@@ -76,9 +76,10 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
     {
         GetComponent<RectTransform>().sizeDelta = new Vector2(Random.Range(minLen, maxLen), Random.Range(minLen, maxLen));
     }
+
     public void SetRandomRotation()
     {
-        GetComponent<RectTransform>().rotation = new Quaternion(0, 0, Random.Range(0, 90), Random.Range(0, 90));
+        transform.rotation = new Quaternion(0, 0, Random.Range(0, 90), Random.Range(0, 90));
     }
 
     public void Remove(bool playSound)
@@ -89,7 +90,7 @@ public class Target : MonoBehaviour , IPointerDownHandler,IPointerEnterHandler, 
             source.volume = Random.Range(1 - volumeChangeMultiplier, 1);
             source.pitch = Random.Range(1, 1 + pitchChangeMultiplier);
             source.PlayOneShot(source.clip);
-            GetComponent<RectTransform>().position += new Vector3(1000000, 199000); // No other nice way to hide the 
+            transform.position += new Vector3(1000000, 199000); // No other nice way to hide the
             Destroy(gameObject, 1);
         }
         else

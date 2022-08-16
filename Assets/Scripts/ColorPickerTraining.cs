@@ -6,26 +6,25 @@ using UnityEngine.UI;
 
 public class ColorPickerTraining : MonoBehaviour
 {
-
     public GameObject goalColorObj;
-	public GameObject curColorObj;
-	public ColorPicker picker;
-	public bool IsGrayScaleGeneration = false; 
-	public bool isGrayScaleMatching = false;
+    public GameObject curColorObj;
+    public ColorPicker picker;
+    public bool IsGrayScaleGeneration = false;
+    public bool isGrayScaleMatching = false;
 
-	[SerializeField] GameObject gameTimerLabel;
-	[SerializeField] GameObject hitScoreLabel;
-	[SerializeField] GameObject missScoreLabel;
-	[SerializeField] float targetResetIntervalSeconds = 5;
-	[SerializeField] float colorTolerence = 0.05f;
+    [SerializeField] private GameObject gameTimerLabel;
+    [SerializeField] private GameObject hitScoreLabel;
+    [SerializeField] private GameObject missScoreLabel;
+    [SerializeField] private float targetResetIntervalSeconds = 5;
+    [SerializeField] private float colorTolerence = 0.05f;
 
     private int _missScore = 0;
     private int _hitScore = 0;
-	private float _gameTimer;
+    private float _gameTimer;
 
-	Color curColor;
+    private Color curColor;
 
-    Color generateNextColor()
+    private Color generateNextColor()
     {
         if (IsGrayScaleGeneration)
         {
@@ -41,18 +40,19 @@ public class ColorPickerTraining : MonoBehaviour
               );
         }
     }
-    void Start()
-	{
+
+    private void Start()
+    {
         goalColorObj.GetComponent<Image>().color = generateNextColor();
 
-        picker.onValueChanged.AddListener((UnityEngine.Events.UnityAction<Color>)(color =>
+        picker.onValueChanged.AddListener(color =>
         {
             this.curColorObj.GetComponent<Image>().color = color;
             this.curColor = color;
-        }));
+        });
     }
 
-    bool AreColorsSimilar(Color c1, Color c2, float tolerance)
+    private bool AreColorsSimilar(Color c1, Color c2, float tolerance)
     {
         if (isGrayScaleMatching)
         {
@@ -113,11 +113,9 @@ public class ColorPickerTraining : MonoBehaviour
         rgb[1] = rgb[1] * 100.0f;
         rgb[2] = rgb[2] * 100.0f;
 
-
         xyz[0] = ((rgb[0] * .412453f) + (rgb[1] * .357580f) + (rgb[2] * .180423f));
         xyz[1] = ((rgb[0] * .212671f) + (rgb[1] * .715160f) + (rgb[2] * .072169f));
         xyz[2] = ((rgb[0] * .019334f) + (rgb[1] * .119193f) + (rgb[2] * .950227f));
-
 
         xyz[0] = xyz[0] / 95.047f;
         xyz[1] = xyz[1] / 100.0f;
@@ -157,9 +155,8 @@ public class ColorPickerTraining : MonoBehaviour
         return new Vector4(lab[0], lab[1], lab[2], color[3]);
     }
 
-    void Update()
+    private void Update()
     {
-
         _gameTimer -= Time.deltaTime;
         gameTimerLabel.GetComponent<Text>().text = ((int)_gameTimer).ToString();
 
@@ -173,8 +170,7 @@ public class ColorPickerTraining : MonoBehaviour
             _gameTimer = targetResetIntervalSeconds;
         }
 
-
-        // Win condition 
+        // Win condition
         Pointer pointer = Pointer.current;
         bool _penPressed = pointer.press.ReadValue() != 0 ? true : false;
         if (!_penPressed && AreColorsSimilar(curColor, goalColorObj.GetComponent<Image>().color, colorTolerence))
@@ -186,8 +182,5 @@ public class ColorPickerTraining : MonoBehaviour
 
             _gameTimer = targetResetIntervalSeconds;
         }
-
     }
 }
-
-

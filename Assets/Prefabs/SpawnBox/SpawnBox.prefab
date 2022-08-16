@@ -151,7 +151,7 @@ MonoBehaviour:
   Type: 5
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601419790575448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ MonoBehaviour:
   Type: 0
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601419910637895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +450,7 @@ MonoBehaviour:
   Type: 2
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601420172855247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   Type: 7
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601420658949977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,7 +767,7 @@ MonoBehaviour:
   Type: 3
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601421014613107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   Type: 4
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601421033584523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   Type: 6
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601421491977615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   Type: 1
   Target: {fileID: 1163601419912667010}
   MinimumDimmensions: {x: 150, y: 100}
-  MaximumDimmensions: {x: 400, y: 200}
+  MaximumDimmensions: {x: 9999, y: 9999}
 --- !u!114 &1163601421705949696
 MonoBehaviour:
   m_ObjectHideFlags: 0

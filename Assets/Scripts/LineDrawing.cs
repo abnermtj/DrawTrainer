@@ -13,7 +13,7 @@ public class LineDrawing : DrawManager
 
     private List<Vector2> strokePoints = new List<Vector2>();
 
-    new void Start()
+    private new void Start()
     {
         base.Start();
         if (!particlesCamera) particlesCamera = GetComponent<Camera>();
@@ -28,7 +28,6 @@ public class LineDrawing : DrawManager
         out double yIntercept,
         out double slope)
     {
-
         var count = vals.Count;
         double sumOfX = 0;
         double sumOfY = 0;
@@ -63,7 +62,7 @@ public class LineDrawing : DrawManager
     }
 
     // Measures the straightness of a line from 0 to 1. With 1 being the most straight.
-    float MeasureStraightness(List<Vector2> points)
+    private float MeasureStraightness(List<Vector2> points)
     {
         double rSquared, intercept, slope;
         LinearRegression(points, out rSquared, out intercept, out slope);
@@ -74,7 +73,7 @@ public class LineDrawing : DrawManager
         return (float)rSquared;
     }
 
-    new void Update()
+    private new void Update()
     {
         base.Update();
 
@@ -87,9 +86,8 @@ public class LineDrawing : DrawManager
             missScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
 
-
         if (penPressed || mousePressed)
-        { 
+        {
             strokePoints.Add(penPosition);
         }
 
@@ -105,10 +103,9 @@ public class LineDrawing : DrawManager
         {
             if (isStrikeThrough)
             {
-
                 strokeEndPos = penPosition;
             }
-                    
+
             ResetBoard(isWin: true);
 
             hitScore++;
@@ -116,7 +113,7 @@ public class LineDrawing : DrawManager
 
             if (particles)
             {
-                // TODO Remove GetCompeont Rect transofrms or transforms using get compoennt. The game object already has reference to it 
+                // TODO Remove GetCompeont Rect transofrms or transforms using get compoennt. The game object already has reference to it
                 particles.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 particles.GetComponent<ParticleSystem>().Play();
             }
@@ -130,11 +127,9 @@ public class LineDrawing : DrawManager
                 DamageText.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
                 DamageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(comboScore.ToString());
 
-
-
                 source.clip = comboSounds[UnityEngine.Random.Range(0, comboSounds.Length)];
                 source.volume = 0.1f + 0.05f * Mathf.Min(comboScore, 6);
-                source.pitch = 2 + 0.2f * Mathf.Min (comboScore, 6);
+                source.pitch = 2 + 0.2f * Mathf.Min(comboScore, 6);
                 source.PlayOneShot(source.clip);
             }
 

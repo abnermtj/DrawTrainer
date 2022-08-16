@@ -12,6 +12,7 @@ public class TargetSpawner : MonoBehaviour
 
     [HideInInspector]
     public bool isAllTargetsActive;
+
     [HideInInspector]
     public bool isFirstOrLastTarget = true;
 
@@ -21,8 +22,7 @@ public class TargetSpawner : MonoBehaviour
     // Spawns a set of targets within a bounding box
     // Spawn Rect = [topleft pos, size] in local space when middle is 0,0
     // 0,0 is top left, right and up is positive
-    // TODO remove camera if not used
-    public void Spawn(int numberToSpawn, RectTransform spawnRect, float targetWidth, float targetHeight, float minDist, float maxDist, Camera camera)
+    public void Spawn(int numberToSpawn, RectTransform spawnRect, float targetWidth, float targetHeight, Camera camera)
     {
         numTargets = numberToSpawn;
         Debug.Log("Spawning " + numberToSpawn + " targets inside " + spawnRect.rect);
@@ -36,7 +36,7 @@ public class TargetSpawner : MonoBehaviour
         }
     }
 
-    virtual protected void CreateTarget(float targetWidth, float targetHeight, Vector3 localPos)
+    protected virtual void CreateTarget(float targetWidth, float targetHeight, Vector3 localPos)
     {
         Target target = Instantiate(targetPrefab, localPos, Quaternion.identity, targetParent.transform);
         Debug.Log(localPos);
@@ -66,6 +66,7 @@ public class TargetSpawner : MonoBehaviour
 
         objects.Clear();
     }
+
     public void ResetTargets()
     {
         foreach (Target obj in objects)
@@ -76,7 +77,8 @@ public class TargetSpawner : MonoBehaviour
             }
         }
     }
-    private int getNumActiveTargets()
+
+    private int GetNumActiveTargets()
     {
         int count = 0;
         foreach (Target obj in objects)
@@ -88,9 +90,10 @@ public class TargetSpawner : MonoBehaviour
         }
         return count;
     }
+
     private void Update()
     {
-        int numActiveTargets = getNumActiveTargets();
+        int numActiveTargets = GetNumActiveTargets();
 
         isAllTargetsActive = (numActiveTargets == numTargets);
 
@@ -100,7 +103,7 @@ public class TargetSpawner : MonoBehaviour
             {
                 obj.isFirstTarget = true;
             }
-            else if (numActiveTargets > 0 && numActiveTargets < (numTargets - 1))
+            else if (0 < numActiveTargets && numActiveTargets < (numTargets - 1))
             {
                 if (!obj.isActive)
                 {
@@ -115,7 +118,6 @@ public class TargetSpawner : MonoBehaviour
                     obj.isFirstTarget = false;
                     obj.isLastTarget = true;
                 }
-
             }
         }
     }

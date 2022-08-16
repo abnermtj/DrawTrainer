@@ -26,9 +26,6 @@ public class FlexibleResizeHandler :  MonoBehaviour, IDragHandler, IPointerUpHan
     private float horiztonalInset = 0;
     private float verticalInset = 0;
 
-    void Start()
-    {
-    }
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
@@ -38,9 +35,6 @@ public class FlexibleResizeHandler :  MonoBehaviour, IDragHandler, IPointerUpHan
         // Need this defined for OnPointerUp to work
     }
 
-    public void Update()
-    {
-    }
     public void OnDrag(PointerEventData data)
     {
 

@@ -34,10 +34,9 @@ namespace HSVPicker
 
         private void UpdateColor(string newHex)
         {
-            Color color;
             if (!newHex.StartsWith("#"))
-                newHex = "#"+newHex;
-            if (ColorUtility.TryParseHtmlString(newHex, out color))
+                newHex = "#" + newHex;
+            if (ColorUtility.TryParseHtmlString(newHex, out Color color))
                 hsvpicker.CurrentColor = color;
             else
                 Debug.Log("hex value is in the wrong format, valid formats are: #RGB, #RGBA, #RRGGBB and #RRGGBBAA (# is optional)");

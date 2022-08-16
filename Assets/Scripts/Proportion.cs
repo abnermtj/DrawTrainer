@@ -7,27 +7,29 @@ public class Proportion : DrawManager
     [SerializeField] private GameObject particles;
     [SerializeField] private GameObject percentLabel;
 
-    [Range (0.0f, 0.5f)]
+    [Range(0.0f, 0.5f)]
     [SerializeField] private float percentageTarget = 0;
+
     [SerializeField] private float missResetTime = 0.4f;
     [SerializeField] protected LineTargetSpawner lineTargetSpawner;
 
-    new void Start()
+    private new void Start()
     {
         percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
         lineTargetSpawner.percentageTarget = percentageTarget;
         base.Start();
     }
-    override protected void ResetBoard(bool isWin)
+
+    protected override void ResetBoard(bool isWin)
     {
         ClearBrushMarks();
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
-        targetSpawner.Spawn(1, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, 20, 140, camera);
+        targetSpawner.Spawn(1, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, camera);
     }
 
-    new void Update()
+    private new void Update()
     {
         base.Update();
 

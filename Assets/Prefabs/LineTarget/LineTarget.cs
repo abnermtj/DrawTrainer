@@ -8,10 +8,11 @@ public class LineTarget : Target
     [SerializeField] private Target target;
     [SerializeField] private Target target2;
     [SerializeField] private Sprite visibleImage;
-    [Range (0.0f, 0.5f)]
+
+    [Range(0.0f, 0.5f)]
     public float percentageTarget = 0;
 
-    new void Start()
+    private new void Start()
     {
         base.Start();
     }
@@ -20,6 +21,7 @@ public class LineTarget : Target
     {
         // Do nothing
     }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
         // Do nothing
@@ -27,7 +29,8 @@ public class LineTarget : Target
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (Pen.current.press.ReadValue() == 0) {
+        if (Pen.current.press.ReadValue() == 0)
+        {
             return;
         }
 
@@ -40,10 +43,9 @@ public class LineTarget : Target
     public void Update()
     {
         float width = GetComponent<RectTransform>().rect.width;
-        float actualPercent = .5f - percentageTarget; // inverts the percentage 
-        target.transform.localPosition = new Vector3 (width * actualPercent , target.transform.localPosition.y);
-        target2.transform.localPosition = new Vector3 (-width * actualPercent, target.transform.localPosition.y);
-
+        float actualPercent = .5f - percentageTarget; // inverts the percentage
+        target.transform.localPosition = new Vector3(width * actualPercent, target.transform.localPosition.y);
+        target2.transform.localPosition = new Vector3(-width * actualPercent, target.transform.localPosition.y);
 
         if (target.isActive || target2.isActive)
         {

@@ -7,8 +7,9 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private ComputeShader drawComputeShader;
     [SerializeField] private Color backgroundColour;
 
-    // Brush 
+    // Brush
     [SerializeField] private BrushSizeSlider brushSizeSlider;
+
     [SerializeField] private Color brushColour;
     [SerializeField] private float brushSize = 0.5f;
     [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
@@ -23,8 +24,9 @@ public class DrawManager : MonoBehaviour
     protected Vector4 penPosition;
     private Vector4 prevPenPosition;
 
-    // Target 
+    // Target
     [SerializeField] protected TargetSpawner targetSpawner;
+
     [SerializeField] protected float targetResetIntervalSeconds = 1;
     [SerializeField] protected int minTargets = 2;
     [SerializeField] protected int maxTargets = 2;
@@ -33,8 +35,9 @@ public class DrawManager : MonoBehaviour
 
     protected float targetResetTimer;
 
-    // Game 
+    // Game
     [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2, DEBUG_BOX3;
+
     [SerializeField] private GameObject DEBUG_LABEL;
     [SerializeField] protected GameObject comboPrefab;
     [SerializeField] protected GameObject canvas;
@@ -45,8 +48,9 @@ public class DrawManager : MonoBehaviour
     private RenderTexture canvasRenderTexture;
     [SerializeField] protected Camera camera;
 
-    // Score 
+    // Score
     [SerializeField] protected GameObject gameTimerLabel;
+
     [SerializeField] protected GameObject hitScoreLabel;
     [SerializeField] protected GameObject missScoreLabel;
     [SerializeField] protected float gameTimer = 500;
@@ -54,13 +58,11 @@ public class DrawManager : MonoBehaviour
     protected int comboScore = 0;
     protected int hitScore = 0;
 
-
     protected AudioSource source;
     public AudioClip[] comboSounds;
 
     protected void Start()
     {
-        //camera = GetComponent<Camera>();
         // Render texture is used for line drawing
         canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 24)
         {
@@ -77,7 +79,6 @@ public class DrawManager : MonoBehaviour
         prevPenPosition = Pen.current.position.ReadValue();
         targetResetTimer = targetResetIntervalSeconds;
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
-
 
         source = GetComponent<AudioSource>();
     }
@@ -97,35 +98,6 @@ public class DrawManager : MonoBehaviour
             1);
     }
 
-    private static Rect GetScreenPositionFromRect(RectTransform rt, Camera camera)
-    {
-        // getting the world corners
-        var corners = new Vector3[4];
-        rt.GetWorldCorners(corners);
-
-        // getting the screen corners
-        for (var i = 0; i < corners.Length; i++) {
-            //Debug.Log(corners[i]);
-            corners[i] = camera.WorldToScreenPoint(corners[i]);
-            //Debug.Log(corners[i]);
-                }
-        // getting the top left position of the transform
-        var position = (Vector2)corners[1];
-        // inverting the y axis values, making the top left corner = 0.
-        position.y = Screen.height - position.y;
-        // calculate the size, width and height, in pixel format
-        var size = corners[2] - corners[0];
-
-        return new Rect(position, size);
-    }
-
-    void CopyRectTransformSize(RectTransform copyFrom, RectTransform copyTo)
-    {
-        copyTo.anchorMin = copyFrom.anchorMin;
-        copyTo.anchorMax = copyFrom.anchorMax;
-        copyTo.anchoredPosition = copyFrom.anchoredPosition;
-        copyTo.sizeDelta = copyFrom.sizeDelta;
-    }
     protected virtual void ResetBoard(bool isWin)
     {
         ClearBrushMarks();
@@ -134,12 +106,8 @@ public class DrawManager : MonoBehaviour
         targetSpawner.ClearAll(playSound: isWin);
 
         int rInt = Random.Range(minTargets, maxTargets + 1);
-        //Rect spawnRect = GetScreenPositionFromRect(spawnBox.GetComponent<RectTransform>(), camera);
-
-        //CopyRectTransformSize(spawnBox.GetComponent<RectTransform>(), DEBUG_BOX3.GetComponent<RectTransform>());
-        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, 20, 140, camera);
+        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, camera);
     }
-
 
     private void UpdateBrush()
     {
@@ -192,11 +160,13 @@ public class DrawManager : MonoBehaviour
             strokeEndPos = penPosition;
         }
     }
+
     private void UpdateTimers()
     {
         gameTimer -= Time.deltaTime;
         targetResetTimer -= Time.deltaTime;
     }
+
     private void UpdateCommonLabels()
     {
         gameTimerLabel.GetComponent<Text>().text = ((int)gameTimer).ToString();
@@ -232,8 +202,6 @@ public class DrawManager : MonoBehaviour
             targetSpawner.ResetTargets();
         }
     }
-
-
 
     // Draws pixels into the current pen pos
     private void MarkCurPenPos()
