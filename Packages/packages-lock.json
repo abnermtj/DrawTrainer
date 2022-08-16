@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.enders.abrimporter": {
+      "version": "https://github.com/EndersWilliam/Unity-ABR-Importer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5c1ab322840faafd8594e9b0c7e116500abf5b8b"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
