@@ -38,14 +38,19 @@ public class DrawManager : MonoBehaviour
     // Game
     [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2, DEBUG_BOX3;
 
+    [SerializeField] private RenderTexture DEBUG4;
+
     [SerializeField] private GameObject DEBUG_LABEL;
+
+    [SerializeField] private GameObject brushLayer; // TODO this currently uses a render texture that is 4k x 4k which is not necessary for lower end systems. Find a way to adapt render texture to the user.
+    [SerializeField] private GameObject bgLayer;
     [SerializeField] protected GameObject comboPrefab;
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected GameObject winLabel;
     [SerializeField] protected GameObject spawnBox;
     [SerializeField] protected GameObject targets;
     [SerializeField] private Texture2D cursorTexture;
-    private RenderTexture canvasRenderTexture;
+    public RenderTexture canvasRenderTexture;
     [SerializeField] protected Camera camera;
 
     // Score
@@ -64,11 +69,10 @@ public class DrawManager : MonoBehaviour
     protected void Start()
     {
         // Render texture is used for line drawing
-        canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 24)
+        canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
         {
             filterMode = FilterMode.Point,
             enableRandomWrite = true,
-            graphicsFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UNorm
         };
         canvasRenderTexture.Create();
 
@@ -81,6 +85,17 @@ public class DrawManager : MonoBehaviour
         Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware); // This centers a custom cursor on the mouse
 
         source = GetComponent<AudioSource>();
+
+        bgLayer.GetComponent<Image>().color = backgroundColour;
+        InitBrushLayer();
+    }
+
+    private void InitBrushLayer()
+    {
+        RectTransform rt = brushLayer.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
     }
 
     protected void ClearBrushMarks()
@@ -180,6 +195,7 @@ public class DrawManager : MonoBehaviour
         UpdateTimers();
         UpdateCommonLabels();
 
+        Graphics.Blit(canvasRenderTexture, DEBUG4);
         // DEBUG
         if (DEBUG_BOX && DEBUG_BOX2)
         {
@@ -216,6 +232,11 @@ public class DrawManager : MonoBehaviour
         drawComputeShader.SetTexture(updateKernel, "_Canvas", canvasRenderTexture);
         drawComputeShader.SetFloat("_CanvasWidth", canvasRenderTexture.width);
         drawComputeShader.SetFloat("_CanvasHeight", canvasRenderTexture.height);
+
+        //// DEBUG
+        //Debug.Log(brushColour);
+        //ComputeShader.GetData();
+        //ComputeBuffer buffer = new ComputeBuffer(12, 16);
 
         drawComputeShader.GetKernelThreadGroupSizes(updateKernel,
             out uint xGroupSize, out uint yGroupSize, out _);

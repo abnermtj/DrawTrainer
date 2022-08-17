@@ -152,12 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab95a4bfa0855a4f9f6a6e3a97f2d60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 2100000, guid: c4251ebb27a9a034ab88b37147802181, type: 2}
-  fillTime: 5
-  decreaseTime: 2.5
-  countDowntext: {fileID: 161187491}
-  defaultTextColor: {r: 0.75686276, g: 1, b: 0.81960785, a: 1}
-  highlightColor: {r: 0.38235295, g: 1, b: 0.5417457, a: 1}
 --- !u!224 &22764034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -306,7 +300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 41299886789353117, guid: 09ee9e6d155930e488b567a4fe84c016, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 41299886789353117, guid: 09ee9e6d155930e488b567a4fe84c016, type: 3}
       propertyPath: m_AnchorMax.x
@@ -641,7 +635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1244,7 +1238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490980220040038049, guid: b5678f7c05688584aad6a430b515ac7c, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3490980220040038049, guid: b5678f7c05688584aad6a430b515ac7c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1542,6 +1536,7 @@ MonoBehaviour:
   DEBUG_BOX: {fileID: 1253196400}
   DEBUG_BOX2: {fileID: 1253196399}
   DEBUG_BOX3: {fileID: 0}
+  DEBUG4: {fileID: 0}
   DEBUG_LABEL: {fileID: 1253196401}
   comboPrefab: {fileID: 1843040242307004451, guid: da82e9804a9737e4685fc8bafcb0dd22, type: 3}
   canvas: {fileID: 1885774803}
@@ -1549,6 +1544,7 @@ MonoBehaviour:
   spawnBox: {fileID: 1085648819}
   targets: {fileID: 48981412}
   cursorTexture: {fileID: 2800000, guid: ced28540ef8305f4f9e6b865b076d891, type: 3}
+  canvasRenderTexture: {fileID: 0}
   camera: {fileID: 292287988}
   gameTimerLabel: {fileID: 1683141530}
   hitScoreLabel: {fileID: 1683141529}
@@ -1741,7 +1737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7158881573497961294, guid: fdae36cbc0482274c9fc92c71cd88093, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7158881573497961294, guid: fdae36cbc0482274c9fc92c71cd88093, type: 3}
       propertyPath: m_AnchorMax.x
