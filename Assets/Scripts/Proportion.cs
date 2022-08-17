@@ -35,8 +35,8 @@ public class Proportion : DrawManager
 
         if (pointerJustReleased)
         {
-            targetResetTimer = missResetTime;
-            lineTargetSpawner.ResetTargets();
+            //targetResetTimer = missResetTime;
+            //lineTargetSpawner.ResetTargets();
         }
 
         lineTargetSpawner.percentageTarget = percentageTarget;

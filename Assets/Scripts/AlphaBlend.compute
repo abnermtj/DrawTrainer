@@ -1,7 +1,7 @@
 #pragma kernel Update
 
-RWTexture2D<float4> _CanvasBg;
 RWTexture2D<float4> _CanvasBrush;
+RWTexture2D<float4> _CanvasBg;
 RWTexture2D<float4> _CanvasOut;
 float _CanvasBrushAlpha;
 float _CanvasWidth;
@@ -13,14 +13,8 @@ void Update(uint3 id : SV_DispatchThreadID)
 	if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
 		return;
 
-	// Older formula
-	//float4 finalColor;
-	//finalColor.r = lerp(_CanvasBg[id.xy].r, _CanvasBrush[id.xy].r, _CanvasBrushAlpha);
-	//finalColor.g = lerp(_CanvasBg[id.xy].g, _CanvasBrush[id.xy].g, _CanvasBrushAlpha);
-	//finalColor.b = lerp(_CanvasBg[id.xy].b, _CanvasBrush[id.xy].b, _CanvasBrushAlpha);
-	//finalColor.w = _CanvasBg[id.xy].w + _CanvasBrushAlpha;
-	//_CanvasOut[id.xy] = finalColor;
-
-	_CanvasOut[id.xy] = _CanvasBrush[id.xy] * _CanvasBrushAlpha + _CanvasBg[id.xy] * (1.0f - _CanvasBrushAlpha);
-
+	float4 finalColor;
+	finalColor.w = _CanvasBrush[id.xy].w + (_CanvasBg[id.xy].w * (1 - _CanvasBrush[id.xy].w));
+	finalColor.xyz = (_CanvasBrush[id.xy] * _CanvasBrush[id.xy].w + _CanvasBg[id.xy] * (1.0f - _CanvasBrush[id.xy].w) * _CanvasBg[id.xy].w) / finalColor.w;
+	_CanvasOut[id.xy] = finalColor;
 }
