@@ -67,6 +67,7 @@ public class DrawManager : MonoBehaviour
     public RenderTexture _finalBrushRenderTexture;
     [SerializeField] private RenderTexture finalBrushRenderTexture;
     public RenderTexture _tempFinalBrushRenderTexture;
+    public RenderTexture _temp2FinalBrushRenderTexture;
     [SerializeField] private RenderTexture tempFinalBrushRenderTexture;
     public RenderTexture curBrushRenderTexture;
 
@@ -124,6 +125,12 @@ public class DrawManager : MonoBehaviour
             enableRandomWrite = true,
         };
         _tempFinalBrushRenderTexture.Create();
+        _temp2FinalBrushRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
+        {
+            filterMode = FilterMode.Point,
+            enableRandomWrite = true,
+        };
+        _temp2FinalBrushRenderTexture.Create();
 
         ResetBoard(isWin: true);
 
@@ -167,6 +174,7 @@ public class DrawManager : MonoBehaviour
             MarkCurPenPos();
 
             // REMEMBER procdecurally generate textures do not support alpha, need to find another way to clear
+            // Note there that curBrushRender will be recreated if it  being released
             Graphics.Blit(curBrushRenderTexture, tempFinalBrushRenderTexture); // This supports alpha as destination is a premade tex
         }
 
@@ -178,12 +186,13 @@ public class DrawManager : MonoBehaviour
 
             Graphics.Blit(tempFinalBrushRenderTexture, _tempFinalBrushRenderTexture);
             Graphics.Blit(finalBrushRenderTexture, _finalBrushRenderTexture);
+            Graphics.Blit(finalBrushRenderTexture, _temp2FinalBrushRenderTexture);
 
-            AlphaBlendNewBrushLayer(_tempFinalBrushRenderTexture, _finalBrushRenderTexture);
+            AlphaBlendNewBrushLayer(_tempFinalBrushRenderTexture, _temp2FinalBrushRenderTexture, _finalBrushRenderTexture); // TODO this doesn't seem to work as intended, it is not combinign, but instead a glorified blitz. which causes data loss of previous textures
 
             Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
             Graphics.Blit(_finalBrushRenderTexture, finalBrushRenderTexture);
-            curBrushRenderTexture.Release();
+            curBrushRenderTexture.Release(); // This is causing deletion in next cycle
             tempFinalBrushRenderTexture.Release();
             _tempFinalBrushRenderTexture.Release();
             _finalBrushRenderTexture.Release();
@@ -191,15 +200,14 @@ public class DrawManager : MonoBehaviour
     }
 
     // dest +=  source using alpha render
-    private void AlphaBlendNewBrushLayer(RenderTexture source, RenderTexture dest)
+    private void AlphaBlendNewBrushLayer(RenderTexture bg, RenderTexture brush, RenderTexture dest)
     {
         int updateKernel = alphaBlendComputeShader.FindKernel("Update");
-        alphaBlendComputeShader.SetFloat("_CanvasBrushAlpha", brushColour.a);
-        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBg", dest);
-        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBrush", source);
+        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBg", bg);
+        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBrush", brush);
         alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasOut", dest);
-        alphaBlendComputeShader.SetFloat("_CanvasWidth", source.width);
-        alphaBlendComputeShader.SetFloat("_CanvasHeight", source.height);
+        alphaBlendComputeShader.SetFloat("_CanvasWidth", dest.width);
+        alphaBlendComputeShader.SetFloat("_CanvasHeight", dest.height);
         alphaBlendComputeShader.GetKernelThreadGroupSizes(updateKernel,
             out uint xGroupSize, out uint yGroupSize, out _);
         alphaBlendComputeShader.Dispatch(updateKernel,
