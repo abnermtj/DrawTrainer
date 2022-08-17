@@ -22,7 +22,7 @@ public class Proportion : DrawManager
 
     protected override void ResetBoard(bool isWin)
     {
-        ClearBrushMarks();
+        ClearBrushMarks(curBrushRenderTexture);
 
         targetResetTimer = targetResetIntervalSeconds;
         lineTargetSpawner.ClearAll(playSound: isWin);
@@ -33,7 +33,7 @@ public class Proportion : DrawManager
     {
         base.Update();
 
-        if (penJustReleased)
+        if (pointerJustReleased)
         {
             targetResetTimer = missResetTime;
             lineTargetSpawner.ResetTargets();
@@ -50,7 +50,7 @@ public class Proportion : DrawManager
             missScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
 
-        if (targetSpawner.isAllTargetsActive && penJustReleased)
+        if (targetSpawner.isAllTargetsActive && pointerJustReleased)
         {
             percentageTarget = UnityEngine.Random.Range(0.0f, 0.5f);
             lineTargetSpawner.percentageTarget = percentageTarget;

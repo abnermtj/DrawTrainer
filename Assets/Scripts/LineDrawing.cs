@@ -86,12 +86,12 @@ public class LineDrawing : DrawManager
             missScoreLabel.GetComponent<Text>().text = missScore.ToString();
         }
 
-        if (penPressed || mousePressed)
+        if (pointerPressed)
         {
             strokePoints.Add(penPosition);
         }
 
-        if (penJustReleased)
+        if (pointerJustReleased)
         {
             float straightness = MeasureStraightness(strokePoints);
             straightnessLabel.GetComponent<Text>().text = String.Format("{0:P2}", straightness);
@@ -99,7 +99,7 @@ public class LineDrawing : DrawManager
             strokePoints = new List<Vector2>();
         }
 
-        if ((targetSpawner.isAllTargetsActive && penJustReleased) || (targetSpawner.isAllTargetsActive && isStrikeThrough))
+        if ((targetSpawner.isAllTargetsActive && pointerJustReleased) || (targetSpawner.isAllTargetsActive && isStrikeThrough))
         {
             if (isStrikeThrough)
             {

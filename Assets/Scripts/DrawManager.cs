@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DrawManager : MonoBehaviour
 {
     [SerializeField] private ComputeShader drawComputeShader;
+    [SerializeField] private ComputeShader alphaBlendComputeShader;
+    [SerializeField] private ComputeShader alphaComputeShader;
     [SerializeField] private Color backgroundColour;
 
     // Brush
@@ -12,12 +15,13 @@ public class DrawManager : MonoBehaviour
 
     [SerializeField] private Color brushColour;
     [SerializeField] private float brushSize = 0.5f;
-    [SerializeField, Range(0.01f, 1)] private float strokePressIntervalSeconds = 0.1f;
+    [SerializeField, Range(0.001f, 1)] private float strokePressIntervalSeconds = 0.001f;
 
     protected bool penPressed;
-    protected bool penJustPressed;
-    protected bool penJustReleased;
     protected bool mousePressed;
+    protected bool pointerJustPressed;
+    protected bool pointerJustReleased;
+    protected bool pointerPressed;
     protected float brushSizePressure = 0;
     protected float interpolatedPenPressure;
     protected Vector2 strokeEndPos = Vector2.positiveInfinity;
@@ -38,19 +42,24 @@ public class DrawManager : MonoBehaviour
     // Game
     [SerializeField] private GameObject DEBUG_BOX, DEBUG_BOX2, DEBUG_BOX3;
 
-    [SerializeField] private RenderTexture DEBUG4;
+    [SerializeField] private RenderTexture finalBrushRenderTexture;
+    [SerializeField] private RenderTexture tempFinalBrushRenderTexture;
+    public RenderTexture curBrushRenderTexture;
+    public RenderTexture _finalBrushRenderTexture;
+    public RenderTexture _tempFinalBrushRenderTexture;
 
     [SerializeField] private GameObject DEBUG_LABEL;
 
-    [SerializeField] private GameObject brushLayer; // TODO this currently uses a render texture that is 4k x 4k which is not necessary for lower end systems. Find a way to adapt render texture to the user.
+    [SerializeField] private GameObject curBrushLayer; // TODO this currently uses a render texture that is 4k x 4k which is not necessary for lower end systems. Find a way to adapt render texture to the user.
+
     [SerializeField] private GameObject bgLayer;
+
     [SerializeField] protected GameObject comboPrefab;
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected GameObject winLabel;
     [SerializeField] protected GameObject spawnBox;
     [SerializeField] protected GameObject targets;
     [SerializeField] private Texture2D cursorTexture;
-    public RenderTexture canvasRenderTexture;
     [SerializeField] protected Camera camera;
 
     // Score
@@ -69,12 +78,27 @@ public class DrawManager : MonoBehaviour
     protected void Start()
     {
         // Render texture is used for line drawing
-        canvasRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
+        curBrushRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
         {
             filterMode = FilterMode.Point,
             enableRandomWrite = true,
         };
-        canvasRenderTexture.Create();
+        curBrushRenderTexture.Create();
+
+        // Place Holder textures
+        _finalBrushRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
+        {
+            filterMode = FilterMode.Point,
+            enableRandomWrite = true,
+        };
+        _finalBrushRenderTexture.Create();
+        _tempFinalBrushRenderTexture = new RenderTexture(Screen.width, Screen.height, 32)
+        {
+            filterMode = FilterMode.Point,
+            enableRandomWrite = true,
+        };
+        _tempFinalBrushRenderTexture.Create();
+
 
         ResetBoard(isWin: true);
 
@@ -92,30 +116,30 @@ public class DrawManager : MonoBehaviour
 
     private void InitBrushLayer()
     {
-        RectTransform rt = brushLayer.GetComponent<RectTransform>();
+        RectTransform rt = curBrushLayer.GetComponent<RectTransform>();
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;
     }
 
-    protected void ClearBrushMarks()
+    protected void ClearBrushMarks(RenderTexture targetTexture)
     {
         int initBackgroundKernel = drawComputeShader.FindKernel("InitBackground");
         drawComputeShader.SetVector("_BackgroundColour", backgroundColour);
-        drawComputeShader.SetTexture(initBackgroundKernel, "_Canvas", canvasRenderTexture);
-        drawComputeShader.SetFloat("_CanvasWidth", canvasRenderTexture.width);
-        drawComputeShader.SetFloat("_CanvasHeight", canvasRenderTexture.height);
+        drawComputeShader.SetTexture(initBackgroundKernel, "_Canvas", targetTexture);
+        drawComputeShader.SetFloat("_CanvasWidth", targetTexture.width);
+        drawComputeShader.SetFloat("_CanvasHeight", targetTexture.height);
         drawComputeShader.GetKernelThreadGroupSizes(initBackgroundKernel,
             out uint xGroupSize, out uint yGroupSize, out _);
         drawComputeShader.Dispatch(initBackgroundKernel,
-            Mathf.CeilToInt(canvasRenderTexture.width / (float)xGroupSize),
-            Mathf.CeilToInt(canvasRenderTexture.height / (float)yGroupSize),
+            Mathf.CeilToInt(targetTexture.width / (float)xGroupSize),
+            Mathf.CeilToInt(targetTexture.height / (float)yGroupSize),
             1);
     }
 
     protected virtual void ResetBoard(bool isWin)
     {
-        ClearBrushMarks();
+        ClearBrushMarks(curBrushRenderTexture);
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
@@ -146,23 +170,24 @@ public class DrawManager : MonoBehaviour
         interpolatedPenPressure = Mathf.Lerp(interpolatedPenPressure, curPenPressure, 0.9f);
 
         // Pen Pressed
-        bool _prevPenPressed = penPressed;
+        bool prevPointerPressed = pointerPressed;
         penPressed = pen.press.ReadValue() != 0;
-        mousePressed = pointer.press.ReadValue() != 0 && !penPressed;
-        if (penPressed && !_prevPenPressed)
+        pointerPressed = pointer.press.ReadValue() != 0;
+        mousePressed = pointerPressed && !penPressed;
+        if (pointerPressed && !prevPointerPressed)
         {
-            penJustPressed = true;
-            penJustReleased = false;
+            pointerJustPressed = true;
+            pointerJustReleased = false;
         }
-        else if (!penPressed && _prevPenPressed)
+        else if (!pointerPressed && prevPointerPressed)
         {
-            penJustPressed = false;
-            penJustReleased = true;
+            pointerJustPressed = false;
+            pointerJustReleased = true;
         }
         else
         {
-            penJustPressed = false;
-            penJustReleased = false;
+            pointerJustPressed = false;
+            pointerJustReleased = false;
         }
 
         // Pen position
@@ -170,7 +195,7 @@ public class DrawManager : MonoBehaviour
         penPosition = pointer.position.ReadValue();
         DEBUG_LABEL.GetComponent<Text>().text = penPosition.ToString();
 
-        if (penJustReleased)
+        if (pointerJustReleased)
         {
             strokeEndPos = penPosition;
         }
@@ -190,12 +215,13 @@ public class DrawManager : MonoBehaviour
 
     protected void Update()
     {
+        // Pre Input logic
         UpdatePen();
         UpdateBrush();
         UpdateTimers();
         UpdateCommonLabels();
 
-        Graphics.Blit(canvasRenderTexture, DEBUG4);
+        // Input logic
         // DEBUG
         if (DEBUG_BOX && DEBUG_BOX2)
         {
@@ -206,17 +232,68 @@ public class DrawManager : MonoBehaviour
         }
         // DEBUG
 
-        if (!brushSizeSlider.isInUse && (penPressed || mousePressed))
+        if (!brushSizeSlider.isInUse && pointerPressed)
         {
             if (DEBUG_BOX && DEBUG_BOX2)
+            {
                 DEBUG_BOX.GetComponent<Image>().color = Color.black;
+            }
             MarkCurPenPos();
+            Graphics.Blit(curBrushRenderTexture, _tempFinalBrushRenderTexture);
+            //AlphaBlendNewBrushLayer(curBrushRenderTexture, _tempFinalBrushRenderTexture);
+            setAlpha(_tempFinalBrushRenderTexture, brushColour.a);
+            Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture); // Should be visuall equivalent to the blit bloc below
         }
 
-        if (penJustReleased)
+        // Post input Logic
+
+        if (pointerJustReleased)
         {
             targetSpawner.ResetTargets();
+
+            //Graphics.Blit(curBrushRenderTexture, _tempFinalBrushRenderTexture);
+            //setAlpha(_tempFinalBrushRenderTexture, 1.0f);
+            //Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
+
+            Graphics.Blit(tempFinalBrushRenderTexture, _tempFinalBrushRenderTexture);
+            Graphics.Blit(finalBrushRenderTexture, _finalBrushRenderTexture);
+            AlphaBlendNewBrushLayer(_tempFinalBrushRenderTexture, _finalBrushRenderTexture);
+            ClearBrushMarks(_tempFinalBrushRenderTexture);
+            Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
+            Graphics.Blit(_finalBrushRenderTexture, finalBrushRenderTexture);
         }
+    }
+
+    private void setAlpha(RenderTexture dest, float alpha)
+    {
+        int updateKernel = alphaComputeShader.FindKernel("Update");
+        alphaComputeShader.SetFloat("_CanvasBrushAlpha", alpha);
+        alphaComputeShader.SetTexture(updateKernel, "_CanvasOut", dest);
+        alphaComputeShader.SetFloat("_CanvasWidth", dest.width);
+        alphaComputeShader.SetFloat("_CanvasHeight", dest.height);
+        alphaComputeShader.GetKernelThreadGroupSizes(updateKernel,
+            out uint xGroupSize, out uint yGroupSize, out _);
+        alphaComputeShader.Dispatch(updateKernel,
+            Mathf.CeilToInt(dest.width / (float)xGroupSize),
+            Mathf.CeilToInt(dest.height / (float)yGroupSize),
+            1);
+    }
+    // dest +=  source using alpha render
+    private void AlphaBlendNewBrushLayer(RenderTexture source, RenderTexture dest)
+    {
+        int updateKernel = alphaBlendComputeShader.FindKernel("Update");
+        alphaBlendComputeShader.SetFloat("_CanvasBrushAlpha", brushColour.a);
+        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBg", dest);
+        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasBrush", source);
+        alphaBlendComputeShader.SetTexture(updateKernel, "_CanvasOut", dest);
+        alphaBlendComputeShader.SetFloat("_CanvasWidth", source.width);
+        alphaBlendComputeShader.SetFloat("_CanvasHeight", source.height);
+        alphaBlendComputeShader.GetKernelThreadGroupSizes(updateKernel,
+            out uint xGroupSize, out uint yGroupSize, out _);
+        alphaBlendComputeShader.Dispatch(updateKernel,
+            Mathf.CeilToInt(dest.width / (float)xGroupSize),
+            Mathf.CeilToInt(dest.height / (float)yGroupSize),
+            1);
     }
 
     // Draws pixels into the current pen pos
@@ -229,26 +306,15 @@ public class DrawManager : MonoBehaviour
         drawComputeShader.SetFloat("_BrushSize", brushSizePressure);
         drawComputeShader.SetVector("_BrushColour", brushColour);
         drawComputeShader.SetFloat("_StrokeSmoothingInterval", strokePressIntervalSeconds);
-        drawComputeShader.SetTexture(updateKernel, "_Canvas", canvasRenderTexture);
-        drawComputeShader.SetFloat("_CanvasWidth", canvasRenderTexture.width);
-        drawComputeShader.SetFloat("_CanvasHeight", canvasRenderTexture.height);
-
-        //// DEBUG
-        //Debug.Log(brushColour);
-        //ComputeShader.GetData();
-        //ComputeBuffer buffer = new ComputeBuffer(12, 16);
-
+        drawComputeShader.SetTexture(updateKernel, "_Canvas", curBrushRenderTexture);
+        drawComputeShader.SetFloat("_CanvasWidth", curBrushRenderTexture.width);
+        drawComputeShader.SetFloat("_CanvasHeight", curBrushRenderTexture.height);
         drawComputeShader.GetKernelThreadGroupSizes(updateKernel,
             out uint xGroupSize, out uint yGroupSize, out _);
         drawComputeShader.Dispatch(updateKernel,
-            Mathf.CeilToInt(canvasRenderTexture.width / (float)xGroupSize),
-            Mathf.CeilToInt(canvasRenderTexture.height / (float)yGroupSize),
+            Mathf.CeilToInt(curBrushRenderTexture.width / (float)xGroupSize),
+            Mathf.CeilToInt(curBrushRenderTexture.height / (float)yGroupSize),
             1);
-    }
-
-    private void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
-        Graphics.Blit(canvasRenderTexture, dest);
     }
 
     public void OnBrushSizeChanged(float newValue)

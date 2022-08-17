@@ -17,16 +17,19 @@ float4 SoftBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float 
 {
 	for (float i = 0; i < 1.0; i += strokeSmoothingInterval)
 	{
-		float4 outputColor;
+		float4 outputColor = brushColor;
 		const float2 mousePos = lerp(previousMousePosition, mousePosition, i);
 		// Pixels affected by brush
+		// TODO, weird  interpolation bug. un even stamping
+
 		if (length(pixelPos - mousePos) < brushSize) {
-			outputColor.r = lerp(brushColor.r, currentColor.r, brushColor.a);
-			outputColor.g = lerp(brushColor.g, currentColor.g, brushColor.a);
-			outputColor.b = lerp(brushColor.b, currentColor.b, brushColor.a);
-			//outputColor.w = (length(pixelPos - mousePos) / brushSize);
-			outputColor.w = 1.0f;
-			return brushColor;
+			//outputColor.r = lerp(brushColor.r, currentColor.r, brushColor.a);
+			//outputColor.g = lerp(brushColor.g, currentColor.g, brushColor.a);
+			//outputColor.b = lerp(brushColor.b, currentColor.b, brushColor.a);
+			////outputColor.w = (float)((float)length(pixelPos - mousePos) / (float)brushSize);
+			outputColor.w = 1.0f; // Solid on purpose, alpha is set later
+			//return outputColor;
+			return outputColor;
 		}
 	}
 	// Pixels not affected by brush
@@ -39,7 +42,7 @@ void InitBackground(uint3 id : SV_DispatchThreadID)
 	if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
 		return;
 
-	//_BackgroundColour.w = 0.0f;
+	_BackgroundColour.w = 0.0f;
 	_Canvas[id.xy] = _BackgroundColour;
 }
 

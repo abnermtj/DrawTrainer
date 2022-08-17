@@ -1,0 +1,17 @@
+#pragma kernel Update
+
+RWTexture2D<float4> _CanvasOut;
+float _CanvasBrushAlpha;
+float _CanvasWidth;
+float _CanvasHeight;
+
+[numthreads(8, 8, 1)]
+void Update(uint3 id : SV_DispatchThreadID)
+{
+	if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
+		return;
+
+	float4 finalColor = _CanvasOut[id.xy];
+	finalColor.w = min(_CanvasBrushAlpha, finalColor.w);
+	_CanvasOut[id.xy] = finalColor;
+}

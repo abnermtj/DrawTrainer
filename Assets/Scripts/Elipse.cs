@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class Elipse : DrawManager
 {
-    new void Start()
+    private new void Start()
     {
         base.Start();
     }
 
-    new void Update()
+    private new void Update()
     {
         base.Update();
 
@@ -22,21 +22,17 @@ public class Elipse : DrawManager
 
         foreach (Transform target in targets.transform)
         {
-            if (penPressed || mousePressed)
+            if (pointerPressed)
             {
                 target.gameObject.GetComponent<Target>().inActiveColor.a = 0.2f;
-
             }
             else
             {
-
                 target.gameObject.GetComponent<Target>().inActiveColor.a = 1f;
             }
         }
 
-
-
-        if (targetSpawner.isAllTargetsActive && penJustReleased)
+        if (targetSpawner.isAllTargetsActive && pointerJustReleased)
         {
             ResetBoard(isWin: true);
 
