@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class LineDrawing : DrawManager
 {
     [SerializeField] private GameObject particles;
-    [SerializeField] private Camera particlesCamera;
     [SerializeField] private GameObject straightnessLabel;
     [SerializeField] protected bool isStrikeThrough;
 
@@ -16,12 +15,8 @@ public class LineDrawing : DrawManager
     private new void Start()
     {
         base.Start();
-        if (!particlesCamera) particlesCamera = GetComponent<Camera>();
     }
 
-    /// <summary>
-    /// Fits a line to a collection of (x,y) points.
-    /// </summary>
     public static void LinearRegression(
         List<Vector2> vals,
         out double rSquared,

@@ -625,6 +625,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1885774804}
     m_Modifications:
+    - target: {fileID: 1163601419790575451, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 11.219971
+      objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -655,11 +659,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 185.90002
+      value: 600.9
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 162.3
+      value: 205.3
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -712,6 +716,14 @@ PrefabInstance:
     - target: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_Name
       value: SpawnBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601420658949976, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163601421705949699, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -11.219971
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3c221ec646969644bbf788e61301fda, type: 3}
@@ -1637,6 +1649,8 @@ MonoBehaviour:
   hitScoreLabel: {fileID: 1683141529}
   maxTargets: 1
   minTargets: 1
+  maxDist: 100
+  minDist: 33.5
   missScoreLabel: {fileID: 1683141528}
   spawnBox: {fileID: 1085648819}
   targetResetIntervalSeconds: 3
@@ -2048,7 +2062,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

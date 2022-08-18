@@ -877,7 +877,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: -6
   m_TargetDisplay: 0
@@ -1058,7 +1058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 295.0375
+      value: 257.67
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1174,6 +1174,8 @@ MonoBehaviour:
   hitScoreLabel: {fileID: 111232492}
   maxTargets: 1
   minTargets: 1
+  maxDist: 299
+  minDist: 0.1
   missScoreLabel: {fileID: 111232491}
   spawnBox: {fileID: 1133531679}
   targetResetIntervalSeconds: 3
@@ -1196,12 +1198,8 @@ MonoBehaviour:
   DEBUG_LABEL: {fileID: 203002599}
   drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
   strokePressIntervalSeconds: 0.079
-  _finalBrushRenderTexture: {fileID: 0}
   finalBrushRenderTexture: {fileID: 8400000, guid: b787ca86621ce7a42b73596178359f96, type: 2}
-  _tempFinalBrushRenderTexture: {fileID: 0}
-  _temp2FinalBrushRenderTexture: {fileID: 0}
   tempFinalBrushRenderTexture: {fileID: 8400000, guid: 9817cd841b929b94e894a869fa8c6470, type: 2}
-  curBrushRenderTexture: {fileID: 0}
   particles: {fileID: 1471070467}
   percentLabel: {fileID: 4082400465917102723}
   percentageTarget: 0

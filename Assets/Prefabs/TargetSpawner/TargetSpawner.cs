@@ -22,18 +22,58 @@ public class TargetSpawner : MonoBehaviour
     // Spawns a set of targets within a bounding box
     // Spawn Rect = [topleft pos, size] in local space when middle is 0,0
     // 0,0 is top left, right and up is positive
-    public void Spawn(int numberToSpawn, RectTransform spawnRect, float targetWidth, float targetHeight, Camera camera)
+    public void Spawn(int numberToSpawn, RectTransform spawnRect, float targetWidth, float targetHeight, float minDist, float maxDist, Camera camera)
     {
+        if (numberToSpawn < 1)
+        {
+            throw new System.Exception("Number targets to spawn is negative");
+        }
+
+        if (minDist > maxDist)
+        {
+            throw new System.Exception("Min dist is greater than max dist");
+        }
+
         numTargets = numberToSpawn;
         Debug.Log("Spawning " + numberToSpawn + " targets inside " + spawnRect.rect);
-        for (int i = 0; i < numberToSpawn; i++)
+
+        if (numberToSpawn == 1)
         {
-            float ratio = Mathf.Abs((camera.ScreenToWorldPoint(new Vector2(0, 0)) - camera.ScreenToWorldPoint(new Vector2(1, 0))).x);
-            float randomXOffset = Random.Range(spawnRect.rect.xMin, spawnRect.rect.xMax) * ratio; // This is in screen space, need to convert to global space
-            float randomYOffset = Random.Range(spawnRect.rect.yMin, spawnRect.rect.yMax) * ratio;
-            Vector3 randomGlobalPos = new Vector3(randomXOffset, randomYOffset) + spawnRect.transform.position;
-            CreateTarget(targetWidth, targetHeight, randomGlobalPos);
+            CreateTarget(targetWidth, targetHeight, generateRandomPos(spawnRect, camera));
+            return;
         }
+        else
+        {
+            Vector3 startPos = generateRandomPos(spawnRect, camera);
+            Vector3 endPos = generateRandomPos(spawnRect, camera);
+            float dist = Vector3.Distance(startPos, endPos);
+
+            while (!(minDist < dist && dist < maxDist))
+            {
+                startPos = generateRandomPos(spawnRect, camera);
+                endPos = generateRandomPos(spawnRect, camera);
+                dist = Vector3.Distance(startPos, endPos);
+            }
+
+            CreateTarget(targetWidth, targetHeight, startPos);
+            CreateTarget(targetWidth, targetHeight, endPos);
+
+            int numIntermediate = numberToSpawn - 2;
+            for (int i = 0; i < numIntermediate; i++)
+            {
+                Vector3 randomGlobalPos = generateRandomPos(spawnRect, camera);
+                CreateTarget(targetWidth, targetHeight, randomGlobalPos);
+            }
+        }
+    }
+
+    private static Vector3 generateRandomPos(RectTransform spawnRect, Camera camera)
+    {
+        float ratio = Mathf.Abs((camera.ScreenToWorldPoint(new Vector2(0, 0)) - camera.ScreenToWorldPoint(new Vector2(1, 0))).x);
+        float randomXOffset = Random.Range(spawnRect.rect.xMin, spawnRect.rect.xMax) * ratio; // This is in screen space, need to convert to global space
+        float randomYOffset = Random.Range(spawnRect.rect.yMin, spawnRect.rect.yMax) * ratio;
+        Vector3 randomGlobalPos = new Vector3(randomXOffset, randomYOffset) + spawnRect.transform.position;
+        return randomGlobalPos;
     }
 
     protected virtual void CreateTarget(float targetWidth, float targetHeight, Vector3 localPos)

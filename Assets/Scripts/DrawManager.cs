@@ -21,6 +21,13 @@ public class DrawManager : MonoBehaviour
     protected float interpolatedPenPressure;
     [SerializeField] protected int maxTargets = 2;
     [SerializeField] protected int minTargets = 2;
+
+    [Range(100.0f, 500.0f)]
+    [SerializeField] protected float maxDist = 250.0f;
+
+    [Range(0.1f, 100.0f)]
+    [SerializeField] protected float minDist = 100.0f;
+
     protected int missScore = 0;
     [SerializeField] protected GameObject missScoreLabel;
     protected bool mousePressed;
@@ -85,30 +92,25 @@ public class DrawManager : MonoBehaviour
         drawComputeShader.GetKernelThreadGroupSizes(initBackgroundKernel,
             out uint xGroupSize, out uint yGroupSize, out _);
         drawComputeShader.Dispatch(initBackgroundKernel,
-            Mathf.CeilToInt(targetTexture.width / (float)xGroupSize),
-            Mathf.CeilToInt(targetTexture.height / (float)yGroupSize),
-            1);
+                Mathf.CeilToInt(targetTexture.width / (float)xGroupSize),
+                Mathf.CeilToInt(targetTexture.height / (float)yGroupSize),
+                1);
     }
 
     protected void ResetBoard(bool isWin)
     {
-        //ClearBrushMarks(curBrushRenderTexture);
-        //ClearBrushMarks(curBrushRenderTexture);
-
         Debug.Log($"isWin: {isWin}. Resetting broad");
         curBrushRenderTexture.Release();
         _tempFinalBrushRenderTexture.Release();
         _finalBrushRenderTexture.Release();
         tempFinalBrushRenderTexture.Release();
         finalBrushRenderTexture.Release();
-        //Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
-        //Graphics.Blit(_finalBrushRenderTexture, finalBrushRenderTexture);
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
 
         int rInt = Random.Range(minTargets, maxTargets + 1);
-        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, camera);
+        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, minDist, maxDist, camera);
     }
 
     protected void Start()
@@ -184,7 +186,13 @@ public class DrawManager : MonoBehaviour
 
             // REMEMBER procdecurally generate textures do not support alpha, need to find another way to clear
             // Note there that curBrushRender will be recreated if it  being released
-            Graphics.Blit(curBrushRenderTexture, tempFinalBrushRenderTexture); // This supports alpha as destination is a premade tex
+            Graphics.Blit(tempFinalBrushRenderTexture, _temp2FinalBrushRenderTexture);
+            AlphaBlendNewBrushLayer(curBrushRenderTexture, _temp2FinalBrushRenderTexture, _tempFinalBrushRenderTexture);
+            AlphaBlendNewBrushLayer(curBrushRenderTexture, _temp2FinalBrushRenderTexture, _tempFinalBrushRenderTexture);
+            Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
+            curBrushRenderTexture.Release();
+            _tempFinalBrushRenderTexture.Release();
+            _temp2FinalBrushRenderTexture.Release();
         }
 
         // Post input Logic
@@ -208,7 +216,7 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-    // dest +=  source using alpha render
+    // bg + brush = dest
     private void AlphaBlendNewBrushLayer(RenderTexture bg, RenderTexture brush, RenderTexture dest)
     {
         int updateKernel = alphaBlendComputeShader.FindKernel("Update");
@@ -235,6 +243,16 @@ public class DrawManager : MonoBehaviour
 
     // Draws pixels into the current pen pos
     private void MarkCurPenPos()
+    {
+        markCustomBrush();
+        markRoundBrush();
+    }
+
+    private void markCustomBrush()
+    {
+    }
+
+    private void markRoundBrush()
     {
         int updateKernel = drawComputeShader.FindKernel("Update");
         drawComputeShader.SetVector("_PreviousMousePosition", prevPenPosition);
@@ -305,7 +323,7 @@ public class DrawManager : MonoBehaviour
         // Pen position
         prevPenPosition = penPosition;
         penPosition = pointer.position.ReadValue();
-        DEBUG_LABEL.GetComponent<Text>().text = penPosition.ToString();
+        DEBUG_LABEL.GetComponent<Text>().text = ((Vector2)penPosition).ToString();
 
         if (pointerJustReleased)
         {

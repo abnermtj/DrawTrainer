@@ -29,15 +29,15 @@ public class LineTarget : Target
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (Pen.current.press.ReadValue() == 0)
+        if (Pointer.current.press.ReadValue() == 0)
         {
             return;
         }
 
         target.GetComponent<Image>().sprite = visibleImage;
-        target.inActiveColor = Color.black;
+        target.inActiveColor = inActiveColor;
         target2.GetComponent<Image>().sprite = visibleImage;
-        target2.inActiveColor = Color.black;
+        target2.inActiveColor = inActiveColor;
     }
 
     public void Update()

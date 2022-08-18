@@ -2,6 +2,7 @@
 #pragma kernel InitBackground
 
 RWTexture2D<float4> _Canvas;
+RWTexture2D<float4> _BrushTexture;
 float _CanvasWidth;
 float _CanvasHeight;
 float4 _PreviousMousePosition;
@@ -12,24 +13,26 @@ float _BrushSize;
 float4 _BrushColour;
 float4 _BackgroundColour;
 
-float4 SoftBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float2 previousMousePosition,
+float4 CustomBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float2 previousMousePosition,
+	float2 mousePosition, float strokeSmoothingInterval)
+{
+	// TODO implement custom textured brushed
+}
+
+float4 RoundBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float2 previousMousePosition,
 	float2 mousePosition, float strokeSmoothingInterval)
 {
 	for (float i = 0; i < 1.0; i += strokeSmoothingInterval)
 	{
-		const float2 mousePos = lerp(previousMousePosition, mousePosition, i);
+		float2 mousePos = lerp(previousMousePosition, mousePosition, i);
 		// Pixels affected by brush
-		// TODO, weird  interpolation bug. un even stamping
-
 		if (length(pixelPos - mousePos) < brushSize) {
-			//float4 outputColor = brushColor;
-			//outputColor.r = lerp(brushColor.r, currentColor.r, brushColor.a);
-			//outputColor.g = lerp(brushColor.g, currentColor.g, brushColor.a);
-			//outputColor.b = lerp(brushColor.b, currentColor.b, brushColor.a);
-			////outputColor.w = (float)((float)length(pixelPos - mousePos) / (float)brushSize);
-			//outputColor.w = 1.0f; // Solid on purpose, alpha is set later
-			//return outputColor;
-			return brushColor;
+			float4 finalColor = brushColor;
+			//finalColor.w = 1.0f - (length(pixelPos - mousePos) / brushSize); // Too expensve to do per pixel!
+			//if (currentColor.w > finalColor.w) {
+			//	finalColor.w = currentColor.w;
+			//}
+			return finalColor;
 		}
 	}
 	// Pixels not affected by brush
@@ -55,7 +58,7 @@ void Update(uint3 id : SV_DispatchThreadID)
 	if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
 		return;
 
-	float4 curBrush = SoftBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
+	float4 curBrush = RoundBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
 		_PreviousMousePosition, _MousePosition, _StrokeSmoothingInterval);
 	_Canvas[id.xy] = curBrush;
 }

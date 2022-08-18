@@ -96,8 +96,8 @@ MonoBehaviour:
   isActive: 0
   isLastTarget: 0
   isFirstTarget: 0
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inActiveColor: {r: 1, g: 1, b: 1, a: 1}
+  activeColor: {r: 0.9529412, g: 0.3019608, b: 0.28235295, a: 1}
+  inActiveColor: {r: 0.1764706, g: 0.1764706, b: 0.1764706, a: 1}
   volumeChangeMultiplier: 0.2
   pitchChangeMultiplier: 0.2
   target: {fileID: 5591907330112321750}
