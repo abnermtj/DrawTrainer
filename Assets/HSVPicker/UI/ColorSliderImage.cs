@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+
 namespace HSVPicker
 {
     [RequireComponent(typeof(RawImage)), ExecuteInEditMode()]
@@ -28,7 +29,7 @@ namespace HSVPicker
         {
             image = GetComponent<RawImage>();
 
-            if(Application.isPlaying)
+            if (Application.isPlaying)
                 RegenerateTexture();
         }
 
@@ -50,12 +51,6 @@ namespace HSVPicker
             }
         }
 
-        private void OnDestroy()
-        {
-            if (image.texture != null)
-                DestroyImmediate(image.texture);
-        }
-
         private void ColorChanged(Color newColor)
         {
             switch (type)
@@ -67,6 +62,7 @@ namespace HSVPicker
                 case ColorValues.Value:
                     RegenerateTexture();
                     break;
+
                 case ColorValues.A:
                 case ColorValues.Hue:
                 default:
@@ -85,6 +81,7 @@ namespace HSVPicker
                 case ColorValues.Value:
                     RegenerateTexture();
                     break;
+
                 case ColorValues.A:
                 case ColorValues.Hue:
                 default:
@@ -115,13 +112,16 @@ namespace HSVPicker
                 case ColorValues.A:
                     size = 255;
                     break;
+
                 case ColorValues.Hue:
                     size = 360;
                     break;
+
                 case ColorValues.Saturation:
                 case ColorValues.Value:
                     size = 100;
                     break;
+
                 default:
                     throw new System.NotImplementedException("");
             }
@@ -141,42 +141,49 @@ namespace HSVPicker
                         colors[inverted ? size - 1 - i : i] = new Color32(i, baseColor.g, baseColor.b, 255);
                     }
                     break;
+
                 case ColorValues.G:
                     for (byte i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = new Color32(baseColor.r, i, baseColor.b, 255);
                     }
                     break;
+
                 case ColorValues.B:
                     for (byte i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = new Color32(baseColor.r, baseColor.g, i, 255);
                     }
                     break;
+
                 case ColorValues.A:
                     for (byte i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = new Color32(i, i, i, 255);
                     }
                     break;
+
                 case ColorValues.Hue:
                     for (int i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = HSVUtil.ConvertHsvToRgb(i, 1, 1, 1);
                     }
                     break;
+
                 case ColorValues.Saturation:
                     for (int i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = HSVUtil.ConvertHsvToRgb(h * 360, (float)i / size, v, 1);
                     }
                     break;
+
                 case ColorValues.Value:
                     for (int i = 0; i < size; i++)
                     {
                         colors[inverted ? size - 1 - i : i] = HSVUtil.ConvertHsvToRgb(h * 360, s, (float)i / size, 1);
                     }
                     break;
+
                 default:
                     throw new System.NotImplementedException("");
             }
@@ -194,14 +201,15 @@ namespace HSVPicker
                 case Slider.Direction.TopToBottom:
                     image.uvRect = new Rect(0, 0, 2, 1);
                     break;
+
                 case Slider.Direction.LeftToRight:
                 case Slider.Direction.RightToLeft:
                     image.uvRect = new Rect(0, 0, 1, 2);
                     break;
+
                 default:
                     break;
             }
         }
-
     }
 }

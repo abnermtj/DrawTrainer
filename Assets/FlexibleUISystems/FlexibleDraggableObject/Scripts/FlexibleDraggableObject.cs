@@ -2,22 +2,19 @@
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(EventTrigger))]
-public class FlexibleDraggableObject : MonoBehaviour
+public class FlexibleDraggableObject : MonoBehaviour, IDragHandler
 {
     public GameObject Target;
-    private EventTrigger _eventTrigger;
 
-    void Start ()
+    private void Start()
     {
-        _eventTrigger = GetComponent<EventTrigger>();
-        _eventTrigger.AddEventTrigger(OnDrag, EventTriggerType.Drag);
     }
 
-    void OnDrag(BaseEventData data)
+    public void OnDrag(PointerEventData data)
     {
-        PointerEventData pointerEventData = (PointerEventData) data;
-        float ratio = Mathf.Abs((pointerEventData.pressEventCamera.ScreenToWorldPoint(new Vector2(0, 0)) - pointerEventData.pressEventCamera.ScreenToWorldPoint(new Vector2(1, 0))).x);
-        PointerEventData ped = (PointerEventData) data;
-        Target.transform.Translate(ped.delta * ratio);
+        Debug.Log("Dragging drag handler");
+
+        float ratio = Mathf.Abs((data.pressEventCamera.ScreenToWorldPoint(new Vector2(0, 0)) - data.pressEventCamera.ScreenToWorldPoint(new Vector2(1, 0))).x);
+        Target.transform.Translate(data.delta * ratio);
     }
 }

@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 793be890c4d1fd64ba88eb94a72c8659, type: 2}
+  m_Texture: {fileID: 8400000, guid: b787ca86621ce7a42b73596178359f96, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 765646925458121358}
   - component: {fileID: 765646925458121357}
   m_Layer: 8
-  m_Name: CanvasBG
+  m_Name: BgLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 8400000, guid: 9817cd841b929b94e894a869fa8c6470, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0

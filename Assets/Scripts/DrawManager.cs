@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class DrawManager : MonoBehaviour
 {
@@ -64,12 +63,12 @@ public class DrawManager : MonoBehaviour
     private Vector4 prevPenPosition;
     [SerializeField, Range(0.001f, 1)] private float strokePressIntervalSeconds = 0.001f;
 
-    public RenderTexture _finalBrushRenderTexture;
+    private RenderTexture _finalBrushRenderTexture;
     [SerializeField] private RenderTexture finalBrushRenderTexture;
-    public RenderTexture _tempFinalBrushRenderTexture;
-    public RenderTexture _temp2FinalBrushRenderTexture;
+    private RenderTexture _tempFinalBrushRenderTexture;
+    private RenderTexture _temp2FinalBrushRenderTexture;
     [SerializeField] private RenderTexture tempFinalBrushRenderTexture;
-    public RenderTexture curBrushRenderTexture;
+    private RenderTexture curBrushRenderTexture;
 
     public void OnBrushSizeChanged(float newValue)
     {
@@ -91,9 +90,19 @@ public class DrawManager : MonoBehaviour
             1);
     }
 
-    protected virtual void ResetBoard(bool isWin)
+    protected void ResetBoard(bool isWin)
     {
-        ClearBrushMarks(curBrushRenderTexture);
+        //ClearBrushMarks(curBrushRenderTexture);
+        //ClearBrushMarks(curBrushRenderTexture);
+
+        Debug.Log($"isWin: {isWin}. Resetting broad");
+        curBrushRenderTexture.Release();
+        _tempFinalBrushRenderTexture.Release();
+        _finalBrushRenderTexture.Release();
+        tempFinalBrushRenderTexture.Release();
+        finalBrushRenderTexture.Release();
+        //Graphics.Blit(_tempFinalBrushRenderTexture, tempFinalBrushRenderTexture);
+        //Graphics.Blit(_finalBrushRenderTexture, finalBrushRenderTexture);
 
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);

@@ -20,14 +20,14 @@ public class Proportion : DrawManager
         base.Start();
     }
 
-    protected override void ResetBoard(bool isWin)
-    {
-        ClearBrushMarks(curBrushRenderTexture);
+    //protected override void ResetBoard(bool isWin)
+    //{
+    //    ClearBrushMarks(curBrushRenderTexture);
 
-        targetResetTimer = targetResetIntervalSeconds;
-        lineTargetSpawner.ClearAll(playSound: isWin);
-        targetSpawner.Spawn(1, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, camera);
-    }
+    //    targetResetTimer = targetResetIntervalSeconds;
+    //    lineTargetSpawner.ClearAll(playSound: isWin);
+    //    targetSpawner.Spawn(1, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, camera);
+    //}
 
     private new void Update()
     {
@@ -35,8 +35,8 @@ public class Proportion : DrawManager
 
         if (pointerJustReleased)
         {
-            //targetResetTimer = missResetTime;
-            //lineTargetSpawner.ResetTargets();
+            targetResetTimer = missResetTime;
+            lineTargetSpawner.ResetTargets();
         }
 
         lineTargetSpawner.percentageTarget = percentageTarget;
