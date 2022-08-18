@@ -7,6 +7,7 @@ using SimpleFileBrowser;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class ABRImporterButton : MonoBehaviour, IPointerDownHandler
 {
@@ -72,8 +73,6 @@ public class ABRImporterButton : MonoBehaviour, IPointerDownHandler
     {
         if (brushes.Count > 3)
         {
-            Debug.Log("HERE");
-            Debug.Log(brushes.Count);
             DEBUG1.GetComponent<RawImage>().texture = brushes[0];
             DEBUG2.GetComponent<RawImage>().texture = brushes[1];
             DEBUG3.GetComponent<RawImage>().texture = brushes[2];
@@ -81,6 +80,13 @@ public class ABRImporterButton : MonoBehaviour, IPointerDownHandler
             SizeToParent(DEBUG1.GetComponent<RawImage>());
             SizeToParent(DEBUG2.GetComponent<RawImage>());
             SizeToParent(DEBUG3.GetComponent<RawImage>());
+        }
+
+        var keyboard = Keyboard.current;
+        if (keyboard != null && (keyboard.escapeKey.wasPressedThisFrame || keyboard.capsLockKey.wasPressedThisFrame))
+        {
+            Debug.Log("ASD");
+            FileBrowser.HideDialog();
         }
     }
 
