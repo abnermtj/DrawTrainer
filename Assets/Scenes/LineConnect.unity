@@ -1081,7 +1081,7 @@ MonoBehaviour:
   minDist: 25
   missScoreLabel: {fileID: 32197318}
   spawnBox: {fileID: 1180445647}
-  targetResetIntervalSeconds: 4
+  targetResetIntervalSeconds: 10
   targets: {fileID: 849414648}
   targetSpawner: {fileID: 1644824425}
   targetWidth: 6

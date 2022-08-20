@@ -23,7 +23,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField] protected int minTargets = 2;
     protected int numTargets;
 
-    [Range(100.0f, 500.0f)]
+    [Range(20.0f, 500.0f)]
     [SerializeField] protected float maxDist = 250.0f;
 
     [Range(0.1f, 100.0f)]
@@ -165,6 +165,12 @@ public class DrawManager : MonoBehaviour
         UpdateBrush();
         UpdateTimers();
         UpdateCommonLabels();
+
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard.spaceKey.isPressed)
+        {
+            finalBrushRenderTexture.Release();
+        }
 
         // Input logic
         // DEBUG

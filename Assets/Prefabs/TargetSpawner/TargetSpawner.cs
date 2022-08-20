@@ -61,12 +61,14 @@ public class TargetSpawner : MonoBehaviour
             int numIntermediate = numberToSpawn - 2;
             for (int i = 0; i < numIntermediate; i++)
             {
-                Vector3 randomGlobalPos = generateRandomPos(spawnRect, camera);
-                CreateTarget(targetWidth, targetHeight, randomGlobalPos);
+                float randomX = Random.Range(startPos.x, endPos.x);
+                float randomY = Random.Range(startPos.y, endPos.y);
+                CreateTarget(targetWidth, targetHeight, new Vector3(randomX, randomY));
             }
         }
     }
 
+    // Global position
     private static Vector3 generateRandomPos(RectTransform spawnRect, Camera camera)
     {
         float ratio = Mathf.Abs((camera.ScreenToWorldPoint(new Vector2(0, 0)) - camera.ScreenToWorldPoint(new Vector2(1, 0))).x);
