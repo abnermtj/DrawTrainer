@@ -21,6 +21,7 @@ public class DrawManager : MonoBehaviour
     protected float interpolatedPenPressure;
     [SerializeField] protected int maxTargets = 2;
     [SerializeField] protected int minTargets = 2;
+    protected int numTargets;
 
     [Range(100.0f, 500.0f)]
     [SerializeField] protected float maxDist = 250.0f;
@@ -109,8 +110,8 @@ public class DrawManager : MonoBehaviour
         targetResetTimer = targetResetIntervalSeconds;
         targetSpawner.ClearAll(playSound: isWin);
 
-        int rInt = Random.Range(minTargets, maxTargets + 1);
-        targetSpawner.Spawn(rInt, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, minDist, maxDist, camera);
+        numTargets = Random.Range(minTargets, maxTargets + 1);
+        targetSpawner.Spawn(numTargets, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, minDist, maxDist, camera);
     }
 
     protected void Start()
