@@ -876,7 +876,7 @@ AudioSource:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 16dc99311b87be54299c7c049a84ac16, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1106,7 +1106,7 @@ MonoBehaviour:
   particles: {fileID: 360534968}
   straightnessLabel: {fileID: 2138868202}
   isStrikeThrough: 1
-  straightnessGoal: 0.999
+  straightnessGoal: 0.998
 --- !u!1 &1180445647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}
@@ -1601,7 +1601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -183, y: -87}
+  m_AnchoredPosition: {x: -190.07999, y: -274.8}
   m_SizeDelta: {x: 197.29999, y: 103.15289}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138868204

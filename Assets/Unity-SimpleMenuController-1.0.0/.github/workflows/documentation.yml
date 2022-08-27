@@ -1,0 +1,24 @@
+name: Documentation wiki workflow
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'Documentation~/**'
+
+jobs:
+  docs-wiki-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@master
+    - name: Pushes to another repository
+      uses: cpina/github-action-push-to-another-repository@master
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: 'Documentation~'
+        destination-github-username: 'benjaminhate'
+        destination-repository-name: 'Unity-SimpleMenuController.wiki'
+        user-email: benjamin.hate.09@gmail.com
+        commit-message: 'Automatic Documentation~ push'

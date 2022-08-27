@@ -4,6 +4,24 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 3812924cd704d724eadad2d2add02099
+  - enabled: 1
+    path: Assets/Scenes/Elipse.unity
+    guid: 8b0c745ecc9ecf143adac1293f2bd26a
+  - enabled: 1
+    path: Assets/Scenes/LineCon3.unity
+    guid: 10d6a5cf702db1441a473c9ea0f469e6
+  - enabled: 1
+    path: Assets/Scenes/LineConnect.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Proportion.unity
+    guid: b2ba5f3be7be58c4f80fa8151bd74c5c
+  - enabled: 1
+    path: Assets/Scenes/ColorPickTraining.unity
+    guid: 20bcc66e622425140b75f4adbe316f50
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7305e6850682b224bac238bc14de5a1c, type: 2}

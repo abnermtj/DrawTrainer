@@ -717,6 +717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnBox
       objectReference: {fileID: 0}
+    - target: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1163601420658949976, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.000015258789
@@ -724,6 +728,10 @@ PrefabInstance:
     - target: {fileID: 1163601421705949699, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -11.219971
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940471306273895131, guid: a3c221ec646969644bbf788e61301fda, type: 3}
+      propertyPath: isEnabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3c221ec646969644bbf788e61301fda, type: 3}
