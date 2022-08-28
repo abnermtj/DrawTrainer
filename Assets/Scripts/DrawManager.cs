@@ -6,7 +6,7 @@ public class DrawManager : MonoBehaviour
 {
     public AudioClip[] comboSounds;
     protected float brushSizePressure = 0;
-    [SerializeField] protected Camera camera;
+    [SerializeField] protected Camera mainCamera;
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected GameObject comboPrefab;
     protected int comboScore = 0;
@@ -111,7 +111,7 @@ public class DrawManager : MonoBehaviour
         targetSpawner.ClearAll(playSound: isWin);
 
         numTargets = Random.Range(minTargets, maxTargets + 1);
-        targetSpawner.Spawn(numTargets, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, minDist, maxDist, camera);
+        targetSpawner.Spawn(numTargets, spawnBox.GetComponent<RectTransform>(), targetWidth, targetHeight, minDist, maxDist, GetComponent<Camera>());
     }
 
     protected void Start()

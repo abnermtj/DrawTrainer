@@ -319,7 +319,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: -6
   m_TargetDisplay: 0
@@ -1026,11 +1026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f3a97eb37eb3a4b8479ad80cb24820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _finalBrushRenderTexture: {fileID: 0}
-  _tempFinalBrushRenderTexture: {fileID: 0}
   comboSounds: []
-  curBrushRenderTexture: {fileID: 0}
-  camera: {fileID: 2064783708}
+  mainCamera: {fileID: 997459447}
   canvas: {fileID: 299677301}
   comboPrefab: {fileID: 1843040242307004451, guid: da82e9804a9737e4685fc8bafcb0dd22, type: 3}
   gameTimer: 500
@@ -1039,6 +1036,8 @@ MonoBehaviour:
   hitScoreLabel: {fileID: 1059031485}
   maxTargets: 1
   minTargets: 1
+  maxDist: 250
+  minDist: 100
   missScoreLabel: {fileID: 1059031484}
   spawnBox: {fileID: 1804152513}
   targetResetIntervalSeconds: 70
@@ -1060,8 +1059,8 @@ MonoBehaviour:
   DEBUG_BOX3: {fileID: 0}
   DEBUG_LABEL: {fileID: 2134324479}
   drawComputeShader: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
-  finalBrushRenderTexture: {fileID: 8400000, guid: b787ca86621ce7a42b73596178359f96, type: 2}
   strokePressIntervalSeconds: 0.001
+  finalBrushRenderTexture: {fileID: 8400000, guid: b787ca86621ce7a42b73596178359f96, type: 2}
   tempFinalBrushRenderTexture: {fileID: 8400000, guid: 9817cd841b929b94e894a869fa8c6470, type: 2}
   particles: {fileID: 1813830343}
   percentLabel: {fileID: 715048659}

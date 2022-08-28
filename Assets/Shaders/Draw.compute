@@ -19,12 +19,13 @@ float4 CustomBrush(float2 pixelPos, float4 currentColor, float4 brushColor, floa
 	// TODO implement custom textured brushed
 }
 
-float4 RoundBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float2 previousMousePosition,
-	float2 mousePosition, float strokeSmoothingInterval)
+// TODO undo float 3 change  for mouse position here Something is being truncated!
+float4 RoundBrush(float2 pixelPos, float4 currentColor, float4 brushColor, float brushSize, float3 previousMousePosition,
+	float3 mousePosition, float strokeSmoothingInterval)
 {
 	for (float i = 0; i < 1.0; i += strokeSmoothingInterval)
 	{
-		float2 mousePos = lerp(previousMousePosition, mousePosition, i);
+		float2 mousePos = (float2)lerp(previousMousePosition, mousePosition, i);
 		// Pixels affected by brush
 		if (length(pixelPos - mousePos) < brushSize) {
 			float4 finalColor = brushColor;
@@ -58,7 +59,12 @@ void Update(uint3 id : SV_DispatchThreadID)
 	if (id.x >= _CanvasWidth || id.y >= _CanvasHeight)
 		return;
 
-	float4 curBrush = RoundBrush(id.xy, _Canvas[id.xy], _BrushColour, _BrushSize,
-		_PreviousMousePosition, _MousePosition, _StrokeSmoothingInterval);
+	float4 curBrush = RoundBrush(id.xy,
+		_Canvas[id.xy],
+		_BrushColour,
+		_BrushSize,
+		(float3)_PreviousMousePosition,
+		(float3)_MousePosition,
+		_StrokeSmoothingInterval);
 	_Canvas[id.xy] = curBrush;
 }

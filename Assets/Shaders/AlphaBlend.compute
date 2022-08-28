@@ -15,8 +15,5 @@ void Update(uint3 id : SV_DispatchThreadID)
 	float4 finalColor;
 	finalColor.w = _CanvasBrush[id.xy].w + (_CanvasBg[id.xy].w * (1 - _CanvasBrush[id.xy].w));
 	finalColor.xyz = (_CanvasBrush[id.xy] * _CanvasBrush[id.xy].w + _CanvasBg[id.xy] * (1.0f - _CanvasBrush[id.xy].w) * _CanvasBg[id.xy].w) / finalColor.w;
-	//finalColor.w = 1.0f;
-	//finalColor.xyz = _CanvasBg[id.xy].rgb * (1.0f - _CanvasBrush.w) + _CanvasBrush.rgb;
-	//finalColor.w = _CanvasBrush[id.xy].w + (_CanvasBg[id.xy].w * (1 - _CanvasBrush[id.xy].w));
 	_CanvasOut[id.xy] = finalColor;
 }
