@@ -223,7 +223,6 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-    // bg + brush = dest
     private void AlphaBlendNewBrushLayer(RenderTexture bg, RenderTexture brush, RenderTexture dest)
     {
         int updateKernel = alphaBlendComputeShader.FindKernel("Update");
