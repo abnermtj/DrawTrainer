@@ -8,8 +8,8 @@ Preset:
   m_PrefabAsset: {fileID: 0}
   m_Name: LineDrawing-3
   m_TargetType:
-    m_NativeTypeID: 114
-    m_ManagedTypePPtr: {fileID: 11500000, guid: 23d5b0345b4172b4190e5ebb5b96428c, type: 3}
+    m_NativeTypeID: 20
+    m_ManagedTypePPtr: {fileID: 0}
     m_ManagedTypeFallback: 
   m_Properties:
   - target: {fileID: 0}
@@ -17,199 +17,143 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_EditorHideFlags
+    propertyPath: m_ClearFlags
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_BackGroundColor.r
+    value: 0.5377358
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_BackGroundColor.g
+    value: 0.5377358
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_BackGroundColor.b
+    value: 0.5377358
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_BackGroundColor.a
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_EditorClassIdentifier
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: comboSounds.Array.size
+    propertyPath: m_projectionMatrixMode
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: comboSounds.Array.data[0]
-    value: 
-    objectReference: {fileID: 8300000, guid: 300090cc1bee8b04aa141a375531e41b, type: 3}
-  - target: {fileID: 0}
-    propertyPath: camera
-    value: 
+    propertyPath: m_GateFitMode
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: canvas
-    value: 
+    propertyPath: m_FOVAxisMode
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: comboPrefab
-    value: 
-    objectReference: {fileID: 1843040242307004451, guid: da82e9804a9737e4685fc8bafcb0dd22, type: 3}
-  - target: {fileID: 0}
-    propertyPath: gameTimer
-    value: 500
+    propertyPath: m_SensorSize.x
+    value: 36
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: gameTimerLabel
-    value: 
+    propertyPath: m_SensorSize.y
+    value: 24
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: goalTargets
+    propertyPath: m_LensShift.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_LensShift.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_FocalLength
     value: 50
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: hitScoreLabel
+    propertyPath: m_NormalizedViewPortRect.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_NormalizedViewPortRect.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_NormalizedViewPortRect.width
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_NormalizedViewPortRect.height
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: near clip plane
+    value: -273.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: far clip plane
+    value: 155.39
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: field of view
+    value: 60
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: orthographic
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: orthographic size
+    value: 205.3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Depth
+    value: -1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_CullingMask.m_Bits
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_RenderingPath
+    value: -1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TargetTexture
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: maxTargets
+    propertyPath: m_TargetDisplay
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TargetEye
     value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: minTargets
-    value: 3
+    propertyPath: m_HDR
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: maxDist
-    value: 100
+    propertyPath: m_AllowMSAA
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: minDist
-    value: 20
+    propertyPath: m_AllowDynamicResolution
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: missScoreLabel
-    value: 
+    propertyPath: m_ForceIntoRT
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: spawnBox
-    value: 
+    propertyPath: m_OcclusionCulling
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: targetResetIntervalSeconds
+    propertyPath: m_StereoConvergence
     value: 10
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: targets
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: targetSpawner
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: targetWidth
-    value: 6
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: targetHeight
-    value: 6
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: winLabel
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: alphaBlendComputeShader
-    value: 
-    objectReference: {fileID: 7200000, guid: 6df7339ae83765e42bcfc0cb2577be7a, type: 3}
-  - target: {fileID: 0}
-    propertyPath: backgroundColour.r
-    value: 0.8352941
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: backgroundColour.g
-    value: 0.8352941
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: backgroundColour.b
-    value: 0.8352941
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: backgroundColour.a
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: bgLayer
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushColour.r
-    value: 0.2784314
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushColour.g
-    value: 0.2784314
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushColour.b
-    value: 0.2784314
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushColour.a
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushSize
-    value: 0.9
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: brushSizeSlider
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: curBrushLayer
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: cursorTexture
-    value: 
-    objectReference: {fileID: 2800000, guid: d7b48f18317027d4ea286d0191bec2d8, type: 3}
-  - target: {fileID: 0}
-    propertyPath: DEBUG_BOX
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: DEBUG_BOX2
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: DEBUG_BOX3
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: DEBUG_LABEL
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: drawComputeShader
-    value: 
-    objectReference: {fileID: 7200000, guid: 69aa7fc7e06ef494bbc438b7ca44838a, type: 3}
-  - target: {fileID: 0}
-    propertyPath: strokePressIntervalSeconds
-    value: 0.079
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: finalBrushRenderTexture
-    value: 
-    objectReference: {fileID: 8400000, guid: b787ca86621ce7a42b73596178359f96, type: 2}
-  - target: {fileID: 0}
-    propertyPath: tempFinalBrushRenderTexture
-    value: 
-    objectReference: {fileID: 8400000, guid: 9817cd841b929b94e894a869fa8c6470, type: 2}
-  - target: {fileID: 0}
-    propertyPath: particles
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: straightnessLabel
-    value: 
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: isStrikeThrough
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: straightnessGoal
-    value: 0.999
+    propertyPath: m_StereoSeparation
+    value: 0.022
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

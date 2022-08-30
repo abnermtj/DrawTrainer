@@ -165,6 +165,12 @@ public class LineDrawing : DrawManager
                 if (straightness < straightnessGoal)
                 {
                     Debug.Log("Not straight enough");
+                    GameObject DamageText = Instantiate(comboPrefab, canvas.transform);
+                    DamageText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+                    DamageText.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0);
+                    DamageText.GetComponent<RectTransform>().anchoredPosition = strokeEndPos;
+                    DamageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(String.Format("Not Straight"));
+                    strokePoints = new List<Vector2>();
                     return;
                 }
             }
@@ -201,7 +207,7 @@ public class LineDrawing : DrawManager
                     //source.volume = 0.1f + 0.05f * Mathf.Min(comboScore, 6);
                     source.pitch = 1 + 2.0f * (1.0f - Mathf.Max((straightness - 0.99f) / 0.01f, 0.0f));
                     //source.pitch = 2 + 0.2f * Mathf.Min(comboScore, 6);
-                    source.PlayOneShot(source.clip);
+                    //source.PlayOneShot(source.clip);
                 }
             }
 

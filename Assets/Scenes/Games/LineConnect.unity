@@ -564,12 +564,12 @@ RectTransform:
   - {fileID: 2138868203}
   - {fileID: 360534971}
   - {fileID: 8385843}
-  - {fileID: 849414649}
   - {fileID: 1192095626}
   - {fileID: 709506696}
   - {fileID: 1287404494}
   - {fileID: 1446574150}
   - {fileID: 1180445648}
+  - {fileID: 849414649}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -839,7 +839,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 668409475}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1075,10 +1075,10 @@ MonoBehaviour:
   gameTimerLabel: {fileID: 709506695}
   goalTargets: 50
   hitScoreLabel: {fileID: 2125215167}
-  maxTargets: 2
-  minTargets: 2
+  maxTargets: 3
+  minTargets: 3
   maxDist: 100
-  minDist: 25
+  minDist: 20
   missScoreLabel: {fileID: 32197318}
   spawnBox: {fileID: 1180445647}
   targetResetIntervalSeconds: 10
@@ -1106,7 +1106,7 @@ MonoBehaviour:
   particles: {fileID: 360534968}
   straightnessLabel: {fileID: 2138868202}
   isStrikeThrough: 1
-  straightnessGoal: 0.998
+  straightnessGoal: 0.999
 --- !u!1 &1180445647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}
@@ -1240,7 +1240,7 @@ RectTransform:
   - {fileID: 1799827755}
   - {fileID: 517849117}
   m_Father: {fileID: 668409475}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1665,7 +1665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 41299886789353117, guid: 09ee9e6d155930e488b567a4fe84c016, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 41299886789353117, guid: 09ee9e6d155930e488b567a4fe84c016, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1774,7 +1774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2012,7 +2012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490980220040038049, guid: b5678f7c05688584aad6a430b515ac7c, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3490980220040038049, guid: b5678f7c05688584aad6a430b515ac7c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2117,7 +2117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7158881573497961294, guid: fdae36cbc0482274c9fc92c71cd88093, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7158881573497961294, guid: fdae36cbc0482274c9fc92c71cd88093, type: 3}
       propertyPath: m_AnchorMax.x
