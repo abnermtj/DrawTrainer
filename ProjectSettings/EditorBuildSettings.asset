@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Games/Proportion.unity
     guid: b2ba5f3be7be58c4f80fa8151bd74c5c
   - enabled: 1
-    path: Assets/Scenes/ColorPickTraining.unity
+    path: Assets/Scenes/Games/ColorPickTraining.unity
     guid: 20bcc66e622425140b75f4adbe316f50
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7305e6850682b224bac238bc14de5a1c, type: 2}

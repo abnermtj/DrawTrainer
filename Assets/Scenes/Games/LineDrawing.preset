@@ -33,7 +33,7 @@ Preset:
     value: 
     objectReference: {fileID: 8300000, guid: 300090cc1bee8b04aa141a375531e41b, type: 3}
   - target: {fileID: 0}
-    propertyPath: camera
+    propertyPath: mainCamera
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}

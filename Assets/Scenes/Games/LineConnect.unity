@@ -1075,10 +1075,10 @@ MonoBehaviour:
   gameTimerLabel: {fileID: 709506695}
   goalTargets: 50
   hitScoreLabel: {fileID: 2125215167}
-  maxTargets: 3
-  minTargets: 3
+  maxTargets: 2
+  minTargets: 2
   maxDist: 100
-  minDist: 20
+  minDist: 25
   missScoreLabel: {fileID: 32197318}
   spawnBox: {fileID: 1180445647}
   targetResetIntervalSeconds: 10
@@ -1106,7 +1106,7 @@ MonoBehaviour:
   particles: {fileID: 360534968}
   straightnessLabel: {fileID: 2138868202}
   isStrikeThrough: 1
-  straightnessGoal: 0.999
+  straightnessGoal: 0.994
 --- !u!1 &1180445647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1163601419912667037, guid: a3c221ec646969644bbf788e61301fda, type: 3}

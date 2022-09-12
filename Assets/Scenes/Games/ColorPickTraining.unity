@@ -1957,14 +1957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75953d6b31f574644be1238b08e89b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowRuntimeFragmentation: 0
-  extraPoints: 0
-  subshatterSteps: 0
-  fragmentLayer: Default
-  sortingLayerName: Default
-  orderInLayer: 0
-  shatterType: 1
-  fragments: []
 --- !u!50 &1313321549
 Rigidbody2D:
   serializedVersion: 4
@@ -2112,7 +2104,7 @@ MonoBehaviour:
   curColorObj: {fileID: 1596776623}
   picker: {fileID: 718260673}
   IsGrayScaleGeneration: 0
-  isGrayScaleMatching: 1
+  isGrayScaleMatching: 0
   gameTimerLabel: {fileID: 1870018341}
   hitScoreLabel: {fileID: 1870018340}
   missScoreLabel: {fileID: 1870018339}
