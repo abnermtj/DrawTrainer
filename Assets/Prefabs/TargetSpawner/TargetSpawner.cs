@@ -81,7 +81,9 @@ public class TargetSpawner : MonoBehaviour
     protected virtual void CreateTarget(float targetWidth, float targetHeight, Vector3 localPos)
     {
         Target target = Instantiate(targetPrefab, localPos, Quaternion.identity, targetParent.transform);
-        Debug.Log(localPos);
+        target.origSizeDelta = target.GetComponent<RectTransform>().sizeDelta;
+
+        Debug.Log("Spawned target at " + localPos);
         target.SetSize(targetWidth, targetHeight);
 
         if (randomSize)
@@ -111,11 +113,12 @@ public class TargetSpawner : MonoBehaviour
 
     public void ResetTargets()
     {
+        Debug.Log("DEACTICATING`12");
         foreach (Target obj in objects)
         {
             if (obj)
             {
-                obj.isActive = false;
+                obj.Deactivate();
             }
         }
     }

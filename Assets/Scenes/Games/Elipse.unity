@@ -658,7 +658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 205.3
+      value: 240.19
       objectReference: {fileID: 0}
     - target: {fileID: 1163601419912667010, guid: a3c221ec646969644bbf788e61301fda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1656,11 +1656,11 @@ MonoBehaviour:
   minDist: 33.5
   missScoreLabel: {fileID: 1683141528}
   spawnBox: {fileID: 1085648819}
-  targetResetIntervalSeconds: 3
+  targetResetIntervalSeconds: 5
   targets: {fileID: 48981412}
   targetSpawner: {fileID: 1966088338}
-  targetWidth: 6
-  targetHeight: 6
+  targetWidth: 67.4
+  targetHeight: 113
   winLabel: {fileID: 1138304810}
   alphaBlendComputeShader: {fileID: 7200000, guid: 6df7339ae83765e42bcfc0cb2577be7a, type: 3}
   backgroundColour: {r: 0.19607843, g: 0.20392157, b: 0.21568628, a: 1}
@@ -2107,8 +2107,8 @@ MonoBehaviour:
   targetParent: {fileID: 48981412}
   randomSize: 1
   randomRotation: 1
-  randomLenMin: 50
-  randomLenMax: 130
+  randomLenMin: 92
+  randomLenMax: 160
   isAllTargetsActive: 0
   isFirstOrLastTarget: 1
 --- !u!4 &1966088339

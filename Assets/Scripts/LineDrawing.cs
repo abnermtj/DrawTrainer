@@ -38,48 +38,7 @@ public class LineDrawing : DrawManager
         return dist;
     }
 
-    public static void LinearRegression(
-        List<Vector2> vals,
-        bool flip,
-        out double rSquared,
-        out double yIntercept,
-        out double slope)
-    {
-        var count = vals.Count;
-        double sumOfX = 0;
-        double sumOfY = 0;
-        double sumOfXSq = 0;
-        double sumOfYSq = 0;
-        double sumCodeviates = 0;
-
-        for (var i = 0; i < count; i++)
-        {
-            double x = flip ? vals[i].y : vals[i].x;
-            double y = flip ? vals[i].x : vals[i].y;
-
-            sumCodeviates += x * y;
-            sumOfX += x;
-            sumOfY += y;
-            sumOfXSq += x * x;
-            sumOfYSq += y * y;
-        }
-
-        double ssX = sumOfXSq - ((sumOfX * sumOfX) / count);
-
-        double rNumerator = (count * sumCodeviates) - (sumOfX * sumOfY);
-        double rDenom = (count * sumOfXSq - (sumOfX * sumOfX)) * (count * sumOfYSq - (sumOfY * sumOfY));
-        double sCo = sumCodeviates - ((sumOfX * sumOfY) / count);
-
-        double meanX = sumOfX / count;
-        double meanY = sumOfY / count;
-        double dblR = rNumerator / Mathf.Sqrt((float)rDenom);
-
-        rSquared = dblR * dblR;
-        yIntercept = meanY - ((sCo / ssX) * meanX);
-        slope = sCo / ssX;
-    }
-
-    // ax+by+c=0
+    // Line is in the form: ax+by+c=0
     // This is a positive value
     private float distPosToLine(float a, float b, float c, Vector2 pos)
     {
@@ -90,8 +49,13 @@ public class LineDrawing : DrawManager
 
     // 1.0f points for really straight lines
     // 0 points for poor lines
-    private float MeasureStraightness2(List<Vector2> points)
+    private float MeasureStraightness(List<Vector2> points)
     {
+        int count = points.Count;
+        if (count <= 1)
+        {
+            return 0;
+        }
         // https://brilliant.org/wiki/dot-product-distance-between-point-and-a-line/
 
         // Create a line between end points
@@ -107,71 +71,18 @@ public class LineDrawing : DrawManager
         //C = x1 * y2 - y1 * x2
         float c = startPos.x * endPos.y - startPos.y * endPos.x;
 
-        int count = points.Count;
         float sumError = 0;
         for (int i = 1; i < count - 1; i++)
         {
             sumError += distPosToLine(a, b, c, points[i]);
         }
 
-        //Debug.Log(sumError);
-        //Debug.Log(count);
         float avgError = sumError / count;
 
         float score = Mathf.Clamp((100.0f - avgError) / 100.0f, 0.0f, 1.0f);
 
         Debug.Log(avgError);
         return score;
-    }
-
-    //// Measures the straightness of a line from 0 to 1. With 1 being the most straight.
-    //// rSquared is Nan if there are not enough points
-    //private float MeasureStraightness(List<Vector2> points)
-    //{
-    //    double rSquared, intercept, slope;
-    //    LinearRegression(points, out rSquared, out intercept, out slope);
-
-    //    Debug.Log($"R-squared = {rSquared}");
-    //    Debug.Log($"Intercept = {intercept}");
-    //    Debug.Log($"Slope = {slope}");
-    //    return (float)rSquared;
-    //}
-
-    // Measures the straightness of a line from 0 to 1. With 1 being the most straight.
-    // rSquared is Nan if there are not enough points
-    //private float MeasureStraightness(List<Vector2> points)
-    //{
-    //    if (points.Count < 2)
-    //    {
-    //        Debug.Log($"Not enough points to measure straightness");
-    //        return 0.0f;
-    //    }
-
-    //    double len = LengthBetweenPoints(points);
-    //    double straightness = len / Vector2.Distance(points[0], points[points.Count - 1]) - 1.0f;
-    //    return (float)straightness;
-    //}
-
-    //// Measures the straightness of a line from 0 to 1. With 1 being the most straight.
-    //// rSquared is Nan if there are not enough points
-    private float MeasureStraightness(List<Vector2> points)
-    {
-        double rSquared, intercept, slope;
-        LinearRegression(points, flip: false, out rSquared, out intercept, out slope);
-
-        // If the points are vertical then need to flip x,y because X is the DV now
-        if (Mathf.Abs((float)slope) > 2)
-        {
-            Debug.Log("FLIP");
-            LinearRegression(points, flip: true, out rSquared, out intercept, out slope);
-        }
-
-        foreach (Vector2 point in points)
-            Debug.Log(point);
-        Debug.Log($"slope = {slope}");
-        Debug.Log($"y = {intercept}");
-        Debug.Log($"R-squared = {rSquared}");
-        return (float)rSquared;
     }
 
     private void FixedUpdate()
@@ -197,24 +108,31 @@ public class LineDrawing : DrawManager
 
         if (pointerJustReleased)
         {
-            straightness = MeasureStraightness2(strokePoints);
+            straightness = MeasureStraightness(strokePoints);
             straightnessLabel.GetComponent<Text>().text = String.Format("{0:P2}", straightness);
             strokePoints = new List<Vector2>();
         }
 
         if ((targetSpawner.isAllTargetsActive && pointerJustReleased) || (targetSpawner.isAllTargetsActive && isStrikeThrough))
         {
+            if (isStrikeThrough)
+            {
+                strokeEndPos = penPosition;
+            }
+
             //straightnessLabel.GetComponent<Text>().text = String.Format("{0:P2}", straightness);
             //Debug.Log($"Straightness {straightness}");
             if (numTargets == 2)
             {
-                straightness = MeasureStraightness2(strokePoints);
+                straightness = MeasureStraightness(strokePoints);
                 if (float.IsNaN(straightness))
                 {
                     return;
                 }
                 if (straightness < straightnessGoal)
                 {
+                    targetSpawner.ResetTargets();
+
                     Debug.Log("Not straight enough Straightness: " + straightness);
                     GameObject DamageText = Instantiate(comboPrefab, canvas.transform);
                     DamageText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
@@ -224,11 +142,6 @@ public class LineDrawing : DrawManager
                     strokePoints = new List<Vector2>();
                     return;
                 }
-            }
-
-            if (isStrikeThrough)
-            {
-                strokeEndPos = penPosition;
             }
 
             ResetBoard(isWin: true);

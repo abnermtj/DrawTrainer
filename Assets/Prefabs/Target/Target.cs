@@ -9,6 +9,7 @@ public class Target : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
     public bool isActive = false;
     public bool isLastTarget = false;
     public bool isFirstTarget = false;
+    public Vector2 origSizeDelta;
     private AudioSource source;
 
     public Color activeColor = Color.green;
@@ -27,7 +28,7 @@ public class Target : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
     }
 
     // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         if (isActive)
         {
@@ -86,6 +87,8 @@ public class Target : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
     {
         if (playSound)
         {
+            Debug.Log(source);
+            Debug.Log(sounds);
             source.clip = sounds[Random.Range(0, sounds.Length)];
             source.volume = Random.Range(1 - volumeChangeMultiplier, 1);
             source.pitch = Random.Range(1, 1 + pitchChangeMultiplier);
@@ -97,5 +100,10 @@ public class Target : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
         {
             Destroy(gameObject);
         }
+    }
+
+    public virtual void Deactivate()
+    {
+        isActive = false;
     }
 }
